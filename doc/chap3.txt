@@ -1,0 +1,435 @@
+  
+  [1X3 [33X[0;0YUsage[133X[101X
+  
+  
+  [1X3.1 [33X[0;0YAvailable functions[133X[101X
+  
+  [33X[0;0YIn this section we shall look at the functions provided by [23X\texttt{itap}[123X.[133X
+  
+  [1X3.1-1 proverep[101X
+  
+  [29X[2Xproverep[102X( [3Xrankvec[103X, [3Xnvars[103X, [3XF[103X, [3Xoptargs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YThis  function  checks  if  there  is  a linear representation of an integer
+  polymatroid rank vector. It accepts following arguments:[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{rankvec}[123X  -  A  list of integers specifying a polymatroid rank
+        vector[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{nvars}[123X - Number of ground set elements[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{F}[123X  -  The  finite  field  over which we wish to find a linear
+        representation. It can be defined by invoking the following in GAP:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4Xq:=4;;[104X
+    [4XF:= GF(q);; # here q must be a prime power[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[23X\texttt{optargs}[123X  is  a  list of optional arguments [23X\texttt{[lazy,..]}[123X
+        where[133X
+  
+        [30X    [33X[0;12Y[23X\texttt{lazy}[123X  disables  lazy  evaluation of transporter maps if
+              set to [23X\texttt{false}[123X, which is enabled by default in GAP.[133X
+  
+  [33X[0;0YReturns  a  list  [23X\texttt{[true,code]}[123X if there exists such a representation
+  and  [23X\texttt{code}[123X  is  the  vector  linear  code  over [23XGF(q)[123X Returns a list
+  [23X\texttt{[false]}[123X otherwise, indicating that no such representation exists[133X
+  
+  [1X3.1-2 proverate[101X
+  
+  [29X[2Xproverate[102X( [3Xncinstance[103X, [3Xrvec[103X, [3XF[103X, [3Xoptargs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YThis  function  checks  if  there is a vector linear code achieving the rate
+  vector [23X\texttt{rvec}[123X for the network coding instance [23X\texttt{ncinstance}[123X. It
+  accepts following arguments:[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{ncinstance}[123X  is a list [23X\texttt{[cons,nsrc,nvars]}[123X containing 3
+        elements:[133X
+  
+        [30X    [33X[0;12Y[23X\texttt{cons}[123X is a list of network coding constraints.[133X
+  
+        [30X    [33X[0;12Y[23X\texttt{nsrc}[123X is the number of sources.[133X
+  
+        [30X    [33X[0;12Y[23X\texttt{nvars}[123X is the number of random variables associated with
+              the network.[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{rvec}[123X  -  A  list of [23X\texttt{nvars}[123X integers specifying a rate
+        vector[133X
+  
+  [30X    [33X[0;6Y[23X  \texttt{F}[123X is the finite field over which we wish to find the vector
+        linear code. It can be defined by invoking the following in GAP:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4Xq:=4;;[104X
+    [4XF:= GF(q);; # here q must be a prime power[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[23X\texttt{optargs}[123X  is  a  list of optional arguments [23X\texttt{[lazy,..]}[123X
+        where  [23X\texttt{lazy}[123X  disables  lazy evaluation of transporter maps if
+        set to [23X\texttt{false}[123X, which is enabled by default.[133X
+  
+  [33X[0;0YReturns  a  list  [23X\texttt{[true,code]}[123X if there exists such a representation
+  and  [23X\texttt{code}[123X  is  the  vector  linear  code  over [23XGF(q)[123X Returns a list
+  [23X\texttt{[false]}[123X otherwise, indicating that no such code exists[133X
+  
+  [33X[0;0Y[23X\textbf{NOTE:}[123X  Certain  naming  convensions  are  followed  while  defining
+  network   coding   instances.   The   source   messages   are  labeled  with
+  [23X\texttt{[1...nsrc]}[123X    while    rest    of    the   messages   are   labeled
+  [23X\texttt{[nsrc...nvars]}[123X.  Furthermore,  the  list [23X\texttt{cons}[123X includes all
+  network  constraints  except source independence. This constraint is implied
+  with the labeling i.e. [23X\texttt{itap}[123X enforces it by default for the messages
+  labeled [23X\texttt{[1...nsrc]}[123X. See next section for usage examples.[133X
+  
+  [1X3.1-3 provess[101X
+  
+  [29X[2Xprovess[102X( [3XAsets[103X, [3Xnvars[103X, [3Xsvec[103X, [3XF[103X, [3Xoptargs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YThis  function  checks if there is a multi-linear secret sharing scheme with
+  secret  and  share  sizes  given  by  [23X\texttt{svec}[123X and the access structure
+  [23X\texttt{Asets}[123X  with  one  dealer  and  [23X\texttt{nvars-1}[123X parties. It accepts
+  following arguments:[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{Asets}[123X  - A list of authorized sets each specified as a subset
+        of [23X[\texttt{nvars}-1][123X[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{nvars}[123X - Number of participants (including one dealer)[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{svec}[123X  - vector of integer share sizes understood as number of
+        [23X\mathbb{F}_q[123X symbols, with index 1 giving secret size and index [23Xi,i\in
+        \{2,...,\texttt{nvars}\}[123X specifying share sizes of different parties[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{F}[123X   -  The  finite  field  over  which  we  wish  to  find  a
+        multi-linear  scheme.  It  can be defined by invoking the following in
+        GAP:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4Xq:=4;;[104X
+    [4XF:= GF(q);; # here q must be a prime power[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[23X\texttt{optargs}[123X  is  a  list of optional arguments [23X\texttt{[lazy,..]}[123X
+        where[133X
+  
+        [30X    [33X[0;12Y[23X\texttt{lazy}[123X  disables  lazy  evaluation of transporter maps if
+              set to [23X\texttt{false}[123X, which is enabled by default in GAP.[133X
+  
+  [33X[0;0YReturns  a  list  [23X\texttt{[true,code]}[123X  if  there  exists  such a scheme and
+  [23X\texttt{code}[123X   is  the  vector  linear  code  over  [23XGF(q)[123X  Returns  a  list
+  [23X\texttt{[false]}[123X otherwise, indicating that no such scheme exists[133X
+  
+  [33X[0;0Y[23X\textbf{NOTE:}[123X   No   input   checking  is  performed  to  verify  if  input
+  [23X\texttt{Asets}[123X  follows labeling convensions. The map returned with a linear
+  scheme  is  a map [23Xf:[\texttt{nvars}]\rightarrow [\texttt{nvars}][123X with dealer
+  associated    with    label   1   and   parties   associated   with   labels
+  [23X\{2,...,\texttt{nvars}\}[123X. See next section for usage examples.[133X
+  
+  [1X3.1-4 DisplayCode[101X
+  
+  [29X[2XDisplayCode[102X( [3Xcode[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YDisplays a network code (or an integer polymatroid). It accepts 1 argument:[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{code}[123X - A list [23X\texttt{[s,map]}[123X containing 2 elements:[133X
+  
+        [30X    [33X[0;12Y[23X\texttt{s}[123X  -  A list of subspaces where is subspace is itself a
+              list of basis vectors[133X
+  
+        [30X    [33X[0;12Y[23X\texttt{map}[123X  -  A GAP record mapping subspaces in [23X\texttt{s}[123X to
+              network messages or to polymatroid ground set elements[133X
+  
+  [33X[0;0YReturns nothing[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs:=[ [ [ 0*Z(2), 0*Z(2), Z(2)^0 ] ], [ [ 0*Z(2), Z(2)^0, 0*Z(2) ] ],\[127X[104X
+    [4X[25X>[125X [27X[ [ 0*Z(2), Z(2)^0, Z(2)^0 ] ], [ [ Z(2)^0, 0*Z(2), 0*Z(2) ] ],\[127X[104X
+    [4X[25X>[125X [27X[ [ Z(2)^0, 0*Z(2), Z(2)^0 ] ], [ [ Z(2)^0, Z(2)^0, 0*Z(2) ] ],\[127X[104X
+    [4X[25X>[125X [27X[ [ Z(2)^0, Z(2)^0, Z(2)^0 ] ] ];;[127X[104X
+    [4X[25Xgap>[125X [27Xmap:=rec( 1 := 1, 2 := 2, 3 := 4, 4 := 3, 5 := 6, 6 := 5, 7 := 7 );;[127X[104X
+    [4X[25Xgap>[125X [27XDisplayCode([s,map]);;[127X[104X
+    [4X[28X1->1[128X[104X
+    [4X[28X . . 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X2->2[128X[104X
+    [4X[28X . 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X3->4[128X[104X
+    [4X[28X . 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X4->3[128X[104X
+    [4X[28X 1 . .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X5->6[128X[104X
+    [4X[28X 1 . 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X6->5[128X[104X
+    [4X[28X1 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X7->7[128X[104X
+    [4X[28X 1 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.2 [33X[0;0YA catalog of examples[133X[101X
+  
+  [33X[0;0Y[23X\texttt{itap}[123X  comes  equipped  with  a  catalog of examples, which contains
+  well-known  network  coding instances and integer polymatroids. This catalog
+  is  intended  to  be  of  help  to  the  user for getting started with using
+  [23X\texttt{itap}[123X.  Most  of the network coding instances in this catalog can be
+  found  in  [Yeu08]  and  [DFZ07].  Some  of  the integer polymatroids in the
+  catalog    are   taken   from   [7Xhttp://code.ucsd.edu/zeger/linrank/[107X.   These
+  polymatroids  correspond  to  the  extreme  rays  of the cone of linear rank
+  inequalities  in  5  variables,  found by Dougherty, Freiling and Zeger. See
+  [DFZ09] for details.[133X
+  
+  [1X3.2-1 FanoNet[101X
+  
+  [29X[2XFanoNet[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns the Fano instance. It accepts no arguments. Returns a list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFanoNet();[127X[104X
+    [4X[28X[ [ [ [ 1, 2 ], [ 1, 2, 4 ] ], [ [ 2, 3 ], [ 2, 3, 5 ] ],[128X[104X
+    [4X[28X     [ [ 4, 5 ], [ 4, 5, 6 ] ], [ [ 3, 4 ], [ 3, 4, 7 ] ],[128X[104X
+    [4X[28X     [ [ 1, 6 ], [ 3, 1, 6 ] ], [ [ 6, 7 ], [ 2, 6, 7 ] ],[128X[104X
+    [4X[28X     [ [ 5, 7 ], [ 1, 5, 7 ] ] ], 3, 7 ][128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(2),[]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrlist[1]; # Fano matroid is representable over GF(2)[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDisplayCode(rlist[2]);[127X[104X
+    [4X[28X1->1[128X[104X
+    [4X[28X . . 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X2->2[128X[104X
+    [4X[28X . 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X3->4[128X[104X
+    [4X[28X . 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X4->3[128X[104X
+    [4X[28X 1 . .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X5->6[128X[104X
+    [4X[28X 1 . 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X6->5[128X[104X
+    [4X[28X 1 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X7->7[128X[104X
+    [4X[28X 1 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(3),[]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrlist[1]; # Fano matroid is not representable over GF(3)[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-2 NonFanoNet[101X
+  
+  [29X[2XNonFanoNet[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns the NonFano instance. It accepts no arguments. Returns a list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNonFanoNet();[127X[104X
+    [4X[28X[ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 2 ], [ 1, 2, 5 ] ],[128X[104X
+    [4X[28X      [ [ 1, 3 ], [ 1, 3, 6 ] ], [ [ 2, 3 ], [ 2, 3, 7 ] ],[128X[104X
+    [4X[28X      [ [ 4, 5 ], [ 3, 4, 5 ] ], [ [ 4, 6 ], [ 2, 4, 6 ] ],[128X[104X
+    [4X[28X      [ [ 4, 7 ], [ 1, 4, 7 ] ] ], 3, 7 ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-3 VamosNet[101X
+  
+  [29X[2XVamosNet[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns the Vamos instance. It accepts no arguments. Returns a list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVamosNet();[127X[104X
+    [4X[28X[ [ [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 4, 5 ] ],[128X[104X
+    [4X[28X      [ [ 1, 2, 5 ], [ 1, 2, 5, 6 ] ],[128X[104X
+    [4X[28X      [ [ 2, 3, 6 ], [ 2, 3, 6, 7 ] ],[128X[104X
+    [4X[28X      [ [ 3, 4, 7 ], [ 3, 4, 7, 8 ] ],[128X[104X
+    [4X[28X      [ [ 4, 8 ], [ 2, 4, 8 ] ],[128X[104X
+    [4X[28X      [ [ 2, 3, 4, 8 ], [ 1, 2, 3, 4, 8 ] ],[128X[104X
+    [4X[28X      [ [ 1, 4, 5, 8 ], [ 1, 2, 3, 4, 5, 8 ] ],[128X[104X
+    [4X[28X      [ [ 1, 2, 3, 7 ], [ 1, 2, 3, 4, 7 ] ],[128X[104X
+    [4X[28X      [ [ 1, 5, 7 ], [ 1, 3, 5, 7 ] ] ], 3, 7 ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-4 U2kNet[101X
+  
+  [29X[2XU2kNet[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns  the  instance associated with uniform matroid [23XU^2_k[123X. It accepts one
+  argument [23X\texttt{k}[123X specifying the size of uniform matroid. Returns a list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XU2kNet(4);[127X[104X
+    [4X[28X[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 2 ], [ 1, 2, 4 ] ],[128X[104X
+    [4X[28X      [ [ 1, 3 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],[128X[104X
+    [4X[28X      [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 1, 4 ], [ 1, 3, 4 ] ],[128X[104X
+    [4X[28X      [ [ 2, 3 ], [ 1, 2, 3 ] ], [ [ 2, 3 ], [ 2, 3, 4 ] ],[128X[104X
+    [4X[28X      [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 2, 4 ], [ 2, 3, 4 ] ],[128X[104X
+    [4X[28X      [ [ 3, 4 ], [ 1, 3, 4 ] ], [ [ 3, 4 ], [ 2, 3, 4 ] ][128X[104X
+    [4X[28X     ], 2, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-5 ButterflyNet[101X
+  
+  [29X[2XButterflyNet[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns the Butterfly instance. It accepts no arguments. Returns a list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XButterflyNet();[127X[104X
+    [4X[28X[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 2, 3 ] ],[128X[104X
+    [4X[28X     [ [ 2, 3 ], [ 1, 2, 3 ] ] ], 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XU2kNet(3)=ButterflyNet();[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-6 Subspace5[101X
+  
+  [29X[2XSubspace5[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns  the  extreme  rays  of cone formed by linear rank inequalities in 5
+  variables. It accepts no arguments. Returns a list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xrays5:=Subspace5();;[127X[104X
+    [4X[25Xgap>[125X [27XSize(rays5);[127X[104X
+    [4X[28X162[128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=proverep(rays5[46],5,GF(2),[])[127X[104X
+    [4X[25X>[125X [27Xrlist[1];[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDisplayCode(rlist[2]);[127X[104X
+    [4X[28X1->4[128X[104X
+    [4X[28X . . . 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X2->5[128X[104X
+    [4X[28X . . 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X3->3[128X[104X
+    [4X[28X . 1 . .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X4->2[128X[104X
+    [4X[28X 1 . . .[128X[104X
+    [4X[28X . . 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X5->1[128X[104X
+    [4X[28X 1 . . 1[128X[104X
+    [4X[28X . 1 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-7 BenaloahLeichter[101X
+  
+  [29X[2XBenaloahLeichter[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list of lists specifing authorized subsets of [23X\{1,2,3,4\}[123X[133X
+  
+  [33X[0;0YReturns  the  access  structure  associated  with  secret  sharing scheme of
+  Benaloah  and  Leichter that was used to show that share sizes can be larger
+  than secret size. See [BL90] for details. It accepts no arguments. Returns a
+  list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XBenaloahLeichter();[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xprovess(BenaloahLeichter(),5,[2,2,3,3,2],GF(2),[]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrlist[1];[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDisplayCode(rlist[2]);[127X[104X
+    [4X[28X1->1[128X[104X
+    [4X[28X . . . . 1 .[128X[104X
+    [4X[28X . . . . . 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X2->2[128X[104X
+    [4X[28X . . 1 . . .[128X[104X
+    [4X[28X . . . 1 . .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X3->3[128X[104X
+    [4X[28X . 1 . . . .[128X[104X
+    [4X[28X . . 1 . . 1[128X[104X
+    [4X[28X . . . 1 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X4->5[128X[104X
+    [4X[28X 1 . . . . .[128X[104X
+    [4X[28X . 1 . . . .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X5->4[128X[104X
+    [4X[28X 1 . . . . 1[128X[104X
+    [4X[28X . 1 . . 1 .[128X[104X
+    [4X[28X . . 1 . . .[128X[104X
+    [4X[28X=============================[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-8 Threshold[101X
+  
+  [29X[2XThreshold[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list of lists specifing authorized subsets of [23X[n]][123X[133X
+  
+  [33X[0;0YReturns  the  access  structure  associated  with  Shamir's  [23X(k,n)[123X threshold
+  scheme. See [Sha79] for details. It accepts following arguments:[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{n}[123X - number of shares[133X
+  
+  [30X    [33X[0;6Y[23X\texttt{k}[123X - threshold[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XT:=Threshold(3,2);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=provess(T,4,[1,1,1,1],GF(3),[]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrlist[1];[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDisplayCode(rlist[2]);[127X[104X
+    [4X[28X1->1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X#!  . 1[128X[104X
+    [4X[28X2->2[128X[104X
+    [4X[28X 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X3->3[128X[104X
+    [4X[28X 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X4->4[128X[104X
+    [4X[28X 1 2[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[25Xgap>[125X [27XT:=Threshold(4,2);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=provess(T,5,[1,1,1,1,1],GF(2),[]);[127X[104X
+    [4X[28X[ false ][128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=provess(T,5,[1,1,1,1,1],GF(3),[]);[127X[104X
+    [4X[28X[ false ][128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrlist[1];[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDisplayCode(rlist[2]);[127X[104X
+    [4X[28X1->1[128X[104X
+    [4X[28X . 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X2->2[128X[104X
+    [4X[28X 1 .[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X3->3[128X[104X
+    [4X[28X 1 1[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X4->4[128X[104X
+    [4X[28X 1 2[128X[104X
+    [4X[28X=============================[128X[104X
+    [4X[28X5->5[128X[104X
+    [4X[28X 1 4[128X[104X
+    [4X[28X=============================[128X[104X
+  [4X[32X[104X
+  

@@ -1,0 +1,29 @@
+  
+  
+  [1XReferences[101X
+  
+  [[20XBL90[120X] [16XBenaloh, J. and Leichter, J.[116X, [17XGeneralized Secret Sharing and Monotone
+  Functions[117X,  in  Proceedings  on  Advances in Cryptology, Springer-Verlag New
+  York, Inc., CRYPTO '88, New York, NY, USA (1990), 27--35.
+  
+  [[20XBBFKKW06[120X]  [16XBetten, A., Braun, M., Fripertinger, H., Kerber, A., Kohnert, A.
+  and   Wassermann,  A.[116X,  [17XError-Correcting  Linear  Codes:  Classification  by
+  Isometry  and  Applications[117X,  Springer  Berlin  Heidelberg,  Algorithms  and
+  Computation in Mathematics (2006).
+  
+  [[20XDFZ07[120X]  [16XDougherty,  R., Freiling, C. and Zeger, K.[116X, [17XNetworks, Matroids, and
+  Non-Shannon  Information Inequalities[117X, [18XInformation Theory, IEEE Transactions
+  on[118X, [19X53[119X, 6 (2007), 1949-1969.
+  
+  [[20XDFZ09[120X]  [16XDougherty, R., Freiling, C. and Zeger, K.[116X, [17XLinear Rank Inequalities
+  on Five or More Variables[117X, [18XarXiv cs.IT/0910.0284v3[118X (2009).
+  
+  [[20XSha79[120X]  [16XShamir,  A.[116X,  [17XHow  to Share a Secret[117X, [18XCommun. ACM[118X, ACM, [19X22[119X, 11, New
+  York, NY, USA (1979), 612--613.
+  
+  [[20XYeu08[120X]  [16XYeung,  R.  W.[116X,  [17XInformation  Theory  and  Network Coding[117X, Springer
+  (2008).
+  
+  
+  
+  [32X

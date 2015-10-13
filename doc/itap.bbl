@@ -1,0 +1,38 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{BBF{\etalchar{+}}06}
+
+\bibitem[BBF{\etalchar{+}}06]{betten2006error}
+A.~Betten, M.~Braun, H.~Fripertinger, A.~Kerber, A.~Kohnert, and A.~Wassermann.
+\newblock {\em Error-Correcting Linear Codes: Classification by Isometry and
+  Applications}.
+\newblock Algorithms and Computation in Mathematics. Springer Berlin
+  Heidelberg, 2006.
+
+\bibitem[BL90]{Benaloh90}
+J.~Benaloh and J.~Leichter.
+\newblock Generalized secret sharing and monotone functions.
+\newblock In {\em Proceedings on Advances in Cryptology}, CRYPTO '88, pages
+  27--35, New York, NY, USA, 1990. Springer-Verlag New York, Inc.
+
+\bibitem[DFZ07]{DFZMatroidNetworks}
+R.~Dougherty, C.~Freiling, and K.~Zeger.
+\newblock Networks, matroids, and non-shannon information inequalities.
+\newblock {\em Information Theory, IEEE Transactions on}, 53(6):1949--1969,
+  2007.
+
+\bibitem[DFZ09]{DFZ2009Ineqfor5var}
+R.~Dougherty, C.~Freiling, and K.~Zeger.
+\newblock Linear rank inequalities on five or more variables.
+\newblock {\em arXiv cs.IT/0910.0284v3}, 2009.
+
+\bibitem[Sha79]{Shamirhowto79}
+Adi Shamir.
+\newblock How to share a secret.
+\newblock {\em Commun. ACM}, 22(11):612--613, November 1979.
+
+\bibitem[Yeu08]{YeungBook}
+R.~W. Yeung.
+\newblock {\em Information Theory and Network Coding}.
+\newblock Springer, 2008.
+
+\end{thebibliography}

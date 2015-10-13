@@ -1,0 +1,32 @@
+  
+  [1X1 [33X[0;0YIntroduction[133X[101X
+  
+  [33X[0;0YITAP stands for Information Theoretic Achievability Prover. So basically, it
+  is  intended for coming up with achievability proofs using a computer. As of
+  now, it supports the following:[133X
+  
+  [30X    [33X[0;6YAchievability    proofs   of   multi-source   network   coding   using
+        vector-linear  codes:  answer  questions  like  'Is  this  rate vector
+        achievable  using  a vector linear code over the given finite field?'.
+        If the answer is `yes` it also returns the vector linear code it found
+        as a certificate of achievability. Otherwise, it just says 'no'.[133X
+  
+  [30X    [33X[0;6YAchievability  proofs with multi-linear secret sharing schemes: answer
+        questions  'Is  there  a multi-linear secret sharing scheme over [23XGF(q)[123X
+        for this access structure?'[133X
+  
+  [30X    [33X[0;6YRepresentability  test  for  integer  polymatroids over a given finite
+        field:  answer  questions  like `Is the integer polymatroid associated
+        with this rank vector linear over [23XGF(q)[123X?[133X
+  
+  [33X[0;0YAll  three  questions  above are very similar, in that, we are looking for a
+  linear   representation   of   an  integer  polymatroid  satisfying  certain
+  properties  (satisfying  network  coding  constraints,  access structure and
+  having   a  specified  rank  vecor  resp.)  In  the  most  general  form  an
+  achievability  prover  should  be  able  to  tell  if  there  exists a joint
+  distribution  satisfying  certain  constraints  on  entropy  function  which
+  remains  a  fundamental  open  problem.  ITAP tries answering this in a more
+  restricted  sense,  i.e.  with vector linear codes. The algorithm underlying
+  [23X\texttt{itap}[123X  is called Leiterspiel or the algorithm of snakes and ladders.
+  See [BBFKKW06] for details.[133X
+  

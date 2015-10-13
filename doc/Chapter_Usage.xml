@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_Usage">
+<Heading>Usage</Heading>
+
+<Section Label="Chapter_Usage_Section_Available_functions">
+<Heading>Available functions</Heading>
+
+In this section we shall look at the functions provided by <Math>\texttt{itap}</Math>.
+<ManSection>
+  <Func Arg="rankvec,nvars,F,optargs" Name="proverep" />
+ <Returns>A list
+</Returns>
+ <Description>
+This function checks if there is a linear representation of an integer polymatroid rank vector.
+It accepts following arguments:
+<List>
+<Item>
+<Math>\texttt{rankvec}</Math> - A list of integers specifying a polymatroid rank vector
+</Item>
+<Item>
+<Math>\texttt{nvars}</Math> - Number of ground set elements
+</Item>
+<Item>
+<Math>\texttt{F}</Math> - The finite field over which we wish to find a linear representation. It can be defined by invoking the following in GAP:
+</Item>
+</List>
+<Listing Type="Code"><![CDATA[
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+]]></Listing>
+
+<List>
+<Item>
+<Math>\texttt{optargs}</Math> is a list of optional arguments <Math>\texttt{[lazy,..]}</Math> where
+<List>
+<Item>
+<Math>\texttt{lazy}</Math> disables lazy evaluation of transporter maps if set to <Math>\texttt{false}</Math>, which is enabled by default
+in GAP.
+</Item>
+</List>
+</Item>
+</List>
+Returns a list <Math>\texttt{[true,code]}</Math> if there exists such a representation and <Math>\texttt{code}</Math> is the vector linear code over <Math>GF(q)</Math>
+Returns a list <Math>\texttt{[false]}</Math> otherwise, indicating that no such representation exists
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="ncinstance,rvec,F,optargs" Name="proverate" />
+ <Returns>A list
+</Returns>
+ <Description>
+This function checks if there is a vector linear code achieving the
+rate vector <Math>\texttt{rvec}</Math> for the network coding instance <Math>\texttt{ncinstance}</Math>.
+It accepts following arguments:
+<List>
+<Item>
+<Math>\texttt{ncinstance}</Math> is a list <Math>\texttt{[cons,nsrc,nvars]}</Math> containing 3 elements:
+<List>
+<Item>
+<Math>\texttt{cons}</Math> is a list of network coding constraints.
+</Item>
+<Item>
+<Math>\texttt{nsrc}</Math> is the number of sources.
+</Item>
+<Item>
+<Math>\texttt{nvars}</Math> is the number of random variables associated with the network.
+</Item>
+</List>
+</Item>
+<Item>
+<Math>\texttt{rvec}</Math> - A list of <Math>\texttt{nvars}</Math> integers specifying a rate vector
+</Item>
+<Item>
+<Math> \texttt{F}</Math> is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:
+</Item>
+</List>
+<Listing Type="Code"><![CDATA[
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+]]></Listing>
+
+<List>
+<Item>
+<Math>\texttt{optargs}</Math> is a list of optional arguments <Math>\texttt{[lazy,..]}</Math> where <Math>\texttt{lazy}</Math> disables lazy evaluation
+of transporter maps if set to <Math>\texttt{false}</Math>, which is enabled by default.
+</Item>
+</List>
+Returns a list <Math>\texttt{[true,code]}</Math> if there exists such a representation and <Math>\texttt{code}</Math> is the vector linear code over <Math>GF(q)</Math>
+Returns a list <Math>\texttt{[false]}</Math> otherwise, indicating that no such code exists
+ </Description>
+</ManSection>
+
+
+<Math>\textbf{NOTE:}</Math> Certain naming convensions are followed while defining network coding instances. The source messages are labeled with
+<Math>\texttt{[1...nsrc]}</Math> while rest of the messages are labeled <Math>\texttt{[nsrc...nvars]}</Math>. Furthermore, the list <Math>\texttt{cons}</Math> includes
+all network constraints except source independence. This constraint is implied with the labeling i.e. <Math>\texttt{itap}</Math>
+enforces it by default for the messages labeled <Math>\texttt{[1...nsrc]}</Math>. See next section for usage examples.
+<ManSection>
+  <Func Arg="Asets,nvars,svec,F,optargs" Name="provess" />
+ <Returns>A list
+</Returns>
+ <Description>
+This function checks if there is a multi-linear secret sharing scheme with secret and share
+sizes given by <Math>\texttt{svec}</Math> and the access structure <Math>\texttt{Asets}</Math> with one dealer and
+<Math>\texttt{nvars-1}</Math> parties.
+It accepts following arguments:
+<List>
+<Item>
+<Math>\texttt{Asets}</Math> - A list of authorized sets each specified as a subset of <Math>[\texttt{nvars}-1]</Math>
+</Item>
+<Item>
+<Math>\texttt{nvars}</Math> - Number of participants (including one dealer)
+</Item>
+<Item>
+<Math>\texttt{svec}</Math> - vector of integer share sizes understood as number of <Math>\mathbb{F}_q</Math> symbols, with index 1 giving secret size and index <Math>i,i\in \{2,...,\texttt{nvars}\}</Math> specifying share sizes of different parties
+</Item>
+<Item>
+<Math>\texttt{F}</Math> - The finite field over which we wish to find a multi-linear scheme. It can be defined by invoking the following in GAP:
+</Item>
+</List>
+<Listing Type="Code"><![CDATA[
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+]]></Listing>
+
+<List>
+<Item>
+<Math>\texttt{optargs}</Math> is a list of optional arguments <Math>\texttt{[lazy,..]}</Math> where
+<List>
+<Item>
+<Math>\texttt{lazy}</Math> disables lazy evaluation of transporter maps if set to <Math>\texttt{false}</Math>, which is enabled by default
+in GAP.
+</Item>
+</List>
+</Item>
+</List>
+Returns a list <Math>\texttt{[true,code]}</Math> if there exists such a scheme and <Math>\texttt{code}</Math> is the vector linear code over <Math>GF(q)</Math>
+Returns a list <Math>\texttt{[false]}</Math> otherwise, indicating that no such scheme exists
+ </Description>
+</ManSection>
+
+
+<Math>\textbf{NOTE:}</Math> No input checking is performed to verify if input <Math>\texttt{Asets}</Math> follows labeling convensions. The map returned
+with a linear scheme is a map <Math>f:[\texttt{nvars}]\rightarrow [\texttt{nvars}]</Math> with dealer associated with label 1 and parties
+associated with labels <Math>\{2,...,\texttt{nvars}\}</Math>. See next section for usage examples.
+<ManSection>
+  <Func Arg="code" Name="DisplayCode" />
+ <Returns>nothing
+</Returns>
+ <Description>
+Displays a network code (or an integer polymatroid).
+It accepts 1 argument:
+<List>
+<Item>
+<Math>\texttt{code}</Math> - A list <Math>\texttt{[s,map]}</Math> containing 2 elements:
+<List>
+<Item>
+<Math>\texttt{s}</Math> - A list of subspaces where is subspace is itself a list of basis vectors
+</Item>
+<Item>
+<Math>\texttt{map}</Math> - A GAP record mapping subspaces in <Math>\texttt{s}</Math> to network messages or to polymatroid ground set elements
+</Item>
+</List>
+</Item>
+</List>
+Returns nothing
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> s:=[ [ [ 0*Z(2), 0*Z(2), Z(2)^0 ] ], [ [ 0*Z(2), Z(2)^0, 0*Z(2) ] ],\
+> [ [ 0*Z(2), Z(2)^0, Z(2)^0 ] ], [ [ Z(2)^0, 0*Z(2), 0*Z(2) ] ],\
+> [ [ Z(2)^0, 0*Z(2), Z(2)^0 ] ], [ [ Z(2)^0, Z(2)^0, 0*Z(2) ] ],\
+> [ [ Z(2)^0, Z(2)^0, Z(2)^0 ] ] ];;
+gap> map:=rec( 1 := 1, 2 := 2, 3 := 4, 4 := 3, 5 := 6, 6 := 5, 7 := 7 );;
+gap> DisplayCode([s,map]);;
+1->1
+ . . 1
+=============================
+2->2
+ . 1 .
+=============================
+3->4
+ . 1 1
+=============================
+4->3
+ 1 . .
+=============================
+5->6
+ 1 . 1
+=============================
+6->5
+1 1 .
+=============================
+7->7
+ 1 1 1
+=============================
+]]></Example>
+
+
+</Section>
+
+
+<Section Label="Chapter_Usage_Section_A_catalog_of_examples">
+<Heading>A catalog of examples</Heading>
+
+<Math>\texttt{itap}</Math> comes equipped with a catalog of examples, which contains well-known network coding instances and integer polymatroids.
+This catalog is intended to be of help to the user for getting started with using <Math>\texttt{itap}</Math>. Most of the network coding instances
+in this catalog can be found in <Cite Key="YeungBook"/> and <Cite Key="DFZMatroidNetworks"/>. Some of the integer polymatroids in the catalog
+are taken from <URL>http://code.ucsd.edu/zeger/linrank/</URL>. These polymatroids correspond to the extreme rays of the cone of linear rank
+inequalities in 5 variables, found by Dougherty, Freiling and Zeger. See <Cite Key="DFZ2009Ineqfor5var"/> for details.
+<ManSection>
+  <Func Arg="" Name="FanoNet" />
+ <Returns>A list
+</Returns>
+ <Description>
+Returns the Fano instance.
+It accepts no arguments.
+Returns a list.
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> FanoNet();
+[ [ [ [ 1, 2 ], [ 1, 2, 4 ] ], [ [ 2, 3 ], [ 2, 3, 5 ] ],
+     [ [ 4, 5 ], [ 4, 5, 6 ] ], [ [ 3, 4 ], [ 3, 4, 7 ] ],
+     [ [ 1, 6 ], [ 3, 1, 6 ] ], [ [ 6, 7 ], [ 2, 6, 7 ] ],
+     [ [ 5, 7 ], [ 1, 5, 7 ] ] ], 3, 7 ]
+gap> rlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(2),[]);;
+gap> rlist[1]; # Fano matroid is representable over GF(2)
+true
+gap> DisplayCode(rlist[2]);
+1->1
+ . . 1
+=============================
+2->2
+ . 1 .
+=============================
+3->4
+ . 1 1
+=============================
+4->3
+ 1 . .
+=============================
+5->6
+ 1 . 1
+=============================
+6->5
+ 1 1 .
+=============================
+7->7
+ 1 1 1
+=============================
+gap> rlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(3),[]);;
+gap> rlist[1]; # Fano matroid is not representable over GF(3)
+false
+]]></Example>
+
+
+<ManSection>
+  <Func Arg="" Name="NonFanoNet" />
+ <Returns>A list
+</Returns>
+ <Description>
+Returns the NonFano instance.
+It accepts no arguments.
+Returns a list.
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> NonFanoNet();
+[ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 2 ], [ 1, 2, 5 ] ],
+      [ [ 1, 3 ], [ 1, 3, 6 ] ], [ [ 2, 3 ], [ 2, 3, 7 ] ],
+      [ [ 4, 5 ], [ 3, 4, 5 ] ], [ [ 4, 6 ], [ 2, 4, 6 ] ],
+      [ [ 4, 7 ], [ 1, 4, 7 ] ] ], 3, 7 ]
+]]></Example>
+
+
+<ManSection>
+  <Func Arg="" Name="VamosNet" />
+ <Returns>A list
+</Returns>
+ <Description>
+Returns the Vamos instance.
+It accepts no arguments.
+Returns a list.
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> VamosNet();
+[ [ [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 4, 5 ] ],
+      [ [ 1, 2, 5 ], [ 1, 2, 5, 6 ] ],
+      [ [ 2, 3, 6 ], [ 2, 3, 6, 7 ] ],
+      [ [ 3, 4, 7 ], [ 3, 4, 7, 8 ] ],
+      [ [ 4, 8 ], [ 2, 4, 8 ] ],
+      [ [ 2, 3, 4, 8 ], [ 1, 2, 3, 4, 8 ] ],
+      [ [ 1, 4, 5, 8 ], [ 1, 2, 3, 4, 5, 8 ] ],
+      [ [ 1, 2, 3, 7 ], [ 1, 2, 3, 4, 7 ] ],
+      [ [ 1, 5, 7 ], [ 1, 3, 5, 7 ] ] ], 3, 7 ]
+]]></Example>
+
+
+<ManSection>
+  <Func Arg="" Name="U2kNet" />
+ <Returns>A list
+</Returns>
+ <Description>
+Returns the instance associated with uniform matroid <Math>U^2_k</Math>.
+It accepts one argument <Math>\texttt{k}</Math> specifying the size of uniform matroid.
+Returns a list.
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> U2kNet(4);
+[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 2 ], [ 1, 2, 4 ] ],
+      [ [ 1, 3 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],
+      [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 1, 4 ], [ 1, 3, 4 ] ],
+      [ [ 2, 3 ], [ 1, 2, 3 ] ], [ [ 2, 3 ], [ 2, 3, 4 ] ],
+      [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 2, 4 ], [ 2, 3, 4 ] ],
+      [ [ 3, 4 ], [ 1, 3, 4 ] ], [ [ 3, 4 ], [ 2, 3, 4 ] ]
+     ], 2, 4 ]
+]]></Example>
+
+
+<ManSection>
+  <Func Arg="" Name="ButterflyNet" />
+ <Returns>A list
+</Returns>
+ <Description>
+Returns the Butterfly instance.
+It accepts no arguments.
+Returns a list.
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> ButterflyNet();
+[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 2, 3 ] ],
+     [ [ 2, 3 ], [ 1, 2, 3 ] ] ], 2, 3 ]
+gap> U2kNet(3)=ButterflyNet();
+true
+]]></Example>
+
+
+<ManSection>
+  <Func Arg="" Name="Subspace5" />
+ <Returns>A list
+</Returns>
+ <Description>
+Returns the extreme rays of cone formed by linear rank inequalities in 5 variables.
+It accepts no arguments.
+Returns a list.
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> rays5:=Subspace5();;
+gap> Size(rays5);
+162
+gap> rlist:=proverep(rays5[46],5,GF(2),[])
+> rlist[1];
+true
+gap> DisplayCode(rlist[2]);
+1->4
+ . . . 1
+=============================
+2->5
+ . . 1 .
+=============================
+3->3
+ . 1 . .
+=============================
+4->2
+ 1 . . .
+ . . 1 1
+=============================
+5->1
+ 1 . . 1
+ . 1 1 1
+=============================
+]]></Example>
+
+
+<ManSection>
+  <Func Arg="" Name="BenaloahLeichter" />
+ <Returns>A list of lists specifing authorized subsets of <Math>\{1,2,3,4\}</Math>
+</Returns>
+ <Description>
+Returns the access structure associated with secret sharing scheme of Benaloah and Leichter that
+was used to show that share sizes can be larger than secret size. See <Cite Key="Benaloh90"/> for details.
+It accepts no arguments.
+Returns a list.
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> BenaloahLeichter();
+[ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
+gap> provess(BenaloahLeichter(),5,[2,2,3,3,2],GF(2),[]);;
+gap> rlist[1];
+true
+gap> DisplayCode(rlist[2]);
+1->1
+ . . . . 1 .
+ . . . . . 1
+=============================
+2->2
+ . . 1 . . .
+ . . . 1 . .
+=============================
+3->3
+ . 1 . . . .
+ . . 1 . . 1
+ . . . 1 1 .
+=============================
+4->5
+ 1 . . . . .
+ . 1 . . . .
+=============================
+5->4
+ 1 . . . . 1
+ . 1 . . 1 .
+ . . 1 . . .
+=============================
+]]></Example>
+
+
+<ManSection>
+  <Func Arg="" Name="Threshold" />
+ <Returns>A list of lists specifing authorized subsets of <Math>[n]]</Math>
+</Returns>
+ <Description>
+Returns the access structure associated with Shamir's <Math>(k,n)</Math> threshold scheme.
+See <Cite Key="Shamirhowto79"/> for details.
+It accepts following arguments:
+<List>
+<Item>
+<Math>\texttt{n}</Math> - number of shares
+</Item>
+<Item>
+<Math>\texttt{k}</Math> - threshold
+</Item>
+</List>
+ </Description>
+</ManSection>
+
+
+<Example><![CDATA[
+gap> T:=Threshold(3,2);
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
+gap> rlist:=provess(T,4,[1,1,1,1],GF(3),[]);;
+gap> rlist[1];
+true
+gap> DisplayCode(rlist[2]);
+1->1
+=============================
+#!  . 1
+2->2
+ 1 .
+=============================
+3->3
+ 1 1
+=============================
+4->4
+ 1 2
+=============================
+gap> T:=Threshold(4,2);
+[ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ]
+gap> rlist:=provess(T,5,[1,1,1,1,1],GF(2),[]);
+[ false ]
+gap> rlist:=provess(T,5,[1,1,1,1,1],GF(3),[]);
+[ false ]
+gap> rlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;
+gap> rlist[1];
+true
+gap> DisplayCode(rlist[2]);
+1->1
+ . 1
+=============================
+2->2
+ 1 .
+=============================
+3->3
+ 1 1
+=============================
+4->4
+ 1 2
+=============================
+5->5
+ 1 4
+=============================
+]]></Example>
+
+
+</Section>
+
+
+</Chapter>
+

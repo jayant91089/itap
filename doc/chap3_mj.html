@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (itap) - Chapter 3: Usage</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap3"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap3.html">[MathJax off]</a></p>
+<p><a id="X86A9B6F87E619FFF" name="X86A9B6F87E619FFF"></a></p>
+<div class="ChapSects"><a href="chap3_mj.html#X86A9B6F87E619FFF">3 <span class="Heading">Usage</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X835D65A88292737E">3.1 <span class="Heading">Available functions</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7F1EE7A57984E68C">3.1-1 proverep</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7DB2926A78EC4E86">3.1-2 proverate</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7D75794B7EAD6A00">3.1-3 provess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X83804D1E7BC6B451">3.1-4 DisplayCode</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X838C78867A52DDA3">3.2 <span class="Heading">A catalog of examples</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C8C3B34834C6C8F">3.2-1 FanoNet</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7FFA7A277C61E076">3.2-2 NonFanoNet</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X826AC373821A9EE2">3.2-3 VamosNet</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8514B6657A3CC6FF">3.2-4 U2kNet</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8329D29E7FAC98B3">3.2-5 ButterflyNet</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X808E1A5081F14455">3.2-6 Subspace5</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7AEEE54F7E0FD055">3.2-7 BenaloahLeichter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C7738767CA2118A">3.2-8 Threshold</a></span>
+</div></div>
+</div>
+
+<h3>3 <span class="Heading">Usage</span></h3>
+
+<p><a id="X835D65A88292737E" name="X835D65A88292737E"></a></p>
+
+<h4>3.1 <span class="Heading">Available functions</span></h4>
+
+<p>In this section we shall look at the functions provided by <span class="SimpleMath">\(\texttt{itap}\)</span>.</p>
+
+<p><a id="X7F1EE7A57984E68C" name="X7F1EE7A57984E68C"></a></p>
+
+<h5>3.1-1 proverep</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; proverep</code>( <var class="Arg">rankvec</var>, <var class="Arg">nvars</var>, <var class="Arg">F</var>, <var class="Arg">optargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>This function checks if there is a linear representation of an integer polymatroid rank vector. It accepts following arguments:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{rankvec}\)</span> - A list of integers specifying a polymatroid rank vector</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{nvars}\)</span> - Number of ground set elements</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{F}\)</span> - The finite field over which we wish to find a linear representation. It can be defined by invoking the following in GAP:</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+</pre></div>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{optargs}\)</span> is a list of optional arguments <span class="SimpleMath">\(\texttt{[lazy,..]}\)</span> where</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{lazy}\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(\texttt{false}\)</span>, which is enabled by default in GAP.</p>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>Returns a list <span class="SimpleMath">\(\texttt{[true,code]}\)</span> if there exists such a representation and <span class="SimpleMath">\(\texttt{code}\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\(\texttt{[false]}\)</span> otherwise, indicating that no such representation exists</p>
+
+<p><a id="X7DB2926A78EC4E86" name="X7DB2926A78EC4E86"></a></p>
+
+<h5>3.1-2 proverate</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; proverate</code>( <var class="Arg">ncinstance</var>, <var class="Arg">rvec</var>, <var class="Arg">F</var>, <var class="Arg">optargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>This function checks if there is a vector linear code achieving the rate vector <span class="SimpleMath">\(\texttt{rvec}\)</span> for the network coding instance <span class="SimpleMath">\(\texttt{ncinstance}\)</span>. It accepts following arguments:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{ncinstance}\)</span> is a list <span class="SimpleMath">\(\texttt{[cons,nsrc,nvars]}\)</span> containing 3 elements:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{cons}\)</span> is a list of network coding constraints.</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{nsrc}\)</span> is the number of sources.</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{nvars}\)</span> is the number of random variables associated with the network.</p>
+
+</li>
+</ul>
+</li>
+<li><p><span class="SimpleMath">\(\texttt{rvec}\)</span> - A list of <span class="SimpleMath">\(\texttt{nvars}\)</span> integers specifying a rate vector</p>
+
+</li>
+<li><p><span class="SimpleMath">\( \texttt{F}\)</span> is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+</pre></div>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{optargs}\)</span> is a list of optional arguments <span class="SimpleMath">\(\texttt{[lazy,..]}\)</span> where <span class="SimpleMath">\(\texttt{lazy}\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(\texttt{false}\)</span>, which is enabled by default.</p>
+
+</li>
+</ul>
+<p>Returns a list <span class="SimpleMath">\(\texttt{[true,code]}\)</span> if there exists such a representation and <span class="SimpleMath">\(\texttt{code}\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\(\texttt{[false]}\)</span> otherwise, indicating that no such code exists</p>
+
+<p><span class="SimpleMath">\(\textbf{NOTE:}\)</span> Certain naming convensions are followed while defining network coding instances. The source messages are labeled with <span class="SimpleMath">\(\texttt{[1...nsrc]}\)</span> while rest of the messages are labeled <span class="SimpleMath">\(\texttt{[nsrc...nvars]}\)</span>. Furthermore, the list <span class="SimpleMath">\(\texttt{cons}\)</span> includes all network constraints except source independence. This constraint is implied with the labeling i.e. <span class="SimpleMath">\(\texttt{itap}\)</span> enforces it by default for the messages labeled <span class="SimpleMath">\(\texttt{[1...nsrc]}\)</span>. See next section for usage examples.</p>
+
+<p><a id="X7D75794B7EAD6A00" name="X7D75794B7EAD6A00"></a></p>
+
+<h5>3.1-3 provess</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; provess</code>( <var class="Arg">Asets</var>, <var class="Arg">nvars</var>, <var class="Arg">svec</var>, <var class="Arg">F</var>, <var class="Arg">optargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>This function checks if there is a multi-linear secret sharing scheme with secret and share sizes given by <span class="SimpleMath">\(\texttt{svec}\)</span> and the access structure <span class="SimpleMath">\(\texttt{Asets}\)</span> with one dealer and <span class="SimpleMath">\(\texttt{nvars-1}\)</span> parties. It accepts following arguments:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{Asets}\)</span> - A list of authorized sets each specified as a subset of <span class="SimpleMath">\([\texttt{nvars}-1]\)</span></p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{nvars}\)</span> - Number of participants (including one dealer)</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{svec}\)</span> - vector of integer share sizes understood as number of <span class="SimpleMath">\(\mathbb{F}_q\)</span> symbols, with index 1 giving secret size and index <span class="SimpleMath">\(i,i\in \{2,...,\texttt{nvars}\}\)</span> specifying share sizes of different parties</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{F}\)</span> - The finite field over which we wish to find a multi-linear scheme. It can be defined by invoking the following in GAP:</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+</pre></div>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{optargs}\)</span> is a list of optional arguments <span class="SimpleMath">\(\texttt{[lazy,..]}\)</span> where</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{lazy}\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(\texttt{false}\)</span>, which is enabled by default in GAP.</p>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>Returns a list <span class="SimpleMath">\(\texttt{[true,code]}\)</span> if there exists such a scheme and <span class="SimpleMath">\(\texttt{code}\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\(\texttt{[false]}\)</span> otherwise, indicating that no such scheme exists</p>
+
+<p><span class="SimpleMath">\(\textbf{NOTE:}\)</span> No input checking is performed to verify if input <span class="SimpleMath">\(\texttt{Asets}\)</span> follows labeling convensions. The map returned with a linear scheme is a map <span class="SimpleMath">\(f:[\texttt{nvars}]\rightarrow [\texttt{nvars}]\)</span> with dealer associated with label 1 and parties associated with labels <span class="SimpleMath">\(\{2,...,\texttt{nvars}\}\)</span>. See next section for usage examples.</p>
+
+<p><a id="X83804D1E7BC6B451" name="X83804D1E7BC6B451"></a></p>
+
+<h5>3.1-4 DisplayCode</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DisplayCode</code>( <var class="Arg">code</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: nothing</p>
+
+<p>Displays a network code (or an integer polymatroid). It accepts 1 argument:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{code}\)</span> - A list <span class="SimpleMath">\(\texttt{[s,map]}\)</span> containing 2 elements:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{s}\)</span> - A list of subspaces where is subspace is itself a list of basis vectors</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{map}\)</span> - A GAP record mapping subspaces in <span class="SimpleMath">\(\texttt{s}\)</span> to network messages or to polymatroid ground set elements</p>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>Returns nothing</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s:=[ [ [ 0*Z(2), 0*Z(2), Z(2)^0 ] ], [ [ 0*Z(2), Z(2)^0, 0*Z(2) ] ],\</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [ 0*Z(2), Z(2)^0, Z(2)^0 ] ], [ [ Z(2)^0, 0*Z(2), 0*Z(2) ] ],\</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [ Z(2)^0, 0*Z(2), Z(2)^0 ] ], [ [ Z(2)^0, Z(2)^0, 0*Z(2) ] ],\</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [ Z(2)^0, Z(2)^0, Z(2)^0 ] ] ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">map:=rec( 1 := 1, 2 := 2, 3 := 4, 4 := 3, 5 := 6, 6 := 5, 7 := 7 );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayCode([s,map]);;</span>
+1-&gt;1
+ . . 1
+=============================
+2-&gt;2
+ . 1 .
+=============================
+3-&gt;4
+ . 1 1
+=============================
+4-&gt;3
+ 1 . .
+=============================
+5-&gt;6
+ 1 . 1
+=============================
+6-&gt;5
+1 1 .
+=============================
+7-&gt;7
+ 1 1 1
+=============================
+</pre></div>
+
+<p><a id="X838C78867A52DDA3" name="X838C78867A52DDA3"></a></p>
+
+<h4>3.2 <span class="Heading">A catalog of examples</span></h4>
+
+<p><span class="SimpleMath">\(\texttt{itap}\)</span> comes equipped with a catalog of examples, which contains well-known network coding instances and integer polymatroids. This catalog is intended to be of help to the user for getting started with using <span class="SimpleMath">\(\texttt{itap}\)</span>. Most of the network coding instances in this catalog can be found in <a href="chapBib_mj.html#biBYeungBook">[Yeu08]</a> and <a href="chapBib_mj.html#biBDFZMatroidNetworks">[DFZ07]</a>. Some of the integer polymatroids in the catalog are taken from <span class="URL"><a href="http://code.ucsd.edu/zeger/linrank/">http://code.ucsd.edu/zeger/linrank/</a></span>. These polymatroids correspond to the extreme rays of the cone of linear rank inequalities in 5 variables, found by Dougherty, Freiling and Zeger. See <a href="chapBib_mj.html#biBDFZ2009Ineqfor5var">[DFZ09]</a> for details.</p>
+
+<p><a id="X7C8C3B34834C6C8F" name="X7C8C3B34834C6C8F"></a></p>
+
+<h5>3.2-1 FanoNet</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FanoNet</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns the Fano instance. It accepts no arguments. Returns a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FanoNet();</span>
+[ [ [ [ 1, 2 ], [ 1, 2, 4 ] ], [ [ 2, 3 ], [ 2, 3, 5 ] ],
+     [ [ 4, 5 ], [ 4, 5, 6 ] ], [ [ 3, 4 ], [ 3, 4, 7 ] ],
+     [ [ 1, 6 ], [ 3, 1, 6 ] ], [ [ 6, 7 ], [ 2, 6, 7 ] ],
+     [ [ 5, 7 ], [ 1, 5, 7 ] ] ], 3, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(2),[]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1]; # Fano matroid is representable over GF(2)</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayCode(rlist[2]);</span>
+1-&gt;1
+ . . 1
+=============================
+2-&gt;2
+ . 1 .
+=============================
+3-&gt;4
+ . 1 1
+=============================
+4-&gt;3
+ 1 . .
+=============================
+5-&gt;6
+ 1 . 1
+=============================
+6-&gt;5
+ 1 1 .
+=============================
+7-&gt;7
+ 1 1 1
+=============================
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(3),[]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1]; # Fano matroid is not representable over GF(3)</span>
+false
+</pre></div>
+
+<p><a id="X7FFA7A277C61E076" name="X7FFA7A277C61E076"></a></p>
+
+<h5>3.2-2 NonFanoNet</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NonFanoNet</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns the NonFano instance. It accepts no arguments. Returns a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NonFanoNet();</span>
+[ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 2 ], [ 1, 2, 5 ] ],
+      [ [ 1, 3 ], [ 1, 3, 6 ] ], [ [ 2, 3 ], [ 2, 3, 7 ] ],
+      [ [ 4, 5 ], [ 3, 4, 5 ] ], [ [ 4, 6 ], [ 2, 4, 6 ] ],
+      [ [ 4, 7 ], [ 1, 4, 7 ] ] ], 3, 7 ]
+</pre></div>
+
+<p><a id="X826AC373821A9EE2" name="X826AC373821A9EE2"></a></p>
+
+<h5>3.2-3 VamosNet</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VamosNet</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns the Vamos instance. It accepts no arguments. Returns a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VamosNet();</span>
+[ [ [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 4, 5 ] ],
+      [ [ 1, 2, 5 ], [ 1, 2, 5, 6 ] ],
+      [ [ 2, 3, 6 ], [ 2, 3, 6, 7 ] ],
+      [ [ 3, 4, 7 ], [ 3, 4, 7, 8 ] ],
+      [ [ 4, 8 ], [ 2, 4, 8 ] ],
+      [ [ 2, 3, 4, 8 ], [ 1, 2, 3, 4, 8 ] ],
+      [ [ 1, 4, 5, 8 ], [ 1, 2, 3, 4, 5, 8 ] ],
+      [ [ 1, 2, 3, 7 ], [ 1, 2, 3, 4, 7 ] ],
+      [ [ 1, 5, 7 ], [ 1, 3, 5, 7 ] ] ], 3, 7 ]
+</pre></div>
+
+<p><a id="X8514B6657A3CC6FF" name="X8514B6657A3CC6FF"></a></p>
+
+<h5>3.2-4 U2kNet</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; U2kNet</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns the instance associated with uniform matroid <span class="SimpleMath">\(U^2_k\)</span>. It accepts one argument <span class="SimpleMath">\(\texttt{k}\)</span> specifying the size of uniform matroid. Returns a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">U2kNet(4);</span>
+[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 2 ], [ 1, 2, 4 ] ],
+      [ [ 1, 3 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],
+      [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 1, 4 ], [ 1, 3, 4 ] ],
+      [ [ 2, 3 ], [ 1, 2, 3 ] ], [ [ 2, 3 ], [ 2, 3, 4 ] ],
+      [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 2, 4 ], [ 2, 3, 4 ] ],
+      [ [ 3, 4 ], [ 1, 3, 4 ] ], [ [ 3, 4 ], [ 2, 3, 4 ] ]
+     ], 2, 4 ]
+</pre></div>
+
+<p><a id="X8329D29E7FAC98B3" name="X8329D29E7FAC98B3"></a></p>
+
+<h5>3.2-5 ButterflyNet</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ButterflyNet</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns the Butterfly instance. It accepts no arguments. Returns a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ButterflyNet();</span>
+[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 2, 3 ] ],
+     [ [ 2, 3 ], [ 1, 2, 3 ] ] ], 2, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">U2kNet(3)=ButterflyNet();</span>
+true
+</pre></div>
+
+<p><a id="X808E1A5081F14455" name="X808E1A5081F14455"></a></p>
+
+<h5>3.2-6 Subspace5</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Subspace5</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns the extreme rays of cone formed by linear rank inequalities in 5 variables. It accepts no arguments. Returns a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rays5:=Subspace5();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(rays5);</span>
+162
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=proverep(rays5[46],5,GF(2),[])</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">rlist[1];</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayCode(rlist[2]);</span>
+1-&gt;4
+ . . . 1
+=============================
+2-&gt;5
+ . . 1 .
+=============================
+3-&gt;3
+ . 1 . .
+=============================
+4-&gt;2
+ 1 . . .
+ . . 1 1
+=============================
+5-&gt;1
+ 1 . . 1
+ . 1 1 1
+=============================
+</pre></div>
+
+<p><a id="X7AEEE54F7E0FD055" name="X7AEEE54F7E0FD055"></a></p>
+
+<h5>3.2-7 BenaloahLeichter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BenaloahLeichter</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list of lists specifing authorized subsets of <span class="SimpleMath">\(\{1,2,3,4\}\)</span></p>
+
+<p>Returns the access structure associated with secret sharing scheme of Benaloah and Leichter that was used to show that share sizes can be larger than secret size. See <a href="chapBib_mj.html#biBBenaloh90">[BL90]</a> for details. It accepts no arguments. Returns a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BenaloahLeichter();</span>
+[ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">provess(BenaloahLeichter(),5,[2,2,3,3,2],GF(2),[]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1];</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayCode(rlist[2]);</span>
+1-&gt;1
+ . . . . 1 .
+ . . . . . 1
+=============================
+2-&gt;2
+ . . 1 . . .
+ . . . 1 . .
+=============================
+3-&gt;3
+ . 1 . . . .
+ . . 1 . . 1
+ . . . 1 1 .
+=============================
+4-&gt;5
+ 1 . . . . .
+ . 1 . . . .
+=============================
+5-&gt;4
+ 1 . . . . 1
+ . 1 . . 1 .
+ . . 1 . . .
+=============================
+</pre></div>
+
+<p><a id="X7C7738767CA2118A" name="X7C7738767CA2118A"></a></p>
+
+<h5>3.2-8 Threshold</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Threshold</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list of lists specifing authorized subsets of <span class="SimpleMath">\([n]]\)</span></p>
+
+<p>Returns the access structure associated with Shamir's <span class="SimpleMath">\((k,n)\)</span> threshold scheme. See <a href="chapBib_mj.html#biBShamirhowto79">[Sha79]</a> for details. It accepts following arguments:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(\texttt{n}\)</span> - number of shares</p>
+
+</li>
+<li><p><span class="SimpleMath">\(\texttt{k}\)</span> - threshold</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">T:=Threshold(3,2);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=provess(T,4,[1,1,1,1],GF(3),[]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1];</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayCode(rlist[2]);</span>
+1-&gt;1
+=============================
+#!  . 1
+2-&gt;2
+ 1 .
+=============================
+3-&gt;3
+ 1 1
+=============================
+4-&gt;4
+ 1 2
+=============================
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">T:=Threshold(4,2);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=provess(T,5,[1,1,1,1,1],GF(2),[]);</span>
+[ false ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=provess(T,5,[1,1,1,1,1],GF(3),[]);</span>
+[ false ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1];</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayCode(rlist[2]);</span>
+1-&gt;1
+ . 1
+=============================
+2-&gt;2
+ 1 .
+=============================
+3-&gt;3
+ 1 1
+=============================
+4-&gt;4
+ 1 2
+=============================
+5-&gt;5
+ 1 4
+=============================
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

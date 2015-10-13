@@ -1,0 +1,32 @@
+  
+  [1X2 [33X[0;0YInstallation[133X[101X
+  
+  [33X[0;0YTo  get the newest version of this GAP 4 package download one of the archive
+  files  itap-x.x.tar.gz,  itap-x.x.zoo,  itap-x.x.tar.bz2,  itap-x.x.zip  and
+  unpack it using[133X
+  
+  
+        [33X[1;6Y[24X[33X[0;0Y\texttt{gunzip itap-x.x.tar.gz}[133X [124X[133X
+  
+  
+  [33X[0;0Yor[133X
+  
+  
+        [33X[1;6Y[24X[33X[0;0Y\texttt{unzoo -x itap-x.x.zoo}[133X [124X[133X
+  
+  
+  [33X[0;0Yrespectively  and so on. Do this preferably (but not necessarily) inside the
+  [23X\texttt{pkg}[123X   subdirectory  of  your  GAP  4  installation.  It  creates  a
+  subdirectory  called  [23X\texttt{itap}[123X.  This completes the installation of the
+  package. One can then start using [23X\texttt{itap}[123X by invoking[133X
+  
+  
+        [33X[1;6Y[24X[33X[0;0Y\texttt{gap>}[133X [124X[133X
+  
+  
+  [4X[32X  Code  [32X[104X
+    [4XLoadPackage( "itap");[104X
+  [4X[32X[104X
+  
+  [33X[0;0Yfrom within GAP.[133X
+  
