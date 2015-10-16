@@ -2977,7 +2977,9 @@ function(rankvec,nvars,F,optargs)
   klist:=[];
   for i in [1..nvars] do
     if not rankvec[set2int([i])] in klist then
-      Append(klist,[rankvec[set2int([i])]]);
+      if rankvec[set2int([i])]>0 then
+        Append(klist,[rankvec[set2int([i])]]);
+      fi;
     fi;
   od;
   #Display(["klist",klist]);
@@ -3126,6 +3128,11 @@ function(Asets,nvars,svec,F,optargs)
   #spl
   klist:=AsList(AsSet(svec));
   #Display(["klist",klist]);
+  if Size(klist)=1 then # protect agains all zero shares
+    if klist[1]=0 then
+      return [true,"trivial"];
+    fi;
+  fi;
   # find rep
   lazy:=true;
   if IsBound(optargs[1]) then
