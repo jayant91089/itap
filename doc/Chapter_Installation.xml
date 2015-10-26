@@ -4,12 +4,13 @@
 <Chapter Label="Chapter_Installation">
 <Heading>Installation</Heading>
 
-To get the newest version of this GAP 4 package download one of the
-archive files itap-x.x.tar.gz, itap-x.x.zoo, itap-x.x.tar.bz2, itap-x.x.zip
+To get the latest version of this GAP 4 package download one of the
+archive files itap-x.x.zip, itap-x.x.tar.gz, itap-x.x.zoo, itap-x.x.tar.bz2
+from <URL>https://github.com/jayant91089/itap</URL> or <URL>http://www.ece.drexel.edu/walsh/aspitrg/software.html</URL>
 and unpack it using
-<Display>\texttt{gunzip itap-x.x.tar.gz}</Display>
+<Display>\texttt{gunzip itap-x.x.zip}</Display>
 or
-<Display>\texttt{unzoo -x itap-x.x.zoo}</Display>
+<Display>\texttt{gunzip itap-x.x.tar.gz}</Display>
 respectively and so on.
 Do this preferably (but not necessarily) inside the <Math>\texttt{pkg}</Math> subdirectory
 of your GAP 4 installation. It creates a subdirectory called <Math>\texttt{itap}</Math>.
@@ -21,5 +22,14 @@ LoadPackage( "itap");
 ]]></Listing>
 
 from within GAP.
+<Math>\textbf{Optional Dependencies}</Math>: <Math>\texttt{itap}</Math> can optionally use gap package <Math>\texttt{FinInG}</Math>.
+<Math>\texttt{FinInG}</Math> provides allows internal functions to use projective semilinear group <Math>P\Gamma L(k,q)</Math>,
+which is the group of all collineations of the vector space <Math>GF(q)^k</Math>.
+See <URL>http://cage.ugent.be/fining/</URL> for information on how to obtain and install this package.
+<Math>\texttt{LoadPackage( "itap")}</Math> automatically checks if <Math>\texttt{FinInG}</Math> is available and
+loads it in case it is available. If <Math>\texttt{FinInG}</Math> is absent, a light version of
+<Math>\texttt{itap}</Math> is loaded, where the internal functions default to using projective general linear group
+<Math>PGL(k,q)\leq P\Gamma L(k,q)</Math>. Note that this distinction is irrelevent if <Math>q</Math> is a prime number
+as <Math>PGL(k,q)\cong P\Gamma L(k,q)</Math>.
 </Chapter>
 

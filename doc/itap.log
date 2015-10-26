@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.10)  26 SEP 2015 17:43
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.10)  26 OCT 2015 15:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -829,16 +829,16 @@ File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 714.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 714.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 697.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 697.
  (./itap.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 714.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 714.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 697.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 697.
 Package rerunfilecheck Info: File `itap.out' has not changed.
 (rerunfilecheck)             Checksum: 31013C16EA7C534D9D755F6D317F6DE7;353.
 Package rerunfilecheck Info: File `itap.brf' has not changed.
 (rerunfilecheck)             Checksum: 22B322C24BFF5A16F50B1DF0CD8AE2B0;310.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 714.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 697.
  ) 
 Here is how much of TeX's memory you used:
  7268 strings out of 495028
@@ -847,7 +847,7 @@ Here is how much of TeX's memory you used:
  10282 multiletter control sequences out of 15000+600000
  66578 words of font info for 87 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 32i,7n,28p,440b,616s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,8n,28p,727b,616s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc} </home/jayant/.te
 xmf-var/fonts/pk/ljfour/jknappen/ec/ecst1095.600pk> </home/jayant/.texmf-var/fo
 nts/pk/ljfour/jknappen/ec/ectt1095.600pk> </home/jayant/.texmf-var/fonts/pk/ljf
@@ -856,14 +856,15 @@ c/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
 onts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/
 msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
-/times/utmri8a.pfb>
-Output written on itap.pdf (14 pages, 146422 bytes).
+/usr/share/texlive/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on itap.pdf (14 pages, 151968 bytes).
 PDF statistics:
- 368 PDF objects out of 1000 (max. 8388607)
- 207 compressed objects within 3 object streams
+ 383 PDF objects out of 1000 (max. 8388607)
+ 213 compressed objects within 3 object streams
  60 named destinations out of 1000 (max. 500000)
  57 words of extra memory for PDF output out of 10000 (max. 10000000)
 

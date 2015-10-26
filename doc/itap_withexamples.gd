@@ -143,7 +143,35 @@ DeclareGlobalFunction("provess");
 #! @Returns nothing
 #! @Arguments code
 DeclareGlobalFunction("DisplayCode");
-
+#! @BeginExample
+s:=[ [ [ 0*Z(2), 0*Z(2), Z(2)^0 ] ], [ [ 0*Z(2), Z(2)^0, 0*Z(2) ] ],\
+[ [ 0*Z(2), Z(2)^0, Z(2)^0 ] ], [ [ Z(2)^0, 0*Z(2), 0*Z(2) ] ],\
+[ [ Z(2)^0, 0*Z(2), Z(2)^0 ] ], [ [ Z(2)^0, Z(2)^0, 0*Z(2) ] ],\
+[ [ Z(2)^0, Z(2)^0, Z(2)^0 ] ] ];;
+map:=rec( 1 := 1, 2 := 2, 3 := 4, 4 := 3, 5 := 6, 6 := 5, 7 := 7 );;
+DisplayCode([s,map]);;
+#! 1->1
+#!  . . 1
+#! =============================
+#! 2->2
+#!  . 1 .
+#! =============================
+#! 3->4
+#!  . 1 1
+#! =============================
+#! 4->3
+#!  1 . .
+#! =============================
+#! 5->6
+#!  1 . 1
+#! =============================
+#! 6->5
+#! 1 1 .
+#! =============================
+#! 7->7
+#!  1 1 1
+#! =============================
+#! @EndExample
 #! @Section A catalog of examples
 #! $\texttt{itap}$ comes equipped with a catalog of examples, which contains well-known network coding instances and integer polymatroids.
 #! This catalog is intended to be of help to the user for getting started with using $\texttt{itap}$. Most of the network coding instances
@@ -157,7 +185,41 @@ DeclareGlobalFunction("DisplayCode");
 #! @Returns A list
 #! @Arguments
 DeclareGlobalFunction("FanoNet");
-
+#! @BeginExample
+FanoNet();
+#! [ [ [ [ 1, 2 ], [ 1, 2, 4 ] ], [ [ 2, 3 ], [ 2, 3, 5 ] ],
+#!      [ [ 4, 5 ], [ 4, 5, 6 ] ], [ [ 3, 4 ], [ 3, 4, 7 ] ],
+#!      [ [ 1, 6 ], [ 3, 1, 6 ] ], [ [ 6, 7 ], [ 2, 6, 7 ] ],
+#!      [ [ 5, 7 ], [ 1, 5, 7 ] ] ], 3, 7 ]
+rlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(2),[]);;
+rlist[1]; # Fano matroid is representable over GF(2)
+#! true
+DisplayCode(rlist[2]);
+#! 1->1
+#!  . . 1
+#! =============================
+#! 2->2
+#!  . 1 .
+#! =============================
+#! 3->4
+#!  . 1 1
+#! =============================
+#! 4->3
+#!  1 . .
+#! =============================
+#! 5->6
+#!  1 . 1
+#! =============================
+#! 6->5
+#!  1 1 .
+#! =============================
+#! 7->7
+#!  1 1 1
+#! =============================
+rlist:=proverate(FanoNet(),[1,1,1,1,1,1,1],GF(3),[]);;
+rlist[1]; # Fano matroid is not representable over GF(3)
+#! false
+#! @EndExample
 
 #! @Description
 #!  Returns the NonFano instance.
@@ -166,7 +228,15 @@ DeclareGlobalFunction("FanoNet");
 #! @Returns A list
 #! @Arguments
 DeclareGlobalFunction("NonFanoNet");
+#! @BeginExample
+NonFanoNet();
+gap> NonFanoNet();
+#! [ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 2 ], [ 1, 2, 5 ] ],
+#!       [ [ 1, 3 ], [ 1, 3, 6 ] ], [ [ 2, 3 ], [ 2, 3, 7 ] ],
+#!       [ [ 4, 5 ], [ 3, 4, 5 ] ], [ [ 4, 6 ], [ 2, 4, 6 ] ],
+#!       [ [ 4, 7 ], [ 1, 4, 7 ] ] ], 3, 7 ]
 
+#! @EndExample
 #! @Description
 #!  Returns the Vamos instance.
 #! It accepts no arguments.
@@ -174,7 +244,18 @@ DeclareGlobalFunction("NonFanoNet");
 #! @Returns A list
 #! @Arguments
 DeclareGlobalFunction("VamosNet");
-
+#! @BeginExample
+VamosNet();
+#! [ [ [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 4, 5 ] ],
+#!       [ [ 1, 2, 5 ], [ 1, 2, 5, 6 ] ],
+#!       [ [ 2, 3, 6 ], [ 2, 3, 6, 7 ] ],
+#!       [ [ 3, 4, 7 ], [ 3, 4, 7, 8 ] ],
+#!       [ [ 4, 8 ], [ 2, 4, 8 ] ],
+#!       [ [ 2, 3, 4, 8 ], [ 1, 2, 3, 4, 8 ] ],
+#!       [ [ 1, 4, 5, 8 ], [ 1, 2, 3, 4, 5, 8 ] ],
+#!       [ [ 1, 2, 3, 7 ], [ 1, 2, 3, 4, 7 ] ],
+#!       [ [ 1, 5, 7 ], [ 1, 3, 5, 7 ] ] ], 3, 7 ]
+#! @EndExample
 
 #! @Description
 #!  Returns the instance associated with uniform matroid $U^2_k$.
@@ -183,7 +264,17 @@ DeclareGlobalFunction("VamosNet");
 #! @Returns A list
 #! @Arguments
 DeclareGlobalFunction("U2kNet");
+#! @BeginExample
+U2kNet(4);
+#! [ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 2 ], [ 1, 2, 4 ] ],
+#!       [ [ 1, 3 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],
+#!       [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 1, 4 ], [ 1, 3, 4 ] ],
+#!       [ [ 2, 3 ], [ 1, 2, 3 ] ], [ [ 2, 3 ], [ 2, 3, 4 ] ],
+#!       [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 2, 4 ], [ 2, 3, 4 ] ],
+#!       [ [ 3, 4 ], [ 1, 3, 4 ] ], [ [ 3, 4 ], [ 2, 3, 4 ] ]
+#!      ], 2, 4 ]
 
+#! @EndExample
 
 #! @Description
 #!  Returns the Butterfly instance.
@@ -192,7 +283,13 @@ DeclareGlobalFunction("U2kNet");
 #! @Returns A list
 #! @Arguments
 DeclareGlobalFunction("ButterflyNet");
-
+#! @BeginExample
+ButterflyNet();
+#! [ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 2, 3 ] ],
+#!      [ [ 2, 3 ], [ 1, 2, 3 ] ] ], 2, 3 ]
+U2kNet(3)=ButterflyNet();
+#! true
+#! @EndExample
 
 #! @Description
 #!  Returns the extreme rays of cone formed by linear rank inequalities in 5 variables.
@@ -201,6 +298,32 @@ DeclareGlobalFunction("ButterflyNet");
 #! @Returns A list
 #! @Arguments
 DeclareGlobalFunction("Subspace5");
+#! @BeginExample
+rays5:=Subspace5();;
+Size(rays5);
+#! 162
+rlist:=proverep(rays5[46],5,GF(2),[])
+rlist[1];
+#! true
+gap> DisplayCode(rlist[2]);
+#! 1->4
+#!  . . . 1
+#! =============================
+#! 2->5
+#!  . . 1 .
+#! =============================
+#! 3->3
+#!  . 1 . .
+#! =============================
+#! 4->2
+#!  1 . . .
+#!  . . 1 1
+#! =============================
+#! 5->1
+#!  1 . . 1
+#!  . 1 1 1
+#! =============================
+#! @EndExample
 
 #! @Description
 #!  Returns the access structure associated with secret sharing scheme of Benaloah and Leichter that
@@ -210,7 +333,36 @@ DeclareGlobalFunction("Subspace5");
 #! @Returns A list of lists specifing authorized subsets of $\{1,2,3,4\}$
 #! @Arguments
 DeclareGlobalFunction("BenaloahLeichter");
-
+#! @BeginExample
+B:=BenaloahLeichter();
+#! [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
+rlist:=provess(B,5,[2,2,3,3,2],GF(2),[]);;
+rlist[1];
+#! true
+DisplayCode(rlist[2]);
+#! 1->1
+#!  . . . . 1 .
+#! . . . . . 1
+#! =============================
+#! 2->2
+#! . . 1 . . .
+#! . . . 1 . .
+#! =============================
+#! 3->3
+#! . 1 . . . .
+#! . . 1 . . 1
+#! . . . 1 1 .
+#! =============================
+#! 4->5
+#! 1 . . . . .
+#! . 1 . . . .
+#! =============================
+#! 5->4
+#! 1 . . . . 1
+#! . 1 . . 1 .
+#! . . 1 . . .
+#! =============================
+#! @EndExample
 #! @Description
 #!  Returns the access structure associated with Shamir's $(k,n)$ threshold scheme.
 #!  See <Cite Key="Shamirhowto79"/> for details.
@@ -220,12 +372,38 @@ DeclareGlobalFunction("BenaloahLeichter");
 #! @Returns A list of lists specifing authorized subsets of $[n]]$
 #! @Arguments
 DeclareGlobalFunction("Threshold");
+#! @BeginExample
+T:=Threshold(4,2);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ]
+rlist:=provess(T,5,[1,1,1,1,1],GF(2),[]);
+#! [ false ]
+rlist:=provess(T,5,[1,1,1,1,1],GF(3),[]);
+#! [ false ]
+rlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;
+rlist[1];
+#! true
+DisplayCode(rlist[2]);
+#! 1->1
+#!  . 1
+#! =============================
+#! 2->2
+#!  1 .
+#! =============================
+#! 3->3
+#!  1 1
+#! =============================
+#! 4->4
+#!  1 2
+#! =============================
+#! 5->5
+#! 1 4
+#! =============================
+#! @EndExample
 
 DeclareGlobalFunction("MSdecomp");
 DeclareGlobalFunction("Group2eqlist");
 DeclareGlobalFunction("TranSub");
 DeclareGlobalFunction("partSub");
-
 DeclareGlobalFunction("testcons_ss");
 DeclareGlobalFunction("IsAuthSet");
 DeclareGlobalFunction("findsss");

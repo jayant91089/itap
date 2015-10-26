@@ -175,19 +175,19 @@ codes. The algorithm underlying $\texttt{itap}$ is called Leiterspiel or the alg
 \logpage{[ 2, 0, 0 ]}
 \hyperdef{L}{X8360C04082558A12}{}
 {
-  To get the newest version of this GAP 4 package download one of the archive
-files itap-x.x.tar.gz, itap-x.x.zoo, itap-x.x.tar.bz2, itap-x.x.zip and unpack
-it using 
-\[\texttt{gunzip itap-x.x.tar.gz}\]
+  To get the latest version of this GAP 4 package download one of the archive
+files itap-x.x.zip, itap-x.x.tar.gz, itap-x.x.zoo, itap-x.x.tar.bz2 from \href{https://github.com/jayant91089/itap} {\texttt{https://github.com/jayant91089/itap}} or \href{http://www.ece.drexel.edu/walsh/aspitrg/software.html} {\texttt{http://www.ece.drexel.edu/walsh/aspitrg/software.html}} and unpack it using 
+\[\texttt{gunzip itap-x.x.zip}\]
  or 
-\[\texttt{unzoo -x itap-x.x.zoo}\]
+\[\texttt{gunzip itap-x.x.tar.gz}\]
  respectively and so on. Do this preferably (but not necessarily) inside the $\texttt{pkg}$ subdirectory of your GAP 4 installation. It creates a subdirectory called $\texttt{itap}$. This completes the installation of the package. One can then start using $\texttt{itap}$ by invoking 
 \[\texttt{gap>}\]
  
 \begin{Verbatim}[fontsize=\small,frame=single,label=Code]
   LoadPackage( "itap");
 \end{Verbatim}
- from within GAP. }
+ from within GAP. $\textbf{Optional Dependencies}$: $\texttt{itap}$ can optionally use gap package $\texttt{FinInG}$. $\texttt{FinInG}$ provides allows internal functions to use projective semilinear group $P\Gamma L(k,q)$, which is the group of all collineations of the vector space $GF(q)^k$. See \href{http://cage.ugent.be/fining/} {\texttt{http://cage.ugent.be/fining/}} for information on how to obtain and install this package. $\texttt{LoadPackage( "itap")}$ automatically checks if $\texttt{FinInG}$ is available and loads it in case it is available. If $\texttt{FinInG}$ is absent, a light version of $\texttt{itap}$ is loaded, where the internal functions default to using projective general
+linear group $PGL(k,q)\leq P\Gamma L(k,q)$. Note that this distinction is irrelevent if $q$ is a prime number as $PGL(k,q)\cong P\Gamma L(k,q)$. }
 
    
 \chapter{\textcolor{Chapter }{Usage}}\label{Chapter_Usage}
@@ -445,6 +445,7 @@ A list
  
 \begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
   !gapprompt@gap>| !gapinput@NonFanoNet();|
+  !gapprompt@gap>| !gapinput@gap> NonFanoNet();|
   [ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 2 ], [ 1, 2, 5 ] ],
         [ [ 1, 3 ], [ 1, 3, 6 ] ], [ [ 2, 3 ], [ 2, 3, 7 ] ],
         [ [ 4, 5 ], [ 3, 4, 5 ] ], [ [ 4, 6 ], [ 2, 4, 6 ] ],
@@ -551,7 +552,7 @@ variables. It accepts no arguments. Returns a list. }
   !gapprompt@gap>| !gapinput@rlist:=proverep(rays5[46],5,GF(2),[])|
   !gapprompt@>| !gapinput@rlist[1];|
   true
-  !gapprompt@gap>| !gapinput@DisplayCode(rlist[2]);|
+  !gapprompt@gap>| !gapinput@gap> DisplayCode(rlist[2]);|
   1->4
    . . . 1
   =============================
@@ -589,33 +590,33 @@ size. See \cite{Benaloh90} for details. It accepts no arguments. Returns a list.
 
  
 \begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@BenaloahLeichter();|
+  !gapprompt@gap>| !gapinput@B:=BenaloahLeichter();|
   [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
-  !gapprompt@gap>| !gapinput@provess(BenaloahLeichter(),5,[2,2,3,3,2],GF(2),[]);;|
+  !gapprompt@gap>| !gapinput@rlist:=provess(B,5,[2,2,3,3,2],GF(2),[]);;|
   !gapprompt@gap>| !gapinput@rlist[1];|
   true
   !gapprompt@gap>| !gapinput@DisplayCode(rlist[2]);|
   1->1
    . . . . 1 .
-   . . . . . 1
+  . . . . . 1
   =============================
   2->2
-   . . 1 . . .
-   . . . 1 . .
+  . . 1 . . .
+  . . . 1 . .
   =============================
   3->3
-   . 1 . . . .
-   . . 1 . . 1
-   . . . 1 1 .
+  . 1 . . . .
+  . . 1 . . 1
+  . . . 1 1 .
   =============================
   4->5
-   1 . . . . .
-   . 1 . . . .
+  1 . . . . .
+  . 1 . . . .
   =============================
   5->4
-   1 . . . . 1
-   . 1 . . 1 .
-   . . 1 . . .
+  1 . . . . 1
+  . 1 . . 1 .
+  . . 1 . . .
   =============================
 \end{Verbatim}
  
@@ -639,35 +640,17 @@ A list of lists specifing authorized subsets of $[n]]$
  }
 
  
-\begin{Verbatim}[commandchars=@|A,fontsize=\small,frame=single,label=Example]
-  @gapprompt|gap>A @gapinput|T:=Threshold(3,2);A
-  [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
-  @gapprompt|gap>A @gapinput|rlist:=provess(T,4,[1,1,1,1],GF(3),[]);;A
-  @gapprompt|gap>A @gapinput|rlist[1];A
-  true
-  @gapprompt|gap>A @gapinput|DisplayCode(rlist[2]);A
-  1->1
-  =============================
-  #!  . 1
-  2->2
-   1 .
-  =============================
-  3->3
-   1 1
-  =============================
-  4->4
-   1 2
-  =============================
-  @gapprompt|gap>A @gapinput|T:=Threshold(4,2);A
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@T:=Threshold(4,2);|
   [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ]
-  @gapprompt|gap>A @gapinput|rlist:=provess(T,5,[1,1,1,1,1],GF(2),[]);A
+  !gapprompt@gap>| !gapinput@rlist:=provess(T,5,[1,1,1,1,1],GF(2),[]);|
   [ false ]
-  @gapprompt|gap>A @gapinput|rlist:=provess(T,5,[1,1,1,1,1],GF(3),[]);A
+  !gapprompt@gap>| !gapinput@rlist:=provess(T,5,[1,1,1,1,1],GF(3),[]);|
   [ false ]
-  @gapprompt|gap>A @gapinput|rlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;A
-  @gapprompt|gap>A @gapinput|rlist[1];A
+  !gapprompt@gap>| !gapinput@rlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;|
+  !gapprompt@gap>| !gapinput@rlist[1];|
   true
-  @gapprompt|gap>A @gapinput|DisplayCode(rlist[2]);A
+  !gapprompt@gap>| !gapinput@DisplayCode(rlist[2]);|
   1->1
    . 1
   =============================
@@ -681,7 +664,7 @@ A list of lists specifing authorized subsets of $[n]]$
    1 2
   =============================
   5->5
-   1 4
+  1 4
   =============================
 \end{Verbatim}
  }
