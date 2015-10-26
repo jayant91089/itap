@@ -193,7 +193,7 @@
     # these package are will be loaded if they are available,
     # but the current package will be loaded if they are not available
     # SuggestedOtherPackages := [],
-    SuggestedOtherPackages := [],
+    SuggestedOtherPackages := [["fining",">=1.0"]],
 
     # *Optional*: a list of pairs as above, denoting those needed packages
     # that must be completely loaded before loading of the current package
@@ -265,12 +265,15 @@
     Autoload  := false
   ),
   BannerString := Concatenation(
-      "----------------------------------------------------------------\n",
+"      __  ____  __   ____     __     __   \n",
+"     (  )(_  _)/ _\\ (  _ \\   /  \\   /  \\  \n",
+"      )(   )( /    \\ ) __/  (_/ / _(  0 ) \n",
+"     (__) (__)\\_/\\_/(__)     (__)(_)\\__/  \n",
       "Loading  itap ", ~.Version, "\n",
       "by ",
       JoinStringsWithSeparator( List( Filtered( ~.Persons, r -> r.IsAuthor ),
                                       r -> Concatenation(
           r.FirstNames, " ", r.LastName, " (", r.WWWHome, ")\n" ) ), "   " ),
       "For help, type: ?itap \n",
-      "----------------------------------------------------------------\n" )
+"-----------------------------------------------------------------------\n" )
       ));

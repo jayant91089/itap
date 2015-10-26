@@ -6,5 +6,8 @@
 ##                                  John Walsh,         Drexel University
 ##
 #############################################################################
-
-ReadPackage( "itap", "gap/itap.gi" );
+if TestPackageAvailability("fining")=fail then
+  ReadPackage( "itap", "gap/itap_light.gi" );
+else
+  ReadPackage("itap", "gap/itap.gi");
+fi;

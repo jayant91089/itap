@@ -1889,17 +1889,10 @@ function(ncinstance,F,d,k,s,rvec,optargs)
   # rvec: rate vector to prove
   # optargs: [lazy,..]
   #   if lazy=false, disables lazy evaluation of transporter maps, default true
-  if not IsPrimeField(F) then
-    gl:=CollineationGroup(ProjectiveSpace(d-1,Size(F)));#GL(d,Size(F));
-    A:= OnSubspaceByCollineation;#OnSubspacesByCanonicalBasis;
-    AonSets:= OnSetOfSubspacesByCollineation;#OnSetOfSubspacesByCanonicalBasis;
-    D:=ListOfSubspaces2VectorRep(baseskd(Size(F),d,k));
-  else
-   gl:=GL(d,Size(F));
-   A:= OnSubspacesByCanonicalBasis;
-   AonSets:= OnSetOfSubspacesByCanonicalBasis;
-   D:=baseskd(Size(F),d,k);
-  fi;
+  gl:=GL(d,Size(F));
+  A:= OnSubspacesByCanonicalBasis;
+  AonSets:= OnSetOfSubspacesByCanonicalBasis;
+  D:=baseskd(Size(F),d,k);
   if Size(optargs)=0 then
     return LeiterspielWCons_vec_prover_lazy(gl,D,A,AonSets,s,ncinstance[1],ncinstance[2],ncinstance[3],rvec,d);
   fi;
@@ -2995,60 +2988,12 @@ function(rankvec,nvars,F,optargs)
   if IsBound(optargs[1]) then
     lazy:=optargs[1];
   fi;
-  rlist:=findrep2(rankvec,nvars,F,d,klist,nsimple,[lazy]);
+  rlist:=findrep(rankvec,nvars,F,d,klist,nsimple,[lazy]);
   if rlist[1]=true then
     return rlist;
   else
     return [false];
   fi;
-end);
-
-
-
-InstallGlobalFunction(ListOfSubspaces2VectorRep,
-function(los)
-local rl,s,sl,v,vl,i;
-  rl:=[];
-  for s in los do
-    sl:=[];
-    for v in s do
-    vl:=[];
-      for i in [1..Size(v)] do
-        Append(vl,[v[i]]);
-      od;
-      Append(sl,[ShallowCopy(vl)]);
-    od;
-    Append(rl,[ShallowCopy(sl)]);
-  od;
-  return rl;
-end);
-
-InstallGlobalFunction(OnSubspaceByCollineation,
-function(s,g)
-  #action on subspaces
-  local ps,rs;
-  if Size(s[1])=1 then
-   return s;
-  fi;
-  ps:=ProjectiveSpace(Size(s[1])-1,Size(BaseField(g)));
-  if Size(s)>1 then
-    rs:=SortedList(Unpack(UnderlyingObject(OnProjSubspaces(VectorSpaceToElement(ps,s),g))));
-    return AsList(CanonicalBasis(Subspace(BaseField(g)^Size(s[1]),rs)));
-  else
-    rs:=SortedList([Unpack(UnderlyingObject(OnProjSubspaces(VectorSpaceToElement(ps,s),g)))]);
-    return AsList(CanonicalBasis(Subspace(BaseField(g)^Size(s[1]),rs)));
-  fi;
-end);
-
-InstallGlobalFunction(OnSetOfSubspacesByCollineation,
-function(sos,g)
-# action on set of subspaces
-  local rl,s;
-  rl:=[];
-  for s in sos do
-  Append(rl,[OnSubspaceByCollineation(s,g)]);
-  od;
-  return rl;
 end);
 
 
@@ -3086,50 +3031,6 @@ function(rankvec,nvars,F,d,klist,nsimple,optargs)
   fi;
   return LeiterspielWCons_rep_prover(gl,D,A,AonSets,nsimple,rankvec,nvars,d);
 end);
-
-InstallGlobalFunction(findrep2,
-function(rankvec,nvars,F,d,klist,nsimple,optargs)
-  local loopy,konly,A,AonSets,D,gl;
-  # ncinstance: [cons,nsrc,nvars]
-  #   cons: constraints as a list of list of lists
-  #   nsrc: no. of sources
-  #   nvars: no. of variables
-  # F: a finite field over which codes are to be generated
-  # d: maximum rank of underlying matroid
-  # k: maximum singleton rank
-  # s: maximum size of underlying simple matroid
-  # rvec: rank vector whose representability we want to prove
-  # optargs: [lazy,..]
-  #   if lazy=false, disables lazy evaluation of transporter maps, default true
-  #Display(["klist",klist]);
-  #Display(["nsimple",nsimple]);
-  if not IsPrimeField(F) then
-    gl:=CollineationGroup(ProjectiveSpace(d-1,Size(F)));#GL(d,Size(F));
-    A:= OnSubspaceByCollineation;#OnSubspacesByCanonicalBasis;
-    AonSets:= OnSetOfSubspacesByCollineation;#OnSetOfSubspacesByCanonicalBasis;
-    D:=ListOfSubspaces2VectorRep(baseskd_list(Size(F),d,klist));
-  else
-    gl:=GL(d,Size(F));
-    A:= OnSubspacesByCanonicalBasis;
-    AonSets:= OnSetOfSubspacesByCanonicalBasis;
-    D:=baseskd_list(Size(F),d,klist);
-  fi;
-  Display([gl,A,AonSets]);
-  if Size(optargs)=0 then
-    return LeiterspielWCons_rep_prover_lazy(gl,D,A,AonSets,nsimple,rankvec,nvars,d);
-  fi;
-  if Size(optargs)=1 then
-    if optargs[1]=false then
-      #Display("Lazy eval disabled...");
-      return LeiterspielWCons_rep_prover(gl,D,A,AonSets,nsimple,rankvec,nvars,d);
-    else
-    #Display("Lazy eval enabled...");
-      return LeiterspielWCons_rep_prover_lazy(gl,D,A,AonSets,nsimple,rankvec,nvars,d);
-    fi;
-  fi;
-  return LeiterspielWCons_rep_prover(gl,D,A,AonSets,nsimple,rankvec,nvars,d);
-end);
-
 
 InstallGlobalFunction(proverep_withstats,
 function(rankvec,nvars,F,optargs)
@@ -3255,18 +3156,11 @@ end);
 InstallGlobalFunction(findsss,
   function(Asets,nvars,svec,F,d,klist,nsimple_list,optargs)
     local gl,A,AonSets,D,slist;
+    gl:=GL(d,Size(F));
     #Display(gl);
-    if not IsPrimeField(F) then
-      gl:=CollineationGroup(ProjectiveSpace(d-1,Size(F)));#GL(d,Size(F));
-      A:= OnSubspaceByCollineation;#OnSubspacesByCanonicalBasis;
-      AonSets:= OnSetOfSubspacesByCollineation;#OnSetOfSubspacesByCanonicalBasis;
-      D:=ListOfSubspaces2VectorRep(baseskd_list(Size(F),d,klist));
-    else
-      gl:=GL(d,Size(F));
-      A:= OnSubspacesByCanonicalBasis;
-      AonSets:= OnSetOfSubspacesByCanonicalBasis;
-      D:=baseskd_list(Size(F),d,klist);
-    fi;
+    A:= OnSubspacesByCanonicalBasis;
+    AonSets:= OnSetOfSubspacesByCanonicalBasis;
+    D:=baseskd_list(Size(F),d,klist);
     #Display(["nsimple list",nsimple_list]);
     if Size(optargs)=0 then
       return LeiterspielWCons_sss_prover_lazy(gl,D,A,AonSets,nsimple_list,Asets,nvars,svec,d);
