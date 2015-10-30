@@ -305,3 +305,5 @@ DeclareGlobalFunction("extend_pcodes_vec");
 DeclareGlobalFunction("OnSetOfSubspacesByCollineation");
 DeclareGlobalFunction("OnSubspaceByCollineation");
 DeclareGlobalFunction("ListOfSubspaces2VectorRep");
+DeclareGlobalFunction("Leiterspiel_allpoly");
+DeclareGlobalFunction("idmap");

@@ -94,8 +94,8 @@ InstallGlobalFunction(NonFanoNet,
 InstallGlobalFunction(VamosNet,
   function()
     local cons,nsrc,nvars;
-    nvars:=7;
-    nsrc:=3;
+    nvars:=8;
+    nsrc:=4;
     cons:=[[[1,2,3,4],[1,2,3,4,5]],[[1,2,5],[1,2,5,6]],[[2,3,6],[2,3,6,7]],[[3,4,7],[3,4,7,8]],[[4,8],[2,4,8]],[[2,3,4,8],[1,2,3,4,8]],[[1,4,5,8],[1,2,3,4,5,8]],[[1,2,3,7],[1,2,3,4,7]],[[1,5,7],[1,3,5,7]]];
     return [cons,nsrc,nvars];
   end);
@@ -3591,4 +3591,151 @@ function(veclist,pcode,d,Asets,nvars,svec)
     #Display("********Search failed*********");
     return [false,pcode];
   fi;
+end);
+
+InstallGlobalFunction(idmap,
+function(n)
+  local x,i;
+  x:=rec();
+  for i in [1..n] do
+    x.(i):=i;
+  od;
+  return x;
+end);
+
+
+InstallGlobalFunction(Leiterspiel_allpoly,
+function(K,F,max_simple,coderank)
+   local O, OrbitTrans, StabMap,init_rlist, transMap, k, j, i, subsSize, transR, phiR, stabR, tempOrbs,goodpoly,G,D,A,AonSets,
+   l, curLoc, R, lj, x, Rux, H, rl, ri, Rmrux, r, t, S, tr, lS, ltr, h, y, ly, psi,PcodeList,tempJointPcodeList,
+   rep,tempPcodeList,rlist,apc,nrep,search_success,JointPcodeList,AllCodes,pcodelist1,pcodelist,surviving_simple,loopy,trlist;;
+
+   if not IsPrimeField(F) then
+     G:=CollineationGroup(ProjectiveSpace(coderank-1,Size(F)));#GL(d,Size(F));
+     A:= OnSubspaceByCollineation;#OnSubspacesByCanonicalBasis;
+     AonSets:= OnSetOfSubspacesByCollineation;#OnSetOfSubspacesByCanonicalBasis;
+     D:=ListOfSubspaces2VectorRep(baseskd_list(Size(F),coderank,[K]));
+   else
+     G:=GL(coderank,Size(F));
+     A:= OnSubspacesByCanonicalBasis;
+     AonSets:= OnSetOfSubspacesByCanonicalBasis;
+     D:=baseskd_list(Size(F),coderank,[K]);
+   fi;
+
+   O:=OrbitsDomainSorted(G,D,A);
+   # List of Lists storing transversals
+   OrbitTrans:=EmptyPlist(Size(D));
+   OrbitTrans[1]:=[];
+   StabMap:=EmptyPlist(Size(D));
+   StabMap[1]:=[];
+   transMap:=EmptyPlist(Size(D));
+   # list of maps with map at index i serving as validity certificate of OrbitTrans[subsSize][i]
+   for i in [1..Size(O)] do
+      OrbitTrans[1][i]:=[O[i][1]];
+      StabMap[1][i]:=Stabilizer(G,OrbitTrans[1][i][1],A);
+   od;
+   psi:=[];
+   phiR:=[];
+   search_success:=true;
+   # enumerate incrementally in subsSize
+   for subsSize in [1..max_simple-1] do
+    tempPcodeList:=[];
+    StabMap[subsSize+1]:=[];
+    OrbitTrans[subsSize+1]:=[];
+    if Size(OrbitTrans[subsSize])=0 then
+     break;
+    fi;
+    transR:=[];
+    phiR[subsSize]:=[];
+    stabR:=[];
+    for i in [1..Size(OrbitTrans[subsSize])] do
+    # calculate the transversal and transporter
+     transR[i]:=[];
+     phiR[subsSize][i]:=[];
+     stabR[i]:=[];
+     tempOrbs:=OrbitsDomainSorted(StabMap[subsSize][i],Difference(D,OrbitTrans[subsSize][i]),A);
+     for j in [1..Size(tempOrbs)] do
+      transR[i][j] := tempOrbs[j][1];
+      stabR[i][j] := Stabilizer(StabMap[subsSize][i],transR[i][j],A);
+      for k in [1..Size(tempOrbs[j])] do
+       l:=Position(D,tempOrbs[j][k]);
+       phiR[subsSize][i][l]:=RepresentativeAction(StabMap[subsSize][i],tempOrbs[j][k],tempOrbs[j][1],A);
+      od;
+     od;
+    od;
+    psi[subsSize]:=EmptyPlist(Size(OrbitTrans[subsSize]));
+    for i in [1..Size(OrbitTrans[subsSize])] do
+     psi[subsSize][i]:=EmptyPlist(Size(D));
+     for j in [1..Size(D)] do
+      psi[subsSize][i][j]:=[];
+     od;
+    od;
+    curLoc:=1;
+    #for each set R in the transversal
+    for i in [1..Size(OrbitTrans[subsSize])] do
+     R:=OrbitTrans[subsSize][i];
+
+     # for each x to augment it with
+     for j in [1..Size(transR[i])] do
+      lj:=Position(D,transR[i][j]);
+      #Display(["Test x="]);
+      if Size(psi[subsSize][i][lj])=0 then
+        # this was undefined, so go here
+        x:=transR[i][j];
+        Rux:=ShallowCopy(R);
+        Append(Rux,[x]);
+
+        H:=stabR[i][j];
+        #caculate initial orbit under H in R
+        if Size(R)>1 then
+          rl:=OrbitsDomainSorted(H,R,A);
+        else
+          rl:=[R];
+        fi;
+        for ri in [1..Size(rl)] do
+          r:=rl[ri][1];
+          Rmrux:=Concatenation(Difference(R,[r]),[x]);
+          Sort(Rmrux);
+          # find the transporter for Rmrux
+          trlist:=transportMapLazy(Rmrux, D, A, AonSets, phiR, psi, transMap, OrbitTrans,G);
+          t:=trlist[1];
+          transMap:=trlist[2];
+          S:=AonSets(Rmrux,t);
+          # S is now canonical representative
+          tr:=A(r,t);
+          lS:=SortedPosition(OrbitTrans[subsSize],S,4);
+          if not lS=fail then
+            ltr:=SortedPosition(D,tr,2);
+            h:=phiR[subsSize][lS][ltr];
+            y:=A(tr,h);
+            ly:=SortedPosition(D,y,2);
+            if S=R and x=y then
+            # we found a new group element of H
+            H:=ClosureGroup(H,t*h);
+              #gap uses a right group action
+            else
+              psi[subsSize][lS][ly]:=[Inverse(t*h)];
+            fi;
+          fi;
+        od;
+        #Display(["i'",i,tempPcodeList]);
+        Append(OrbitTrans[subsSize+1],[Rux]);
+        StabMap[subsSize+1][curLoc]:=H;
+        curLoc:=curLoc+1;
+        #Display(["i''",i,tempPcodeList]);
+      fi;
+     od;
+    od;
+   od;
+   goodpoly:=EmptyPlist(Size(OrbitTrans)); #transversal elements with required rank
+   for j in [1..Size(OrbitTrans)] do
+    goodpoly[j]:=[];
+     for i in [1..Size(OrbitTrans[j])] do
+       # keep only the simple codes satisfying rank=d condition
+       if coderank=SubRankMat_vec(OrbitTrans[j][i],[1..j]) then
+        Append(goodpoly[j],[OrbitTrans[j][i]]);
+       fi;
+     od;
+   od;
+   return goodpoly;
 end);
