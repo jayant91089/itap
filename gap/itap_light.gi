@@ -94,24 +94,24 @@ InstallGlobalFunction(NonFanoNet,
 InstallGlobalFunction(VamosNet,
   function()
     local cons,nsrc,nvars;
-    nvars:=7;
-    nsrc:=3;
-    cons:=[[[1,2,3,4],[1,2,3,4,5]],[[1,2,5],[1,2,5,6]],[[2,3,6],[2,3,6,7]],[[3,4,7],[3,4,7,8]],[[4,8],[2,4,8]],[[2,3,4,8],[1,2,3,4,8]],[[1,4,5,8],[1,2,3,4,5,8]],[[1,2,3,7],[1,2,3,4,7]],[[1,5,7],[1,3,5,7]]];
+    nvars:=8;
+    nsrc:=4;
+    cons:=[[[1,2,3,4],[1,2,3,4,5]],[[1,2,5],[1,2,5,6]],[[2,3,6],[2,3,6,7]],[[3,4,7],[3,4,7,8]],[[4,6,8],[2,4,6,8]],[[2,3,4,8],[1,2,3,4,8]],[[1,4,5,8],[1,2,4,5,8]],[[1,4,5,8],[1,3,4,5,8]],[[1,2,3,7],[1,2,3,4,7]],[[1,5,7],[1,3,5,7]]];
     return [cons,nsrc,nvars];
   end);
 
 InstallGlobalFunction(U2kNet,
   function(k)
-    local cons,nsrc,nvars,s2,s3;
+    local cons,nsrc,nvars,i,p;
     nvars:=k;
     nsrc:=2;
     cons:=[];
-    for s2 in Combinations([1..k],2) do
-          for s3 in Combinations([1..k],3) do
-              if IsSubset(s3,s2) then
-                  Append(cons,[[s2,s3]]);
-              fi;
-          od;
+    for i in [2..k-1] do # msg creation constraints
+      Append(cons,[[[1,i],[1,i,i+1]]]);
+    od;
+    Append(cons,[[[1,k],[1,2,k]]]); # decoding constraint for source 2
+    for p in Combinations([2..k],2) do
+      Append(cons,[[[p[1],p[2]],[1,p[1],p[2]]]]); # decoding constraints for source 1
     od;
     return [cons,nsrc,nvars];
   end);
