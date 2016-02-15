@@ -30,8 +30,10 @@
 <div class="ContSSBlock">
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7F1EE7A57984E68C">3.1-1 proverep</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7DB2926A78EC4E86">3.1-2 proverate</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7D75794B7EAD6A00">3.1-3 provess</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X83804D1E7BC6B451">3.1-4 DisplayCode</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X83FFD00983B6DB00">3.1-3 proveregion</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7D98B6B27DEE3636">3.1-4 proverate_groebner</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7D75794B7EAD6A00">3.1-5 provess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X83804D1E7BC6B451">3.1-6 DisplayCode</a></span>
 </div></div>
 <div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X838C78867A52DDA3">3.2 <span class="Heading">A catalog of examples</span></a>
 </span>
@@ -44,6 +46,8 @@
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X808E1A5081F14455">3.2-6 Subspace5</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7AEEE54F7E0FD055">3.2-7 BenaloahLeichter</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C7738767CA2118A">3.2-8 Threshold</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X85E4AC94816C2D59">3.2-9 HyperedgeNet1</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C74398F7AB08B95">3.2-10 HyperedgeNet2</a></span>
 </div></div>
 </div>
 
@@ -53,7 +57,7 @@
 
 <h4>3.1 <span class="Heading">Available functions</span></h4>
 
-<p>In this section we shall look at the functions provided by <span class="SimpleMath">\(\texttt{itap}\)</span>.</p>
+<p>In this section we shall look at the functions provided by ITAP.</p>
 
 <p><a id="X7F1EE7A57984E68C" name="X7F1EE7A57984E68C"></a></p>
 
@@ -66,13 +70,13 @@
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{rankvec}\)</span> - A list of integers specifying a polymatroid rank vector</p>
+<li><p><span class="SimpleMath">\(rankvec\)</span> - A list of integers specifying a polymatroid rank vector</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{nvars}\)</span> - Number of ground set elements</p>
+<li><p><span class="SimpleMath">\(nvars\)</span> - Number of ground set elements</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{F}\)</span> - The finite field over which we wish to find a linear representation. It can be defined by invoking the following in GAP:</p>
+<li><p><span class="SimpleMath">\(F\)</span> - The finite field over which we wish to find a linear representation. It can be defined by invoking the following in GAP:</p>
 
 </li>
 </ul>
@@ -84,17 +88,17 @@ F:= GF(q);; # here q must be a prime power
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{optargs}\)</span> is a list of optional arguments <span class="SimpleMath">\(\texttt{[lazy,..]}\)</span> where</p>
+<li><p><span class="SimpleMath">\(optargs\)</span> is a list of optional arguments <span class="SimpleMath">\([lazy,..]\)</span> where</p>
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{lazy}\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(\texttt{false}\)</span>, which is enabled by default in GAP.</p>
+<li><p><span class="SimpleMath">\(lazy\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(false\)</span>, which is enabled by default in GAP.</p>
 
 </li>
 </ul>
 </li>
 </ul>
-<p>Returns a list <span class="SimpleMath">\(\texttt{[true,code]}\)</span> if there exists such a representation and <span class="SimpleMath">\(\texttt{code}\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\(\texttt{[false]}\)</span> otherwise, indicating that no such representation exists</p>
+<p>Returns a list <span class="SimpleMath">\([true,code]\)</span> if there exists such a representation and <span class="SimpleMath">\(code\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\([false]\)</span> otherwise, indicating that no such representation exists</p>
 
 <p><a id="X7DB2926A78EC4E86" name="X7DB2926A78EC4E86"></a></p>
 
@@ -103,29 +107,29 @@ F:= GF(q);; # here q must be a prime power
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; proverate</code>( <var class="Arg">ncinstance</var>, <var class="Arg">rvec</var>, <var class="Arg">F</var>, <var class="Arg">optargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: A list</p>
 
-<p>This function checks if there is a vector linear code achieving the rate vector <span class="SimpleMath">\(\texttt{rvec}\)</span> for the network coding instance <span class="SimpleMath">\(\texttt{ncinstance}\)</span>. It accepts following arguments:</p>
+<p>This function checks if there is a vector linear code achieving the rate vector <span class="SimpleMath">\(rvec\)</span> for the network coding instance <span class="SimpleMath">\(ncinstance\)</span>. Uses enumerative generation methods to syetematically search for the code with desired properties. It accepts following arguments:</p>
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{ncinstance}\)</span> is a list <span class="SimpleMath">\(\texttt{[cons,nsrc,nvars]}\)</span> containing 3 elements:</p>
+<li><p><span class="SimpleMath">\(ncinstance\)</span> is a list <span class="SimpleMath">\([cons,nsrc,nvars]\)</span> containing 3 elements:</p>
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{cons}\)</span> is a list of network coding constraints.</p>
+<li><p><span class="SimpleMath">\(cons\)</span> is a list of network coding constraints.</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{nsrc}\)</span> is the number of sources.</p>
+<li><p><span class="SimpleMath">\(nsrc\)</span> is the number of sources.</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{nvars}\)</span> is the number of random variables associated with the network.</p>
+<li><p><span class="SimpleMath">\(nvars\)</span> is the number of random variables associated with the network.</p>
 
 </li>
 </ul>
 </li>
-<li><p><span class="SimpleMath">\(\texttt{rvec}\)</span> - A list of <span class="SimpleMath">\(\texttt{nvars}\)</span> integers specifying a rate vector</p>
+<li><p><span class="SimpleMath">\(rvec\)</span> - A list of <span class="SimpleMath">\(nvars\)</span> integers specifying a rate vector</p>
 
 </li>
-<li><p><span class="SimpleMath">\( \texttt{F}\)</span> is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:</p>
+<li><p><span class="SimpleMath">\( F\)</span> is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:</p>
 
 </li>
 </ul>
@@ -137,35 +141,129 @@ F:= GF(q);; # here q must be a prime power
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{optargs}\)</span> is a list of optional arguments <span class="SimpleMath">\(\texttt{[lazy,..]}\)</span> where <span class="SimpleMath">\(\texttt{lazy}\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(\texttt{false}\)</span>, which is enabled by default.</p>
+<li><p><span class="SimpleMath">\(optargs\)</span> is a list of optional arguments <span class="SimpleMath">\([lazy,..]\)</span> where <span class="SimpleMath">\(lazy\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(false\)</span>, which is enabled by default.</p>
 
 </li>
 </ul>
-<p>Returns a list <span class="SimpleMath">\(\texttt{[true,code]}\)</span> if there exists such a representation and <span class="SimpleMath">\(\texttt{code}\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\(\texttt{[false]}\)</span> otherwise, indicating that no such code exists</p>
+<p>Returns a list <span class="SimpleMath">\([true,code]\)</span> if there exists such a representation and <span class="SimpleMath">\(code\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\([false]\)</span> otherwise, indicating that no such code exists</p>
 
-<p><span class="SimpleMath">\(\textbf{NOTE:}\)</span> Certain naming convensions are followed while defining network coding instances. The source messages are labeled with <span class="SimpleMath">\(\texttt{[1...nsrc]}\)</span> while rest of the messages are labeled <span class="SimpleMath">\(\texttt{[nsrc...nvars]}\)</span>. Furthermore, the list <span class="SimpleMath">\(\texttt{cons}\)</span> includes all network constraints except source independence. This constraint is implied with the labeling i.e. <span class="SimpleMath">\(\texttt{itap}\)</span> enforces it by default for the messages labeled <span class="SimpleMath">\(\texttt{[1...nsrc]}\)</span>. See next section for usage examples.</p>
+<p><a id="X83FFD00983B6DB00" name="X83FFD00983B6DB00"></a></p>
+
+<h5>3.1-3 proveregion</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; proveregion</code>( <var class="Arg">ncinstance</var>, <var class="Arg">k</var>, <var class="Arg">F</var>, <var class="Arg">optargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>This function computes the all rate vectors achievable via vector linear CodeString over the specified fiite field for the network coding instance <span class="SimpleMath">\(ncinstance\)</span>. Uses enumerative generation methods to syetematically search for codes with desired properties. It accepts following arguments:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(ncinstance\)</span> is a list <span class="SimpleMath">\([cons,nsrc,nvars]\)</span> containing 3 elements:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(cons\)</span> is a list of network coding constraints.</p>
+
+</li>
+<li><p><span class="SimpleMath">\(nsrc\)</span> is the number of sources.</p>
+
+</li>
+<li><p><span class="SimpleMath">\(nvars\)</span> is the number of random variables associated with the network.</p>
+
+</li>
+</ul>
+</li>
+<li><p><span class="SimpleMath">\(k\)</span> - Maximum number of symbols per message</p>
+
+</li>
+<li><p><span class="SimpleMath">\( F\)</span> is the finite field over which we wish to find the vector linear codes. It can be defined by invoking the following in GAP:</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+</pre></div>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(optargs\)</span> is a list of optional arguments <span class="SimpleMath">\([opt_dmax,..]\)</span> where <span class="SimpleMath">\(opt_dmax\)</span> specifies an upper bound on the dimension of linear codes (alternatively, the rank of underlying polymatroid) to search. By default this is equal to <span class="SimpleMath">\(nsrc*k\)</span>, which may sometimes be unnecessary, and a lower value might suffice.</p>
+
+</li>
+</ul>
+<p>Returns a list <span class="SimpleMath">\([rays,codes]\)</span> where <span class="SimpleMath">\(rays\)</span> is a list of all achievable rate vectors and codes is a list of linear codes.</p>
+
+<p><a id="X7D98B6B27DEE3636" name="X7D98B6B27DEE3636"></a></p>
+
+<h5>3.1-4 proverate_groebner</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; proverate_groebner</code>( <var class="Arg">ncinstance</var>, <var class="Arg">rvec</var>, <var class="Arg">F</var>, <var class="Arg">optargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>This function checks if there is a vector linear code achieving the rate vector <span class="SimpleMath">\(rvec\)</span> for the network coding instance <span class="SimpleMath">\(ncinstance\)</span>. Uses GAP interface to <span class="SimpleMath">\(Singular\)</span> to find Groebner basis of the system of polynomial equations given by the path gain algebraic construction of Subramanian and Thangraj <a href="chapBib_mj.html#biBsubrapathgain10">[ST10]</a> . It accepts following arguments:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(ncinstance\)</span> is a list <span class="SimpleMath">\([cons,nsrc,nvars]\)</span> containing 3 elements:</p>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(cons\)</span> is a list of network coding constraints.</p>
+
+</li>
+<li><p><span class="SimpleMath">\(nsrc\)</span> is the number of sources.</p>
+
+</li>
+<li><p><span class="SimpleMath">\(nvars\)</span> is the number of random variables associated with the network.</p>
+
+</li>
+</ul>
+</li>
+<li><p><span class="SimpleMath">\(rvec\)</span> - A list of <span class="SimpleMath">\(nvars\)</span> integers specifying a rate vector</p>
+
+</li>
+<li><p><span class="SimpleMath">\( F\)</span> is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+q:=4;;
+F:= GF(q);; # here q must be a prime power
+</pre></div>
+
+
+<ul>
+<li><p><span class="SimpleMath">\(optargs\)</span> is a list of optional arguments <span class="SimpleMath">\([lazy,..]\)</span> where <span class="SimpleMath">\(lazy\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(false\)</span>, which is enabled by default.</p>
+
+</li>
+</ul>
+<p>Returns a list <span class="SimpleMath">\([true,code]\)</span> if there exists such a representation where <span class="SimpleMath">\(code\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span>. Returns a list <span class="SimpleMath">\([false]\)</span> otherwise, indicating that no such code exists</p>
+
+<p><span class="SimpleMath">\(\textbf{NOTE:}\)</span> Certain naming convensions are followed while defining network coding instances. The source messages are labeled with <span class="SimpleMath">\([1...nsrc]\)</span> while rest of the messages are labeled <span class="SimpleMath">\([nsrc...nvars]\)</span>. Furthermore, the list <span class="SimpleMath">\(cons\)</span> includes all network constraints except source independence. This constraint is implied with the labeling i.e. ITAP enforces it by default for the messages labeled <span class="SimpleMath">\([1...nsrc]\)</span>. See next section for usage examples.</p>
 
 <p><a id="X7D75794B7EAD6A00" name="X7D75794B7EAD6A00"></a></p>
 
-<h5>3.1-3 provess</h5>
+<h5>3.1-5 provess</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; provess</code>( <var class="Arg">Asets</var>, <var class="Arg">nvars</var>, <var class="Arg">svec</var>, <var class="Arg">F</var>, <var class="Arg">optargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: A list</p>
 
-<p>This function checks if there is a multi-linear secret sharing scheme with secret and share sizes given by <span class="SimpleMath">\(\texttt{svec}\)</span> and the access structure <span class="SimpleMath">\(\texttt{Asets}\)</span> with one dealer and <span class="SimpleMath">\(\texttt{nvars-1}\)</span> parties. It accepts following arguments:</p>
+<p>This function checks if there is a multi-linear secret sharing scheme with secret and share sizes given by <span class="SimpleMath">\(svec\)</span> and the access structure <span class="SimpleMath">\(Asets\)</span> with one dealer and <span class="SimpleMath">\(nvars-1\)</span> parties. It accepts following arguments:</p>
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{Asets}\)</span> - A list of authorized sets each specified as a subset of <span class="SimpleMath">\([\texttt{nvars}-1]\)</span></p>
+<li><p><span class="SimpleMath">\(Asets\)</span> - A list of authorized sets each specified as a subset of <span class="SimpleMath">\([nvars-1]\)</span></p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{nvars}\)</span> - Number of participants (including one dealer)</p>
+<li><p><span class="SimpleMath">\(nvars\)</span> - Number of participants (including one dealer)</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{svec}\)</span> - vector of integer share sizes understood as number of <span class="SimpleMath">\(\mathbb{F}_q\)</span> symbols, with index 1 giving secret size and index <span class="SimpleMath">\(i,i\in \{2,...,\texttt{nvars}\}\)</span> specifying share sizes of different parties</p>
+<li><p><span class="SimpleMath">\(svec\)</span> - vector of integer share sizes understood as number of <span class="SimpleMath">\(\mathbb{F}_q\)</span> symbols, with index 1 giving secret size and index <span class="SimpleMath">\(i,i\in \{2,...,nvars\}\)</span> specifying share sizes of different parties</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{F}\)</span> - The finite field over which we wish to find a multi-linear scheme. It can be defined by invoking the following in GAP:</p>
+<li><p><span class="SimpleMath">\(F\)</span> - The finite field over which we wish to find a multi-linear scheme. It can be defined by invoking the following in GAP:</p>
 
 </li>
 </ul>
@@ -177,23 +275,23 @@ F:= GF(q);; # here q must be a prime power
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{optargs}\)</span> is a list of optional arguments <span class="SimpleMath">\(\texttt{[lazy,..]}\)</span> where</p>
+<li><p><span class="SimpleMath">\(optargs\)</span> is a list of optional arguments <span class="SimpleMath">\([lazy,..]\)</span> where</p>
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{lazy}\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(\texttt{false}\)</span>, which is enabled by default in GAP.</p>
+<li><p><span class="SimpleMath">\(lazy\)</span> disables lazy evaluation of transporter maps if set to <span class="SimpleMath">\(false\)</span>, which is enabled by default in GAP.</p>
 
 </li>
 </ul>
 </li>
 </ul>
-<p>Returns a list <span class="SimpleMath">\(\texttt{[true,code]}\)</span> if there exists such a scheme and <span class="SimpleMath">\(\texttt{code}\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span> Returns a list <span class="SimpleMath">\(\texttt{[false]}\)</span> otherwise, indicating that no such scheme exists</p>
+<p>Returns a list <span class="SimpleMath">\([true,code]\)</span> if there exists such a scheme where <span class="SimpleMath">\(code\)</span> is the vector linear code over <span class="SimpleMath">\(GF(q)\)</span>. Returns a list <span class="SimpleMath">\([false]\)</span> otherwise, indicating that no such scheme exists.</p>
 
-<p><span class="SimpleMath">\(\textbf{NOTE:}\)</span> No input checking is performed to verify if input <span class="SimpleMath">\(\texttt{Asets}\)</span> follows labeling convensions. The map returned with a linear scheme is a map <span class="SimpleMath">\(f:[\texttt{nvars}]\rightarrow [\texttt{nvars}]\)</span> with dealer associated with label 1 and parties associated with labels <span class="SimpleMath">\(\{2,...,\texttt{nvars}\}\)</span>. See next section for usage examples.</p>
+<p><span class="SimpleMath">\(\textbf{NOTE:}\)</span> No input checking is performed to verify if input <span class="SimpleMath">\(Asets\)</span> follows labeling convensions. The map returned with a linear scheme is a map <span class="SimpleMath">\(f:[nvars]\rightarrow [nvars]\)</span> with dealer associated with label 1 and parties associated with labels <span class="SimpleMath">\(\{2,...,nvars\}\)</span>. See next section for usage examples.</p>
 
 <p><a id="X83804D1E7BC6B451" name="X83804D1E7BC6B451"></a></p>
 
-<h5>3.1-4 DisplayCode</h5>
+<h5>3.1-6 DisplayCode</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DisplayCode</code>( <var class="Arg">code</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: nothing</p>
@@ -202,14 +300,14 @@ F:= GF(q);; # here q must be a prime power
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{code}\)</span> - A list <span class="SimpleMath">\(\texttt{[s,map]}\)</span> containing 2 elements:</p>
+<li><p><span class="SimpleMath">\(code\)</span> - A list <span class="SimpleMath">\([s,map]\)</span> containing 2 elements:</p>
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{s}\)</span> - A list of subspaces where is subspace is itself a list of basis vectors</p>
+<li><p><span class="SimpleMath">\(s\)</span> - A list of subspaces where is subspace is itself a list of basis vectors</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{map}\)</span> - A GAP record mapping subspaces in <span class="SimpleMath">\(\texttt{s}\)</span> to network messages or to polymatroid ground set elements</p>
+<li><p><span class="SimpleMath">\(map\)</span> - A GAP record mapping subspaces in <span class="SimpleMath">\(s\)</span> to network messages or to polymatroid ground set elements</p>
 
 </li>
 </ul>
@@ -252,7 +350,7 @@ F:= GF(q);; # here q must be a prime power
 
 <h4>3.2 <span class="Heading">A catalog of examples</span></h4>
 
-<p><span class="SimpleMath">\(\texttt{itap}\)</span> comes equipped with a catalog of examples, which contains well-known network coding instances and integer polymatroids. This catalog is intended to be of help to the user for getting started with using <span class="SimpleMath">\(\texttt{itap}\)</span>. Most of the network coding instances in this catalog can be found in <a href="chapBib_mj.html#biBYeungBook">[Yeu08]</a> and <a href="chapBib_mj.html#biBDFZMatroidNetworks">[DFZ07]</a>. Some of the integer polymatroids in the catalog are taken from <span class="URL"><a href="http://code.ucsd.edu/zeger/linrank/">http://code.ucsd.edu/zeger/linrank/</a></span>. These polymatroids correspond to the extreme rays of the cone of linear rank inequalities in 5 variables, found by Dougherty, Freiling and Zeger. See <a href="chapBib_mj.html#biBDFZ2009Ineqfor5var">[DFZ09]</a> for details.</p>
+<p><span class="SimpleMath">\(itap\)</span> comes equipped with a catalog of examples, which contains well-known network coding instances and integer polymatroids. This catalog is intended to be of help to the user for getting started with using ITAP. Most of the network coding instances in this catalog can be found in <a href="chapBib_mj.html#biBYeungBook">[Yeu08]</a> and <a href="chapBib_mj.html#biBDFZMatroidNetworks">[DFZ07]</a>. Some of the integer polymatroids in the catalog are taken from <span class="URL"><a href="http://code.ucsd.edu/zeger/linrank/">http://code.ucsd.edu/zeger/linrank/</a></span>. These polymatroids correspond to the extreme rays of the cone of linear rank inequalities in 5 variables, found by Dougherty, Freiling and Zeger. See <a href="chapBib_mj.html#biBDFZ2009Ineqfor5var">[DFZ09]</a> for details.</p>
 
 <p><a id="X7C8C3B34834C6C8F" name="X7C8C3B34834C6C8F"></a></p>
 
@@ -349,18 +447,14 @@ false
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; U2kNet</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: A list</p>
 
-<p>Returns the instance associated with uniform matroid <span class="SimpleMath">\(U^2_k\)</span>. It accepts one argument <span class="SimpleMath">\(\texttt{k}\)</span> specifying the size of uniform matroid. Returns a list.</p>
+<p>Returns the instance associated with uniform matroid <span class="SimpleMath">\(U^2_k\)</span>. It accepts one argument <span class="SimpleMath">\(k\)</span> specifying the size of uniform matroid. Returns a list.</p>
 
 
 <div class="example"><pre>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">U2kNet(4);</span>
-[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 2 ], [ 1, 2, 4 ] ],
-      [ [ 1, 3 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],
-      [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 1, 4 ], [ 1, 3, 4 ] ],
-      [ [ 2, 3 ], [ 1, 2, 3 ] ], [ [ 2, 3 ], [ 2, 3, 4 ] ],
-      [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 2, 4 ], [ 2, 3, 4 ] ],
-      [ [ 3, 4 ], [ 1, 3, 4 ] ], [ [ 3, 4 ], [ 2, 3, 4 ] ]
-     ], 2, 4 ]
+ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],
+     [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 2, 3 ], [ 1, 2, 3 ] ],
+     [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 3, 4 ], [ 1, 3, 4 ] ] ], 2, 4 ]
 </pre></div>
 
 <p><a id="X8329D29E7FAC98B3" name="X8329D29E7FAC98B3"></a></p>
@@ -371,15 +465,6 @@ false
 <p>Returns: A list</p>
 
 <p>Returns the Butterfly instance. It accepts no arguments. Returns a list.</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ButterflyNet();</span>
-[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 2, 3 ] ],
-     [ [ 2, 3 ], [ 1, 2, 3 ] ] ], 2, 3 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">U2kNet(3)=ButterflyNet();</span>
-true
-</pre></div>
 
 <p><a id="X808E1A5081F14455" name="X808E1A5081F14455"></a></p>
 
@@ -464,16 +549,16 @@ true
 <h5>3.2-8 Threshold</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Threshold</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
-<p>Returns: A list of lists specifing authorized subsets of <span class="SimpleMath">\([n]]\)</span></p>
+<p>Returns: A list of lists specifing authorized subsets of <span class="SimpleMath">\([n]\)</span></p>
 
 <p>Returns the access structure associated with Shamir's <span class="SimpleMath">\((k,n)\)</span> threshold scheme. See <a href="chapBib_mj.html#biBShamirhowto79">[Sha79]</a> for details. It accepts following arguments:</p>
 
 
 <ul>
-<li><p><span class="SimpleMath">\(\texttt{n}\)</span> - number of shares</p>
+<li><p><span class="SimpleMath">\(n\)</span> - number of shares</p>
 
 </li>
-<li><p><span class="SimpleMath">\(\texttt{k}\)</span> - threshold</p>
+<li><p><span class="SimpleMath">\(k\)</span> - threshold</p>
 
 </li>
 </ul>
@@ -488,7 +573,7 @@ true
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;</span>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1];</span>
 true
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayCode(rlist[2]);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">gap&gt; DisplayCode(rlist[2]);</span>
 1-&gt;1
  . 1
 =============================
@@ -504,6 +589,88 @@ true
 5-&gt;5
 1 4
 =============================
+</pre></div>
+
+<p><a id="X85E4AC94816C2D59" name="X85E4AC94816C2D59"></a></p>
+
+<h5>3.2-9 HyperedgeNet1</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HyperedgeNet1</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns a general hyperedge network obtained via enumeration of network coding instances. See <a href="chapBib_mj.html#biBlihyper15">[LWW15]</a> for details. It accepts no arguments.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">N:=HyperedgeNet1();</span>
+[ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 3, 4 ], [ 1, 3, 4, 5 ] ],
+      [ [ 3, 4, 5 ], [ 3, 4, 5, 6 ] ], [ [ 4, 5 ], [ 1, 3, 4, 5 ] ],
+      [ [ 4, 6 ], [ 2, 3, 4, 6 ] ], [ [ 5, 6 ], [ 2, 3, 5, 6 ] ] ], 3, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=proveregion(N,2,GF(2),[4]);; # k=2,opt_dmax=4=max. code dimension</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(rlist[1]); # number of distinct achievable rate vectors found</span>
+122
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1][78]; # an achievable rate vector</span>
+[ 2, 0, 1, 2, 1, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">lrs_exec:="/home/aspitrg3-users/jayant/lrslib-061/lrs";; # lrs executable</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rrcompute_lrs(rlist[1],N[2],N[3],lrs_exec); # compute achievable rate region</span>
+
+*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
+*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
+*Input taken from file /tmp/tmYSKPeG/file1.ext
+*Output sent to file /tmp/tmYSKPeG/file2.ine
+
+*Totals: facets=10 bases=2137
+*Dictionary Cache: max size= 35 misses= 0/2136   Tree Depth= 34
+*0.176u 0.004s 2232Kb 0 flts 0 swaps 0 blks-in 8 blks-out
+
+
+*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
+*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
+*Input taken from file /tmp/tmYSKPeG/file2r.ine
+*Output sent to file /tmp/tmYSKPeG/file3.ext
+
+*Totals: vertices=1 rays=16 bases=94 integer_vertices=1  vertices+rays=17
+*Dictionary Cache: max size= 6 misses= 0/93   Tree Depth= 5
+*0.000u 0.000s 652Kb 0 flts 0 swaps 0 blks-in 8 blks-out
+
+
+*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
+*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
+*Input taken from file /tmp/tmYSKPeG/rr.ext
+H-representation
+begin
+***** 7 rational
+ 0  0  1  0  0  0  0
+ 0  0  0  1  0  0  0
+ 0  0  0  0  1  0  0
+ 0  2 -1 -2  0  1  1
+ 0  1  0 -1  0  0  1
+ 0  0  0  0  0  0  1
+ 0  0 -1 -1  0  1  1
+ 0  0  0 -1  0  1  0
+ 0  1  0  0  0  0  0
+end
+*Totals: facets=9 bases=17
+*Dictionary Cache: max size= 7 misses= 0/16   Tree Depth= 6
+*lrs:lrslib v.6.1 2015.11.20(32bit,lrsgmp.h)
+*0.000u 0.000s 648Kb 0 flts 0 swaps 0 blks-in 0 blks-out
+</pre></div>
+
+<p><a id="X7C74398F7AB08B95" name="X7C74398F7AB08B95"></a></p>
+
+<h5>3.2-10 HyperedgeNet2</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HyperedgeNet2</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns: A list</p>
+
+<p>Returns a general hyperedge network obtained via enumeration of network coding instances. See <a href="chapBib_mj.html#biBlihyper15">[LWW15]</a> for details. It accepts no arguments.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">N:=HyperedgeNet2();</span>
+[ [ [ [ 1, 2, 3, 5 ], [ 1, 2, 3, 4, 5 ] ], [ [ 1, 3 ], [ 1, 3, 5 ] ],
+     [ [ 3, 4, 5 ], [ 3, 4, 5, 6 ] ], [ [ 4, 5 ], [ 1, 3, 4, 5 ] ],
+     [ [ 4, 6 ], [ 2, 3, 4, 6 ] ], [ [ 5, 6 ], [ 2, 3, 5, 6 ] ] ], 3, 6 ]
 </pre></div>
 
 

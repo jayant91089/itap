@@ -1,13 +1,17 @@
 \indexentry{\textsf{itap}|hyperpage}{3}
 \indexentry{proverep@\texttt  {proverep}|hyperpage}{5}
 \indexentry{proverate@\texttt  {proverate}|hyperpage}{5}
-\indexentry{provess@\texttt  {provess}|hyperpage}{6}
-\indexentry{DisplayCode@\texttt  {DisplayCode}|hyperpage}{7}
-\indexentry{FanoNet@\texttt  {FanoNet}|hyperpage}{8}
-\indexentry{NonFanoNet@\texttt  {NonFanoNet}|hyperpage}{9}
-\indexentry{VamosNet@\texttt  {VamosNet}|hyperpage}{9}
-\indexentry{U2kNet@\texttt  {U2kNet}|hyperpage}{9}
-\indexentry{ButterflyNet@\texttt  {ButterflyNet}|hyperpage}{9}
-\indexentry{Subspace5@\texttt  {Subspace5}|hyperpage}{10}
-\indexentry{BenaloahLeichter@\texttt  {BenaloahLeichter}|hyperpage}{10}
-\indexentry{Threshold@\texttt  {Threshold}|hyperpage}{11}
+\indexentry{proveregion@\texttt  {proveregion}|hyperpage}{6}
+\indexentry{proverategroebner@\texttt  {proverate{\textunderscore }groebner}|hyperpage}{7}
+\indexentry{provess@\texttt  {provess}|hyperpage}{7}
+\indexentry{DisplayCode@\texttt  {DisplayCode}|hyperpage}{8}
+\indexentry{FanoNet@\texttt  {FanoNet}|hyperpage}{9}
+\indexentry{NonFanoNet@\texttt  {NonFanoNet}|hyperpage}{10}
+\indexentry{VamosNet@\texttt  {VamosNet}|hyperpage}{10}
+\indexentry{U2kNet@\texttt  {U2kNet}|hyperpage}{10}
+\indexentry{ButterflyNet@\texttt  {ButterflyNet}|hyperpage}{11}
+\indexentry{Subspace5@\texttt  {Subspace5}|hyperpage}{11}
+\indexentry{BenaloahLeichter@\texttt  {BenaloahLeichter}|hyperpage}{11}
+\indexentry{Threshold@\texttt  {Threshold}|hyperpage}{12}
+\indexentry{HyperedgeNet1@\texttt  {HyperedgeNet1}|hyperpage}{13}
+\indexentry{HyperedgeNet2@\texttt  {HyperedgeNet2}|hyperpage}{14}

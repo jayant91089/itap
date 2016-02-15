@@ -14,10 +14,16 @@ J.~Benaloh and J.~Leichter.
 \newblock In {\em Proceedings on Advances in Cryptology}, CRYPTO '88, pages
   27--35, New York, NY, USA, 1990. Springer-Verlag New York, Inc.
 
+\bibitem[CdG12]{singulargap}
+M.~Costantini and W.~de~Graaf.
+\newblock singular, the gap interface to singular, {V}ersion 12.04.28, Apr
+  2012.
+\newblock GAP package.
+
 \bibitem[DFZ07]{DFZMatroidNetworks}
 R.~Dougherty, C.~Freiling, and K.~Zeger.
 \newblock Networks, matroids, and non-shannon information inequalities.
-\newblock {\em Information Theory, IEEE Transactions on}, 53(6):1949--1969,
+\newblock {\em IEEE Transactions on Information Theory}, 53(6):1949--1969,
   2007.
 
 \bibitem[DFZ09]{DFZ2009Ineqfor5var}
@@ -25,10 +31,33 @@ R.~Dougherty, C.~Freiling, and K.~Zeger.
 \newblock Linear rank inequalities on five or more variables.
 \newblock {\em arXiv cs.IT/0910.0284v3}, 2009.
 
+\bibitem[DGPS15]{DGPS}
+Wolfram Decker, Gert-Martin Greuel, Gerhard Pfister, and Hans Schoenemann.
+\newblock {Singular} {4-0-2} --- {A} computer algebra system for polynomial
+  computations, 2015.
+
+\bibitem[KM03]{koetteralgebraic03}
+R.~Koetter and M.~Medard.
+\newblock An algebraic approach to network coding.
+\newblock {\em IEEE/ACM Transactions on Networking}, 11(5):782--795, Oct 2003.
+
+\bibitem[LWW15]{lihyper15}
+Congduan Li, Steven Weber, and John~MacLaren Walsh.
+\newblock On multi-source networks: Enumeration, rate region computation, and
+  hierarchy.
+\newblock {\em CoRR}, abs/1507.05728, 2015.
+
 \bibitem[Sha79]{Shamirhowto79}
 Adi Shamir.
 \newblock How to share a secret.
 \newblock {\em Commun. ACM}, 22(11):612--613, November 1979.
+
+\bibitem[ST10]{subrapathgain10}
+Abhay~T. Subramanian and Andrew Thangaraj.
+\newblock Path gain algebraic formulation for the scalar linear network coding
+  problem.
+\newblock {\em IEEE Transactions on Information Theory}, 56(9):4520--4531,
+  2010.
 
 \bibitem[Yeu08]{YeungBook}
 R.~W. Yeung.

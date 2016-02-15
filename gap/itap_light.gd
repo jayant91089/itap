@@ -26,36 +26,46 @@
 #! * Representability test for integer polymatroids over a given finite
 #!   field: answer questions like `Is the integer polymatroid associated with this
 #!   rank vector linear over $GF(q)$?
-#! All three questions above are very similar, in that, we are looking for a
-#! linear representation of an integer polymatroid satisfying certain properties
-#! (satisfying network coding constraints, access structure and having a specified rank vecor resp.)
-#! In the most general form an achievability prover should be able to tell
+#! * Achievable Rate Region Computation: For a network coding instance, what is the rate region achievable
+#!   using linear codes with maximum message size $k$ and maximum code dimension $d$?
+#! Above questions are very similar to each other, in that, we are looking for
+#! linear representations of integer polymatroids satisfying certain properties
+#! (i.e. network coding constraints, access structure or having a specified rank vecor respectively).
+#! In its most general form an achievability prover is a computer program that able to answer
 #! if there exists a joint distribution satisfying certain constraints on
-#! entropy function which remains a fundamental open problem. ITAP tries
-#! answering this in a more restricted sense, i.e. with vector linear codes.
-#! The algorithm underlying $\texttt{itap}$ is called Leiterspiel or the algorithm
-#! of snakes and ladders. See <Cite Key="betten2006error"/> for details.
+#! entropy function. It is not known how to design such a computer program, as it is closely related to
+#! the characterization of the entropy function. ITAP tries
+#! answering this existential question in a much restricted sense, i.e. with respect to the joint distributions arising
+#! from vector linear codes aka integer linear polymatroids.
+#! The main algorithm underlying ITAP is called Leiterspiel or the algorithm
+#! of snakes and ladders. See <Cite Key="betten2006error"/> for details. For answering the first question
+#! in the above list, one can also use the algebraic formulation of Koetter and Medard <Cite Key="koetteralgebraic03"/>
+#! or its refinements such as the path gain formulation of Subramanian and Thangaraj <Cite Key="subrapathgain10"/>.
+#! These formulations lead to a system of polynomial equations over a finite field and allows one to use Groebner
+#! basis computation algorithms to answer question 1. ITAP currently supports such computation using Singular
+#! <Cite Key="DGPS"/> via the GAP interface to Singular<Cite Key="singulargap"/>.
 #! @Chapter Installation
-#! To get the newest version of this GAP 4 package download one of the
-#! archive files  itap-x.x.tar.gz, itap-x.x.zoo,  itap-x.x.tar.bz2, itap-x.x.zip
+#! ITAP requires GAP interface to singular <Cite Key="singulargap"/> which is another GAP package.
+#! Nowadays, it comes bundled with GAP 4.7+. If your gap installation doesn't have this package
+#! you can follow the instructions in <Cite Key="singulargap"/> to install it.
+#! To get the newest version of ITAP, download the .zip archive from <URL>https://github.com/jayant91089/itap</URL>
 #! and unpack it using
-#! $$\texttt{gunzip itap-x.x.tar.gz}$$
-#! or
-#! $$\texttt{unzoo -x itap-x.x.zoo}$$
-#! respectively and so on.
-
-#! Do this preferably (but not necessarily) inside the $\texttt{pkg}$ subdirectory
-#! of your GAP 4 installation. It creates a subdirectory called $\texttt{itap}$.
-
-#! This completes the installation of the package.
-
-#! One can then start using $\texttt{itap}$ by invoking
+#! $$\texttt{unzip itap-x.zip}$$
+#! Do this preferably inside the $pkg$ subdirectory
+#! of your GAP 4 installation. It creates a subdirectory called $itap$.
+#! This completes the installation of the package. If you do not know the whereabouts of the $pkg$ subdirectory, invoke the following in GAP:
+#! @BeginCode pkg
+GAPInfo.("RootPaths");
+ #! @EndCode
+#! @InsertCode pkg
+#! Look for pkg directory inside any of the paths returned.
+#! One can then start using ITAP by invoking
 #! @BeginCode Read
  LoadPackage( "itap");
  #! @EndCode
-#! $$\texttt{gap>}$$
+#! $$gap>$$
 #! @InsertCode Read
-#! from within GAP.
+#! from within GAP. This would automatically load the GAP interface to singular, so you don't have to load it seperately.
 #! @BeginCode GF
 q:=4;;
 F:= GF(q);; # here q must be a prime power
@@ -63,73 +73,113 @@ F:= GF(q);; # here q must be a prime power
 
 #! @Chapter Usage
 #! @Section Available functions
-#!  In this section we shall look at the functions provided by $\texttt{itap}$.
+#!  In this section we shall look at the functions provided by ITAP.
 #! @Description
 #! This function checks if there is a linear representation of an integer polymatroid rank vector.
 #! It accepts following arguments:
-#! * $\texttt{rankvec}$ - A list of integers specifying a polymatroid rank vector
-#! * $\texttt{nvars}$ - Number of ground set elements
-#! * $\texttt{F}$ - The finite field over which we wish to find a linear representation. It can be defined by invoking the following in GAP:
+#! * $rankvec$ - A list of integers specifying a polymatroid rank vector
+#! * $nvars$ - Number of ground set elements
+#! * $F$ - The finite field over which we wish to find a linear representation. It can be defined by invoking the following in GAP:
 #!   @InsertCode GF
-#! * $\texttt{optargs}$ is a list of optional arguments $\texttt{[lazy,..]}$ where
-#!   * $\texttt{lazy}$ disables lazy evaluation of transporter maps if set to $\texttt{false}$, which is enabled by default
+#! * $optargs$ is a list of optional arguments $[lazy,..]$ where
+#!   * $lazy$ disables lazy evaluation of transporter maps if set to $false$, which is enabled by default
 #!       in GAP.
-#! Returns a list $\texttt{[true,code]}$ if there exists such a representation and $\texttt{code}$ is the vector linear code over $GF(q)$
-#! Returns a list $\texttt{[false]}$ otherwise, indicating that no such representation exists
+#! Returns a list $[true,code]$ if there exists such a representation and $code$ is the vector linear code over $GF(q)$
+#! Returns a list $[false]$ otherwise, indicating that no such representation exists
 #! @Returns A list
 #! @Arguments rankvec,nvars,F,optargs
 DeclareGlobalFunction("proverep");
 #! @Description
 #!  This function checks if there is a vector linear code achieving the
-#!  rate vector $\texttt{rvec}$ for the network coding instance $\texttt{ncinstance}$.
+#!  rate vector $rvec$ for the network coding instance $ncinstance$. Uses enumerative generation methods
+#! to syetematically search for the code with desired properties.
 #! It accepts following arguments:
-#! * $\texttt{ncinstance}$ is a list  $\texttt{[cons,nsrc,nvars]}$ containing 3 elements:
-#!   * $\texttt{cons}$ is a list of network coding constraints.
-#!   * $\texttt{nsrc}$ is the number of sources.
-#!   * $\texttt{nvars}$ is the number of random variables associated with the network.
-#! * $\texttt{rvec}$ - A list of $\texttt{nvars}$ integers specifying a rate vector
-#! * $ \texttt{F}$ is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:
+#! * $ncinstance$ is a list  $[cons,nsrc,nvars]$ containing 3 elements:
+#!   * $cons$ is a list of network coding constraints.
+#!   * $nsrc$ is the number of sources.
+#!   * $nvars$ is the number of random variables associated with the network.
+#! * $rvec$ - A list of $nvars$ integers specifying a rate vector
+#! * $ F$ is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:
 #!   @InsertCode GF
-#! * $\texttt{optargs}$ is a list of optional arguments $\texttt{[lazy,..]}$ where $\texttt{lazy}$ disables lazy evaluation
-#!   of transporter maps if set to $\texttt{false}$, which is enabled by default.
-#! Returns a list $\texttt{[true,code]}$ if there exists such a representation and $\texttt{code}$ is the vector linear code over $GF(q)$
-#! Returns a list $\texttt{[false]}$ otherwise, indicating that no such code exists
+#! * $optargs$ is a list of optional arguments $[lazy,..]$ where $lazy$ disables lazy evaluation
+#!   of transporter maps if set to $false$, which is enabled by default.
+#! Returns a list $[true,code]$ if there exists such a representation and $code$ is the vector linear code over $GF(q)$
+#! Returns a list $[false]$ otherwise, indicating that no such code exists
 #! @Returns A list
 #! @Arguments ncinstance,rvec,F,optargs
 DeclareGlobalFunction("proverate");
+#! @Description
+#!  This function computes the all rate vectors achievable via vector linear CodeString
+#! over the specified fiite field for the network coding instance $ncinstance$. Uses enumerative generation methods
+#! to syetematically search for codes with desired properties.
+#! It accepts following arguments:
+#! * $ncinstance$ is a list  $[cons,nsrc,nvars]$ containing 3 elements:
+#!   * $cons$ is a list of network coding constraints.
+#!   * $nsrc$ is the number of sources.
+#!   * $nvars$ is the number of random variables associated with the network.
+#! * $k$ - Maximum number of symbols per message
+#! * $ F$ is the finite field over which we wish to find the vector linear codes. It can be defined by invoking the following in GAP:
+#!   @InsertCode GF
+#! * $optargs$ is a list of optional arguments $[opt_dmax,..]$ where $opt_dmax$ specifies an upper bound on the
+#!   dimension of linear codes (alternatively, the rank of underlying polymatroid) to search. By default this is equal to $nsrc*k$, which
+#!   may sometimes be unnecessary, and a lower value might suffice.
+#! Returns a list $[rays,codes]$ where $rays$ is a list of all achievable rate vectors and codes is a list of linear codes.
+#! @Returns A list
+#! @Arguments ncinstance,k,F,optargs
+DeclareGlobalFunction("proveregion");
+#! @Description
+#!  This function checks if there is a vector linear code achieving the
+#!  rate vector $rvec$ for the network coding instance $ncinstance$. Uses GAP interface to
+#! $Singular$ to find Groebner basis of the system of polynomial equations given by the path gain algebraic
+#! construction of Subramanian and Thangraj <Cite Key="subrapathgain10"/> .
+#! It accepts following arguments:
+#! * $ncinstance$ is a list  $[cons,nsrc,nvars]$ containing 3 elements:
+#!   * $cons$ is a list of network coding constraints.
+#!   * $nsrc$ is the number of sources.
+#!   * $nvars$ is the number of random variables associated with the network.
+#! * $rvec$ - A list of $nvars$ integers specifying a rate vector
+#! * $ F$ is the finite field over which we wish to find the vector linear code. It can be defined by invoking the following in GAP:
+#!   @InsertCode GF
+#! * $optargs$ is a list of optional arguments $[lazy,..]$ where $lazy$ disables lazy evaluation
+#!   of transporter maps if set to $false$, which is enabled by default.
+#! Returns a list $[true,code]$ if there exists such a representation where $code$ is the vector linear code over $GF(q)$.
+#! Returns a list $[false]$ otherwise, indicating that no such code exists
+#! @Returns A list
+#! @Arguments ncinstance,rvec,F,optargs
+DeclareGlobalFunction("proverate_groebner");
 #! $\textbf{NOTE:}$ Certain naming convensions are followed while defining network coding instances. The source messages are labeled with
-#! $\texttt{[1...nsrc]}$ while rest of the messages are labeled $\texttt{[nsrc...nvars]}$. Furthermore, the list $\texttt{cons}$ includes
-#! all network constraints except source independence. This constraint is implied with the labeling i.e. $\texttt{itap}$
-#! enforces it  by default for the messages labeled $\texttt{[1...nsrc]}$. See next section for usage examples.
+#! $[1...nsrc]$ while rest of the messages are labeled $[nsrc...nvars]$. Furthermore, the list $cons$ includes
+#! all network constraints except source independence. This constraint is implied with the labeling i.e. ITAP
+#! enforces it  by default for the messages labeled $[1...nsrc]$. See next section for usage examples.
 
 #! @Description
 #! This function checks if there is a multi-linear secret sharing scheme with secret and share
-#! sizes given by $\texttt{svec}$ and the access structure $\texttt{Asets}$ with one dealer and
-#! $\texttt{nvars-1}$ parties.
+#! sizes given by $svec$ and the access structure $Asets$ with one dealer and
+#! $nvars-1$ parties.
 #! It accepts following arguments:
-#! * $\texttt{Asets}$ - A list of authorized sets each specified as a subset of $[\texttt{nvars}-1]$
-#! * $\texttt{nvars}$ - Number of participants (including one dealer)
-#! * $\texttt{svec}$ - vector of integer share sizes understood as number of $\mathbb{F}_q$ symbols, with index 1 giving secret size and index $i,i\in \{2,...,\texttt{nvars}\}$ specifying share sizes of different parties
-#! * $\texttt{F}$ - The finite field over which we wish to find a multi-linear scheme. It can be defined by invoking the following in GAP:
+#! * $Asets$ - A list of authorized sets each specified as a subset of $[nvars-1]$
+#! * $nvars$ - Number of participants (including one dealer)
+#! * $svec$ - vector of integer share sizes understood as number of $\mathbb{F}_q$ symbols, with index 1 giving secret size and index $i,i\in \{2,...,nvars\}$ specifying share sizes of different parties
+#! * $F$ - The finite field over which we wish to find a multi-linear scheme. It can be defined by invoking the following in GAP:
 #!   @InsertCode GF
-#! * $\texttt{optargs}$ is a list of optional arguments $\texttt{[lazy,..]}$ where
-#!   * $\texttt{lazy}$ disables lazy evaluation of transporter maps if set to $\texttt{false}$, which is enabled by default
+#! * $optargs$ is a list of optional arguments $[lazy,..]$ where
+#!   * $lazy$ disables lazy evaluation of transporter maps if set to $false$, which is enabled by default
 #!       in GAP.
-#! Returns a list $\texttt{[true,code]}$ if there exists such a scheme and $\texttt{code}$ is the vector linear code over $GF(q)$
-#! Returns a list $\texttt{[false]}$ otherwise, indicating that no such scheme exists
+#! Returns a list $[true,code]$ if there exists such a scheme where $code$ is the vector linear code over $GF(q)$.
+#! Returns a list $[false]$ otherwise, indicating that no such scheme exists.
 #! @Returns A list
 #! @Arguments Asets,nvars,svec,F,optargs
 DeclareGlobalFunction("provess");
-#! $\textbf{NOTE:}$ No input checking is performed to verify if input $\texttt{Asets}$ follows labeling convensions. The map returned
-#! with a linear scheme is a map $f:[\texttt{nvars}]\rightarrow [\texttt{nvars}]$ with dealer associated with label 1 and parties
-#! associated with labels $\{2,...,\texttt{nvars}\}$. See next section for usage examples.
+#! $\textbf{NOTE:}$ No input checking is performed to verify if input $Asets$ follows labeling convensions. The map returned
+#! with a linear scheme is a map $f:[nvars]\rightarrow [nvars]$ with dealer associated with label 1 and parties
+#! associated with labels $\{2,...,nvars\}$. See next section for usage examples.
 
 #! @Description
 #!  Displays a network code (or an integer polymatroid).
 #! It accepts 1 argument:
-#! * $\texttt{code}$ - A list $\texttt{[s,map]}$ containing 2 elements:
-#!   * $\texttt{s}$ - A list of subspaces where is subspace is itself a list of basis vectors
-#!   * $\texttt{map}$ - A GAP record mapping subspaces in $\texttt{s}$ to network messages or to polymatroid ground set elements
+#! * $code$ - A list $[s,map]$ containing 2 elements:
+#!   * $s$ - A list of subspaces where is subspace is itself a list of basis vectors
+#!   * $map$ - A GAP record mapping subspaces in $s$ to network messages or to polymatroid ground set elements
 #! Returns nothing
 #! @Returns nothing
 #! @Arguments code
@@ -212,6 +262,22 @@ DeclareGlobalFunction("BenaloahLeichter");
 #! @Arguments
 DeclareGlobalFunction("Threshold");
 
+#! @Description
+#!  Returns a general hyperedge network obtained via enumeration of network coding instances.
+#!  See <Cite Key="lihyper15"/> for details.
+#! It accepts no arguments.
+#! @Returns A list
+#! @Arguments
+DeclareGlobalFunction("HyperedgeNet1");
+
+#! @Description
+#!  Returns a general hyperedge network obtained via enumeration of network coding instances.
+#!  See <Cite Key="lihyper15"/> for details.
+#! It accepts no arguments.
+#! @Returns A list
+#! @Arguments
+DeclareGlobalFunction("HyperedgeNet2");
+
 DeclareGlobalFunction("MSdecomp");
 DeclareGlobalFunction("Group2eqlist");
 DeclareGlobalFunction("TranSub");
@@ -273,7 +339,6 @@ DeclareGlobalFunction("baseskd_k");
 DeclareGlobalFunction("OnSetOfSubspacesByCanonicalBasis");
 DeclareGlobalFunction("LeiterspielWCons");
 DeclareGlobalFunction("LeiterspielWCons_vec");
-DeclareGlobalFunction("veccodegen");
 DeclareGlobalFunction("findcode");
 DeclareGlobalFunction("LeiterspielWCons_vec_prover");
 DeclareGlobalFunction("LeiterspielWCons_vec_prover_lazy");
@@ -292,3 +357,32 @@ DeclareGlobalFunction("findrep");
 DeclareGlobalFunction("proverep_withstats");
 DeclareGlobalFunction("findrep_withstats");
 DeclareGlobalFunction("extend_pcodes_vec");
+DeclareGlobalFunction("IsSolvableNC2");
+DeclareGlobalFunction("EdgeComp2");
+DeclareGlobalFunction("sinkid");
+DeclareGlobalFunction("IsReachable");
+DeclareGlobalFunction("NC2coloredNC");
+DeclareGlobalFunction("ColorEdges");
+DeclareGlobalFunction("NC2colors");
+DeclareGlobalFunction("ForestTransform2");
+DeclareGlobalFunction("NCinstance2dag2");
+DeclareGlobalFunction("IsClawmember");
+DeclareGlobalFunction("NC2dagstruct");
+DeclareGlobalFunction("Delnode");
+DeclareGlobalFunction("Addnode2");
+DeclareGlobalFunction("DeepCopy_rec");
+DeclareGlobalFunction("DeepCopy_lol");
+DeclareGlobalFunction("TopSort");
+DeclareGlobalFunction("idmap");
+
+DeclareGlobalFunction("skipline");
+DeclareGlobalFunction("nextnum");
+DeclareGlobalFunction("Readextfile");
+DeclareGlobalFunction("writeinefile");
+DeclareGlobalFunction("Readinefile");
+DeclareGlobalFunction("rrcompute_lrs");
+DeclareGlobalFunction("conichull_lrs");
+DeclareGlobalFunction("LeiterspielWCons_vec_lazy");
+DeclareGlobalFunction("veccodegen");
+DeclareGlobalFunction("rays2extfile");
+DeclareGlobalFunction("trivialrates");

@@ -4,7 +4,7 @@
   
   [1X3.1 [33X[0;0YAvailable functions[133X[101X
   
-  [33X[0;0YIn this section we shall look at the functions provided by [23X\texttt{itap}[123X.[133X
+  [33X[0;0YIn this section we shall look at the functions provided by ITAP.[133X
   
   [1X3.1-1 proverep[101X
   
@@ -14,12 +14,11 @@
   [33X[0;0YThis  function  checks  if  there  is  a linear representation of an integer
   polymatroid rank vector. It accepts following arguments:[133X
   
-  [30X    [33X[0;6Y[23X\texttt{rankvec}[123X  -  A  list of integers specifying a polymatroid rank
-        vector[133X
+  [30X    [33X[0;6Y[23Xrankvec[123X - A list of integers specifying a polymatroid rank vector[133X
   
-  [30X    [33X[0;6Y[23X\texttt{nvars}[123X - Number of ground set elements[133X
+  [30X    [33X[0;6Y[23Xnvars[123X - Number of ground set elements[133X
   
-  [30X    [33X[0;6Y[23X\texttt{F}[123X  -  The  finite  field  over which we wish to find a linear
+  [30X    [33X[0;6Y[23XF[123X   -   The  finite  field  over  which  we  wish  to  find  a  linear
         representation. It can be defined by invoking the following in GAP:[133X
   
   [4X[32X  Code  [32X[104X
@@ -27,15 +26,14 @@
     [4XF:= GF(q);; # here q must be a prime power[104X
   [4X[32X[104X
   
-  [30X    [33X[0;6Y[23X\texttt{optargs}[123X  is  a  list of optional arguments [23X\texttt{[lazy,..]}[123X
-        where[133X
+  [30X    [33X[0;6Y[23Xoptargs[123X is a list of optional arguments [23X[lazy,..][123X where[133X
   
-        [30X    [33X[0;12Y[23X\texttt{lazy}[123X  disables  lazy  evaluation of transporter maps if
-              set to [23X\texttt{false}[123X, which is enabled by default in GAP.[133X
+        [30X    [33X[0;12Y[23Xlazy[123X  disables  lazy  evaluation  of  transporter maps if set to
+              [23Xfalse[123X, which is enabled by default in GAP.[133X
   
-  [33X[0;0YReturns  a  list  [23X\texttt{[true,code]}[123X if there exists such a representation
-  and  [23X\texttt{code}[123X  is  the  vector  linear  code  over [23XGF(q)[123X Returns a list
-  [23X\texttt{[false]}[123X otherwise, indicating that no such representation exists[133X
+  [33X[0;0YReturns a list [23X[true,code][123X if there exists such a representation and [23Xcode[123X is
+  the  vector  linear  code  over  [23XGF(q)[123X  Returns  a  list  [23X[false][123X otherwise,
+  indicating that no such representation exists[133X
   
   [1X3.1-2 proverate[101X
   
@@ -43,104 +41,174 @@
   [6XReturns:[106X  [33X[0;10YA list[133X
   
   [33X[0;0YThis  function  checks  if  there is a vector linear code achieving the rate
-  vector [23X\texttt{rvec}[123X for the network coding instance [23X\texttt{ncinstance}[123X. It
-  accepts following arguments:[133X
+  vector  [23Xrvec[123X  for  the  network coding instance [23Xncinstance[123X. Uses enumerative
+  generation  methods  to  syetematically  search  for  the  code with desired
+  properties. It accepts following arguments:[133X
   
-  [30X    [33X[0;6Y[23X\texttt{ncinstance}[123X  is a list [23X\texttt{[cons,nsrc,nvars]}[123X containing 3
-        elements:[133X
+  [30X    [33X[0;6Y[23Xncinstance[123X is a list [23X[cons,nsrc,nvars][123X containing 3 elements:[133X
   
-        [30X    [33X[0;12Y[23X\texttt{cons}[123X is a list of network coding constraints.[133X
+        [30X    [33X[0;12Y[23Xcons[123X is a list of network coding constraints.[133X
   
-        [30X    [33X[0;12Y[23X\texttt{nsrc}[123X is the number of sources.[133X
+        [30X    [33X[0;12Y[23Xnsrc[123X is the number of sources.[133X
   
-        [30X    [33X[0;12Y[23X\texttt{nvars}[123X is the number of random variables associated with
-              the network.[133X
+        [30X    [33X[0;12Y[23Xnvars[123X  is  the  number  of  random variables associated with the
+              network.[133X
   
-  [30X    [33X[0;6Y[23X\texttt{rvec}[123X  -  A  list of [23X\texttt{nvars}[123X integers specifying a rate
-        vector[133X
+  [30X    [33X[0;6Y[23Xrvec[123X - A list of [23Xnvars[123X integers specifying a rate vector[133X
   
-  [30X    [33X[0;6Y[23X  \texttt{F}[123X is the finite field over which we wish to find the vector
-        linear code. It can be defined by invoking the following in GAP:[133X
+  [30X    [33X[0;6Y[23X  F[123X  is  the finite field over which we wish to find the vector linear
+        code. It can be defined by invoking the following in GAP:[133X
   
   [4X[32X  Code  [32X[104X
     [4Xq:=4;;[104X
     [4XF:= GF(q);; # here q must be a prime power[104X
   [4X[32X[104X
   
-  [30X    [33X[0;6Y[23X\texttt{optargs}[123X  is  a  list of optional arguments [23X\texttt{[lazy,..]}[123X
-        where  [23X\texttt{lazy}[123X  disables  lazy evaluation of transporter maps if
-        set to [23X\texttt{false}[123X, which is enabled by default.[133X
+  [30X    [33X[0;6Y[23Xoptargs[123X  is a list of optional arguments [23X[lazy,..][123X where [23Xlazy[123X disables
+        lazy  evaluation of transporter maps if set to [23Xfalse[123X, which is enabled
+        by default.[133X
   
-  [33X[0;0YReturns  a  list  [23X\texttt{[true,code]}[123X if there exists such a representation
-  and  [23X\texttt{code}[123X  is  the  vector  linear  code  over [23XGF(q)[123X Returns a list
-  [23X\texttt{[false]}[123X otherwise, indicating that no such code exists[133X
+  [33X[0;0YReturns a list [23X[true,code][123X if there exists such a representation and [23Xcode[123X is
+  the  vector  linear  code  over  [23XGF(q)[123X  Returns  a  list  [23X[false][123X otherwise,
+  indicating that no such code exists[133X
+  
+  [1X3.1-3 proveregion[101X
+  
+  [29X[2Xproveregion[102X( [3Xncinstance[103X, [3Xk[103X, [3XF[103X, [3Xoptargs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YThis  function  computes  the  all rate vectors achievable via vector linear
+  CodeString  over  the  specified fiite field for the network coding instance
+  [23Xncinstance[123X. Uses enumerative generation methods to syetematically search for
+  codes with desired properties. It accepts following arguments:[133X
+  
+  [30X    [33X[0;6Y[23Xncinstance[123X is a list [23X[cons,nsrc,nvars][123X containing 3 elements:[133X
+  
+        [30X    [33X[0;12Y[23Xcons[123X is a list of network coding constraints.[133X
+  
+        [30X    [33X[0;12Y[23Xnsrc[123X is the number of sources.[133X
+  
+        [30X    [33X[0;12Y[23Xnvars[123X  is  the  number  of  random variables associated with the
+              network.[133X
+  
+  [30X    [33X[0;6Y[23Xk[123X - Maximum number of symbols per message[133X
+  
+  [30X    [33X[0;6Y[23X  F[123X  is  the finite field over which we wish to find the vector linear
+        codes. It can be defined by invoking the following in GAP:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4Xq:=4;;[104X
+    [4XF:= GF(q);; # here q must be a prime power[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[23Xoptargs[123X  is  a list of optional arguments [23X[opt_dmax,..][123X where [23Xopt_dmax[123X
+        specifies   an   upper   bound   on  the  dimension  of  linear  codes
+        (alternatively,  the  rank  of  underlying  polymatroid) to search. By
+        default  this  is equal to [23Xnsrc*k[123X, which may sometimes be unnecessary,
+        and a lower value might suffice.[133X
+  
+  [33X[0;0YReturns  a  list  [23X[rays,codes][123X  where  [23Xrays[123X is a list of all achievable rate
+  vectors and codes is a list of linear codes.[133X
+  
+  [1X3.1-4 proverate_groebner[101X
+  
+  [29X[2Xproverate_groebner[102X( [3Xncinstance[103X, [3Xrvec[103X, [3XF[103X, [3Xoptargs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YThis  function  checks  if  there is a vector linear code achieving the rate
+  vector  [23Xrvec[123X  for the network coding instance [23Xncinstance[123X. Uses GAP interface
+  to  [23XSingular[123X  to  find  Groebner basis of the system of polynomial equations
+  given  by  the  path gain algebraic construction of Subramanian and Thangraj
+  [ST10] . It accepts following arguments:[133X
+  
+  [30X    [33X[0;6Y[23Xncinstance[123X is a list [23X[cons,nsrc,nvars][123X containing 3 elements:[133X
+  
+        [30X    [33X[0;12Y[23Xcons[123X is a list of network coding constraints.[133X
+  
+        [30X    [33X[0;12Y[23Xnsrc[123X is the number of sources.[133X
+  
+        [30X    [33X[0;12Y[23Xnvars[123X  is  the  number  of  random variables associated with the
+              network.[133X
+  
+  [30X    [33X[0;6Y[23Xrvec[123X - A list of [23Xnvars[123X integers specifying a rate vector[133X
+  
+  [30X    [33X[0;6Y[23X  F[123X  is  the finite field over which we wish to find the vector linear
+        code. It can be defined by invoking the following in GAP:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4Xq:=4;;[104X
+    [4XF:= GF(q);; # here q must be a prime power[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[23Xoptargs[123X  is a list of optional arguments [23X[lazy,..][123X where [23Xlazy[123X disables
+        lazy  evaluation of transporter maps if set to [23Xfalse[123X, which is enabled
+        by default.[133X
+  
+  [33X[0;0YReturns  a list [23X[true,code][123X if there exists such a representation where [23Xcode[123X
+  is  the  vector  linear  code  over [23XGF(q)[123X. Returns a list [23X[false][123X otherwise,
+  indicating that no such code exists[133X
   
   [33X[0;0Y[23X\textbf{NOTE:}[123X  Certain  naming  convensions  are  followed  while  defining
-  network   coding   instances.   The   source   messages   are  labeled  with
-  [23X\texttt{[1...nsrc]}[123X    while    rest    of    the   messages   are   labeled
-  [23X\texttt{[nsrc...nvars]}[123X.  Furthermore,  the  list [23X\texttt{cons}[123X includes all
-  network  constraints  except source independence. This constraint is implied
-  with the labeling i.e. [23X\texttt{itap}[123X enforces it by default for the messages
-  labeled [23X\texttt{[1...nsrc]}[123X. See next section for usage examples.[133X
+  network  coding  instances.  The source messages are labeled with [23X[1...nsrc][123X
+  while rest of the messages are labeled [23X[nsrc...nvars][123X. Furthermore, the list
+  [23Xcons[123X  includes  all  network  constraints  except  source independence. This
+  constraint is implied with the labeling i.e. ITAP enforces it by default for
+  the messages labeled [23X[1...nsrc][123X. See next section for usage examples.[133X
   
-  [1X3.1-3 provess[101X
+  [1X3.1-5 provess[101X
   
   [29X[2Xprovess[102X( [3XAsets[103X, [3Xnvars[103X, [3Xsvec[103X, [3XF[103X, [3Xoptargs[103X ) [32X function
   [6XReturns:[106X  [33X[0;10YA list[133X
   
   [33X[0;0YThis  function  checks if there is a multi-linear secret sharing scheme with
-  secret  and  share  sizes  given  by  [23X\texttt{svec}[123X and the access structure
-  [23X\texttt{Asets}[123X  with  one  dealer  and  [23X\texttt{nvars-1}[123X parties. It accepts
-  following arguments:[133X
+  secret and share sizes given by [23Xsvec[123X and the access structure [23XAsets[123X with one
+  dealer and [23Xnvars-1[123X parties. It accepts following arguments:[133X
   
-  [30X    [33X[0;6Y[23X\texttt{Asets}[123X  - A list of authorized sets each specified as a subset
-        of [23X[\texttt{nvars}-1][123X[133X
+  [30X    [33X[0;6Y[23XAsets[123X  -  A  list  of  authorized  sets  each specified as a subset of
+        [23X[nvars-1][123X[133X
   
-  [30X    [33X[0;6Y[23X\texttt{nvars}[123X - Number of participants (including one dealer)[133X
+  [30X    [33X[0;6Y[23Xnvars[123X - Number of participants (including one dealer)[133X
   
-  [30X    [33X[0;6Y[23X\texttt{svec}[123X  - vector of integer share sizes understood as number of
+  [30X    [33X[0;6Y[23Xsvec[123X  -  vector  of  integer  share  sizes  understood  as  number  of
         [23X\mathbb{F}_q[123X symbols, with index 1 giving secret size and index [23Xi,i\in
-        \{2,...,\texttt{nvars}\}[123X specifying share sizes of different parties[133X
+        \{2,...,nvars\}[123X specifying share sizes of different parties[133X
   
-  [30X    [33X[0;6Y[23X\texttt{F}[123X   -  The  finite  field  over  which  we  wish  to  find  a
-        multi-linear  scheme.  It  can be defined by invoking the following in
-        GAP:[133X
+  [30X    [33X[0;6Y[23XF[123X - The finite field over which we wish to find a multi-linear scheme.
+        It can be defined by invoking the following in GAP:[133X
   
   [4X[32X  Code  [32X[104X
     [4Xq:=4;;[104X
     [4XF:= GF(q);; # here q must be a prime power[104X
   [4X[32X[104X
   
-  [30X    [33X[0;6Y[23X\texttt{optargs}[123X  is  a  list of optional arguments [23X\texttt{[lazy,..]}[123X
-        where[133X
+  [30X    [33X[0;6Y[23Xoptargs[123X is a list of optional arguments [23X[lazy,..][123X where[133X
   
-        [30X    [33X[0;12Y[23X\texttt{lazy}[123X  disables  lazy  evaluation of transporter maps if
-              set to [23X\texttt{false}[123X, which is enabled by default in GAP.[133X
+        [30X    [33X[0;12Y[23Xlazy[123X  disables  lazy  evaluation  of  transporter maps if set to
+              [23Xfalse[123X, which is enabled by default in GAP.[133X
   
-  [33X[0;0YReturns  a  list  [23X\texttt{[true,code]}[123X  if  there  exists  such a scheme and
-  [23X\texttt{code}[123X   is  the  vector  linear  code  over  [23XGF(q)[123X  Returns  a  list
-  [23X\texttt{[false]}[123X otherwise, indicating that no such scheme exists[133X
+  [33X[0;0YReturns  a  list [23X[true,code][123X if there exists such a scheme where [23Xcode[123X is the
+  vector  linear code over [23XGF(q)[123X. Returns a list [23X[false][123X otherwise, indicating
+  that no such scheme exists.[133X
   
-  [33X[0;0Y[23X\textbf{NOTE:}[123X   No   input   checking  is  performed  to  verify  if  input
-  [23X\texttt{Asets}[123X  follows labeling convensions. The map returned with a linear
-  scheme  is  a map [23Xf:[\texttt{nvars}]\rightarrow [\texttt{nvars}][123X with dealer
-  associated    with    label   1   and   parties   associated   with   labels
-  [23X\{2,...,\texttt{nvars}\}[123X. See next section for usage examples.[133X
+  [33X[0;0Y[23X\textbf{NOTE:}[123X  No  input  checking  is  performed  to verify if input [23XAsets[123X
+  follows labeling convensions. The map returned with a linear scheme is a map
+  [23Xf:[nvars]\rightarrow [nvars][123X with dealer associated with label 1 and parties
+  associated with labels [23X\{2,...,nvars\}[123X. See next section for usage examples.[133X
   
-  [1X3.1-4 DisplayCode[101X
+  [1X3.1-6 DisplayCode[101X
   
   [29X[2XDisplayCode[102X( [3Xcode[103X ) [32X function
   [6XReturns:[106X  [33X[0;10Ynothing[133X
   
   [33X[0;0YDisplays a network code (or an integer polymatroid). It accepts 1 argument:[133X
   
-  [30X    [33X[0;6Y[23X\texttt{code}[123X - A list [23X\texttt{[s,map]}[123X containing 2 elements:[133X
+  [30X    [33X[0;6Y[23Xcode[123X - A list [23X[s,map][123X containing 2 elements:[133X
   
-        [30X    [33X[0;12Y[23X\texttt{s}[123X  -  A list of subspaces where is subspace is itself a
-              list of basis vectors[133X
+        [30X    [33X[0;12Y[23Xs[123X  -  A  list of subspaces where is subspace is itself a list of
+              basis vectors[133X
   
-        [30X    [33X[0;12Y[23X\texttt{map}[123X  -  A GAP record mapping subspaces in [23X\texttt{s}[123X to
-              network messages or to polymatroid ground set elements[133X
+        [30X    [33X[0;12Y[23Xmap[123X - A GAP record mapping subspaces in [23Xs[123X to network messages or
+              to polymatroid ground set elements[133X
   
   [33X[0;0YReturns nothing[133X
   
@@ -177,15 +245,14 @@
   
   [1X3.2 [33X[0;0YA catalog of examples[133X[101X
   
-  [33X[0;0Y[23X\texttt{itap}[123X  comes  equipped  with  a  catalog of examples, which contains
-  well-known  network  coding instances and integer polymatroids. This catalog
-  is  intended  to  be  of  help  to  the  user for getting started with using
-  [23X\texttt{itap}[123X.  Most  of the network coding instances in this catalog can be
-  found  in  [Yeu08]  and  [DFZ07].  Some  of  the integer polymatroids in the
-  catalog    are   taken   from   [7Xhttp://code.ucsd.edu/zeger/linrank/[107X.   These
-  polymatroids  correspond  to  the  extreme  rays  of the cone of linear rank
-  inequalities  in  5  variables,  found by Dougherty, Freiling and Zeger. See
-  [DFZ09] for details.[133X
+  [33X[0;0Y[23Xitap[123X  comes  equipped  with a catalog of examples, which contains well-known
+  network  coding instances and integer polymatroids. This catalog is intended
+  to  be  of help to the user for getting started with using ITAP. Most of the
+  network  coding  instances  in  this  catalog  can  be  found in [Yeu08] and
+  [DFZ07].  Some  of  the  integer  polymatroids in the catalog are taken from
+  [7Xhttp://code.ucsd.edu/zeger/linrank/[107X.  These  polymatroids  correspond to the
+  extreme  rays  of the cone of linear rank inequalities in 5 variables, found
+  by Dougherty, Freiling and Zeger. See [DFZ09] for details.[133X
   
   [1X3.2-1 FanoNet[101X
   
@@ -272,17 +339,13 @@
   [6XReturns:[106X  [33X[0;10YA list[133X
   
   [33X[0;0YReturns  the  instance associated with uniform matroid [23XU^2_k[123X. It accepts one
-  argument [23X\texttt{k}[123X specifying the size of uniform matroid. Returns a list.[133X
+  argument [23Xk[123X specifying the size of uniform matroid. Returns a list.[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XU2kNet(4);[127X[104X
-    [4X[28X[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 2 ], [ 1, 2, 4 ] ],[128X[104X
-    [4X[28X      [ [ 1, 3 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],[128X[104X
-    [4X[28X      [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 1, 4 ], [ 1, 3, 4 ] ],[128X[104X
-    [4X[28X      [ [ 2, 3 ], [ 1, 2, 3 ] ], [ [ 2, 3 ], [ 2, 3, 4 ] ],[128X[104X
-    [4X[28X      [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 2, 4 ], [ 2, 3, 4 ] ],[128X[104X
-    [4X[28X      [ [ 3, 4 ], [ 1, 3, 4 ] ], [ [ 3, 4 ], [ 2, 3, 4 ] ][128X[104X
-    [4X[28X     ], 2, 4 ][128X[104X
+    [4X[28X [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],[128X[104X
+    [4X[28X     [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 2, 3 ], [ 1, 2, 3 ] ],[128X[104X
+    [4X[28X     [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 3, 4 ], [ 1, 3, 4 ] ] ], 2, 4 ][128X[104X
   [4X[32X[104X
   
   [1X3.2-5 ButterflyNet[101X
@@ -291,14 +354,6 @@
   [6XReturns:[106X  [33X[0;10YA list[133X
   
   [33X[0;0YReturns the Butterfly instance. It accepts no arguments. Returns a list.[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XButterflyNet();[127X[104X
-    [4X[28X[ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 2, 3 ] ],[128X[104X
-    [4X[28X     [ [ 2, 3 ], [ 1, 2, 3 ] ] ], 2, 3 ][128X[104X
-    [4X[25Xgap>[125X [27XU2kNet(3)=ButterflyNet();[127X[104X
-    [4X[28Xtrue[128X[104X
-  [4X[32X[104X
   
   [1X3.2-6 Subspace5[101X
   
@@ -379,14 +434,14 @@
   [1X3.2-8 Threshold[101X
   
   [29X[2XThreshold[102X(  ) [32X function
-  [6XReturns:[106X  [33X[0;10YA list of lists specifing authorized subsets of [23X[n]][123X[133X
+  [6XReturns:[106X  [33X[0;10YA list of lists specifing authorized subsets of [23X[n][123X[133X
   
   [33X[0;0YReturns  the  access  structure  associated  with  Shamir's  [23X(k,n)[123X threshold
   scheme. See [Sha79] for details. It accepts following arguments:[133X
   
-  [30X    [33X[0;6Y[23X\texttt{n}[123X - number of shares[133X
+  [30X    [33X[0;6Y[23Xn[123X - number of shares[133X
   
-  [30X    [33X[0;6Y[23X\texttt{k}[123X - threshold[133X
+  [30X    [33X[0;6Y[23Xk[123X - threshold[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XT:=Threshold(4,2);[127X[104X
@@ -398,7 +453,7 @@
     [4X[25Xgap>[125X [27Xrlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;[127X[104X
     [4X[25Xgap>[125X [27Xrlist[1];[127X[104X
     [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XDisplayCode(rlist[2]);[127X[104X
+    [4X[25Xgap>[125X [27Xgap> DisplayCode(rlist[2]);[127X[104X
     [4X[28X1->1[128X[104X
     [4X[28X . 1[128X[104X
     [4X[28X=============================[128X[104X
@@ -414,5 +469,83 @@
     [4X[28X5->5[128X[104X
     [4X[28X1 4[128X[104X
     [4X[28X=============================[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-9 HyperedgeNet1[101X
+  
+  [29X[2XHyperedgeNet1[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns  a  general  hyperedge  network  obtained via enumeration of network
+  coding instances. See [LWW15] for details. It accepts no arguments.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XN:=HyperedgeNet1();[127X[104X
+    [4X[28X[ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 3, 4 ], [ 1, 3, 4, 5 ] ],[128X[104X
+    [4X[28X      [ [ 3, 4, 5 ], [ 3, 4, 5, 6 ] ], [ [ 4, 5 ], [ 1, 3, 4, 5 ] ],[128X[104X
+    [4X[28X      [ [ 4, 6 ], [ 2, 3, 4, 6 ] ], [ [ 5, 6 ], [ 2, 3, 5, 6 ] ] ], 3, 6 ][128X[104X
+    [4X[25Xgap>[125X [27Xrlist:=proveregion(N,2,GF(2),[4]);; # k=2,opt_dmax=4=max. code dimension[127X[104X
+    [4X[25Xgap>[125X [27XSize(rlist[1]); # number of distinct achievable rate vectors found[127X[104X
+    [4X[28X122[128X[104X
+    [4X[25Xgap>[125X [27Xrlist[1][78]; # an achievable rate vector[127X[104X
+    [4X[28X[ 2, 0, 1, 2, 1, 1 ][128X[104X
+    [4X[25Xgap>[125X [27Xlrs_exec:="/home/aspitrg3-users/jayant/lrslib-061/lrs";; # lrs executable[127X[104X
+    [4X[25Xgap>[125X [27Xrrcompute_lrs(rlist[1],N[2],N[3],lrs_exec); # compute achievable rate region[127X[104X
+    [4X[28X[128X[104X
+    [4X[28X*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)[128X[104X
+    [4X[28X*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca[128X[104X
+    [4X[28X*Input taken from file /tmp/tmYSKPeG/file1.ext[128X[104X
+    [4X[28X*Output sent to file /tmp/tmYSKPeG/file2.ine[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X*Totals: facets=10 bases=2137[128X[104X
+    [4X[28X*Dictionary Cache: max size= 35 misses= 0/2136   Tree Depth= 34[128X[104X
+    [4X[28X*0.176u 0.004s 2232Kb 0 flts 0 swaps 0 blks-in 8 blks-out[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)[128X[104X
+    [4X[28X*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca[128X[104X
+    [4X[28X*Input taken from file /tmp/tmYSKPeG/file2r.ine[128X[104X
+    [4X[28X*Output sent to file /tmp/tmYSKPeG/file3.ext[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X*Totals: vertices=1 rays=16 bases=94 integer_vertices=1  vertices+rays=17[128X[104X
+    [4X[28X*Dictionary Cache: max size= 6 misses= 0/93   Tree Depth= 5[128X[104X
+    [4X[28X*0.000u 0.000s 652Kb 0 flts 0 swaps 0 blks-in 8 blks-out[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)[128X[104X
+    [4X[28X*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca[128X[104X
+    [4X[28X*Input taken from file /tmp/tmYSKPeG/rr.ext[128X[104X
+    [4X[28XH-representation[128X[104X
+    [4X[28Xbegin[128X[104X
+    [4X[28X***** 7 rational[128X[104X
+    [4X[28X 0  0  1  0  0  0  0[128X[104X
+    [4X[28X 0  0  0  1  0  0  0[128X[104X
+    [4X[28X 0  0  0  0  1  0  0[128X[104X
+    [4X[28X 0  2 -1 -2  0  1  1[128X[104X
+    [4X[28X 0  1  0 -1  0  0  1[128X[104X
+    [4X[28X 0  0  0  0  0  0  1[128X[104X
+    [4X[28X 0  0 -1 -1  0  1  1[128X[104X
+    [4X[28X 0  0  0 -1  0  1  0[128X[104X
+    [4X[28X 0  1  0  0  0  0  0[128X[104X
+    [4X[28Xend[128X[104X
+    [4X[28X*Totals: facets=9 bases=17[128X[104X
+    [4X[28X*Dictionary Cache: max size= 7 misses= 0/16   Tree Depth= 6[128X[104X
+    [4X[28X*lrs:lrslib v.6.1 2015.11.20(32bit,lrsgmp.h)[128X[104X
+    [4X[28X*0.000u 0.000s 648Kb 0 flts 0 swaps 0 blks-in 0 blks-out[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-10 HyperedgeNet2[101X
+  
+  [29X[2XHyperedgeNet2[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10YA list[133X
+  
+  [33X[0;0YReturns  a  general  hyperedge  network  obtained via enumeration of network
+  coding instances. See [LWW15] for details. It accepts no arguments.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XN:=HyperedgeNet2();[127X[104X
+    [4X[28X[ [ [ [ 1, 2, 3, 5 ], [ 1, 2, 3, 4, 5 ] ], [ [ 1, 3 ], [ 1, 3, 5 ] ],[128X[104X
+    [4X[28X     [ [ 3, 4, 5 ], [ 3, 4, 5, 6 ] ], [ [ 4, 5 ], [ 1, 3, 4, 5 ] ],[128X[104X
+    [4X[28X     [ [ 4, 6 ], [ 2, 3, 4, 6 ] ], [ [ 5, 6 ], [ 2, 3, 5, 6 ] ] ], 3, 6 ][128X[104X
   [4X[32X[104X
   

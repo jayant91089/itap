@@ -19,14 +19,27 @@
         field:  answer  questions  like `Is the integer polymatroid associated
         with this rank vector linear over [23XGF(q)[123X?[133X
   
-  [33X[0;0YAll  three  questions  above are very similar, in that, we are looking for a
-  linear   representation   of   an  integer  polymatroid  satisfying  certain
-  properties  (satisfying  network  coding  constraints,  access structure and
-  having   a  specified  rank  vecor  resp.)  In  the  most  general  form  an
-  achievability  prover  should  be  able  to  tell  if  there  exists a joint
-  distribution  satisfying  certain  constraints  on  entropy  function  which
-  remains  a  fundamental  open  problem.  ITAP tries answering this in a more
-  restricted  sense,  i.e.  with vector linear codes. The algorithm underlying
-  [23X\texttt{itap}[123X  is called Leiterspiel or the algorithm of snakes and ladders.
-  See [BBFKKW06] for details.[133X
+  [30X    [33X[0;6YAchievable  Rate  Region  Computation:  For a network coding instance,
+        what  is  the  rate  region achievable using linear codes with maximum
+        message size [23Xk[123X and maximum code dimension [23Xd[123X?[133X
+  
+  [33X[0;0YAbove  questions are very similar to each other, in that, we are looking for
+  linear representations of integer polymatroids satisfying certain properties
+  (i.e.  network  coding  constraints,  access structure or having a specified
+  rank  vecor  respectively). In its most general form an achievability prover
+  is  a  computer  program  that  able  to  answer  if  there  exists  a joint
+  distribution  satisfying  certain constraints on entropy function. It is not
+  known how to design such a computer program, as it is closely related to the
+  characterization   of  the  entropy  function.  ITAP  tries  answering  this
+  existential  question  in  a much restricted sense, i.e. with respect to the
+  joint  distributions  arising  from  vector  linear codes aka integer linear
+  polymatroids.  The  main  algorithm underlying ITAP is called Leiterspiel or
+  the  algorithm  of  snakes  and  ladders.  See  [BBFKKW06]  for details. For
+  answering  the  first  question  in  the  above  list,  one can also use the
+  algebraic  formulation  of Koetter and Medard [KM03] or its refinements such
+  as  the  path  gain  formulation  of Subramanian and Thangaraj [ST10]. These
+  formulations  lead  to  a system of polynomial equations over a finite field
+  and  allows  one  to  use  Groebner  basis  computation algorithms to answer
+  question 1. ITAP currently supports such computation using Singular [DGPS15]
+  via the GAP interface to Singular[CG12].[133X
   

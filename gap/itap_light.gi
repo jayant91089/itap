@@ -1841,40 +1841,6 @@ function(G,D,A,AonSets,max_simple,netcons,nsrc,nvars,loopy)
    fi;
 end);
 
-InstallGlobalFunction(veccodegen,
-function(ncinstance,F,d,k,s,optargs)
-  local loopy,konly,A,AonSets,D,gl;
-  # ncinstance: [cons,nsrc,nvars]
-  #   cons: constraints as a list of list of lists
-  #   nsrc: no. of sources
-  #   nvars: no. of variables
-  # F: a finite field over which codes are to be generated
-  # d: maximum rank of underlying matroid
-  # k: maximum singleton rank
-  # s: maximum size of underlying simple matroid
-  # optargs: [loopy,konly]
-  # loopy: If true, then loopy codes will be generated
-  # konly: If true, then only codes with singleton rank=k (or 0 based on 'loopy')
-  #        will be generated
-  gl:=GL(d,Size(F));
-  A:= OnSubspacesByCanonicalBasis;
-  AonSets:= OnSetOfSubspacesByCanonicalBasis;
-  # Add cases here as per requirement
-  if Size(optargs)>=2 then
-    loopy:=optargs[1];
-    konly:=optargs[2];
-  elif Size(optargs)>=1 then
-    loopy:=optargs[1];
-    konly:=false;
-  fi;
-  if konly=true then
-    D:=baseskd_k(Size(F),d,k);
-  else
-    D:=baseskd(Size(F),d,k);
-  fi;
-  return LeiterspielWCons_vec(gl,D,A,AonSets,s,ncinstance[1],ncinstance[2],ncinstance[3],loopy);
-end);
-
 InstallGlobalFunction(findcode,
 function(ncinstance,F,d,k,s,rvec,optargs)
   local loopy,konly,A,AonSets,D,gl;
@@ -3485,4 +3451,1226 @@ function(veclist,pcode,d,Asets,nvars,svec)
     #Display("********Search failed*********");
     return [false,pcode];
   fi;
+end);
+
+# Subramanian-Thangaraj (groebner)
+InstallGlobalFunction(TopSort,
+function(dag)
+local nb_O,nb_I,I,O,N,Nx,v,e,torder,V,E;
+V:=dag[1];
+E:=dag[2];
+nb_O:=rec();
+nb_I:=rec();
+N:=rec();
+for v in V do
+  nb_I.(v):=0;
+  nb_O.(v):=0;
+od;
+I:=rec();
+O:=rec();
+for v in V do
+  I.(v):=[];
+  O.(v):=[];
+  for e in E do
+    if v=e[1] then # v is tail
+      nb_O.(v):=nb_O.(v)+1;
+      Append(O.(v),[e]);
+    fi;
+    if v=e[2] then # v is head
+      nb_I.(v):=nb_I.(v)+1;
+      Append(I.(v),[e]);
+    fi;
+  od;
+  N.(v):=Size(O.(v));
+od;
+torder:=[];
+Nx:=ShallowCopy(N);
+for v in V do
+  if N.(v)=0 then
+    Append(torder,[v]);
+    Nx.(v):=-1;
+    for e in I.(v) do
+      Nx.(e[1]):=Nx.(e[1])-1;
+    od;
+  fi;
+od;
+while not Size(torder)=Size(V) do
+  #Display(Nx);
+  for v in V do
+    if Nx.(v)=0 then
+      break;
+    fi;
+  od;
+  #Display(v);
+  for e in I.(v) do
+    Nx.(e[1]):=Nx.(e[1])-1;
+  od;
+  Append(torder,[v]);
+  Nx.(v):=-1;
+od;
+return [torder,I,nb_I,O,nb_O];
+end);
+
+
+InstallGlobalFunction(DeepCopy_lol,
+function(lol)
+  local olol,l;
+  olol:=[];
+  for l in lol do
+  Append(olol,[ShallowCopy(l)]);
+  od;
+  return olol;
+end);
+
+InstallGlobalFunction(DeepCopy_rec,
+function(r)
+  local ro,i;
+  ro:=rec();
+  for i in RecNamesInt(r) do
+
+    ro.(i):=DeepCopy_lol(r.(i));
+  od;
+
+  return ro;
+end);
+
+InstallGlobalFunction(Addnode2,
+function(dagstruct,Ix,ci,Ox,co)
+# Addnode for colored edges
+# ci and co are lists giving colors of respective edges
+  local V,E,I,O,x,i,o,nb_I,nb_O,j,k;
+  V:=ShallowCopy(dagstruct[1]);
+  E:=DeepCopy_lol(dagstruct[2]);
+  I:=DeepCopy_rec(dagstruct[3]);
+  O:=DeepCopy_rec(dagstruct[5]);
+  nb_I:=ShallowCopy(dagstruct[4]);
+  nb_O:=ShallowCopy(dagstruct[6]);
+  x:=Maximum(V)+1;
+  Append(V,[x]);
+  I.(x):=[];
+  O.(x):=[];
+  nb_I.(x):=Size(Ix);
+  nb_O.(x):=Size(Ox);
+
+  for j in [1..Size(Ix)] do
+    i:=Ix[j];
+    Append(I.(x),[[i,x,ci[j]]]);
+    Append(E,[[i,x,ci[j]]]);
+    Append(O.(i),[[i,x,ci[j]]]);
+    nb_O.(i):=nb_O.(i)+1;
+  od;
+  for k in [1..Size(Ox)] do
+    o:=Ox[k];
+    Append(O.(x),[[x,o,co[k]]]);
+    Append(E,[[x,o,co[k]]]);
+    Append(I.(o),[[x,o,co[k]]]);
+    nb_I.(o):=nb_I.(o)+1;
+  od;
+  return [V,E,I,nb_I,O,nb_O];
+end);
+
+
+
+InstallGlobalFunction(Delnode,
+function(dagstruct,x)
+# color safe
+  local V,E,I,O,nb_I,nb_O,i,o,e;
+  V:=ShallowCopy(dagstruct[1]);
+  E:=DeepCopy_lol(dagstruct[2]);
+  I:=DeepCopy_rec(dagstruct[3]);
+  O:=DeepCopy_rec(dagstruct[5]);
+  nb_I:=ShallowCopy(dagstruct[4]);
+  nb_O:=ShallowCopy(dagstruct[6]);
+  Remove(V,Position(V,x));
+  for e in I.(x) do
+    Remove(E,Position(E,e));
+    Remove(O.(e[1]),Position(O.(e[1]),e));
+    nb_O.(e[1]):=nb_O.(e[1])-1;
+  od;
+  Unbind(I.(x));
+  Unbind(nb_I.(x));
+  for e in O.(x) do
+    Remove(E,Position(E,e));
+    Remove(I.(e[2]),Position(I.(e[2]),e));
+    nb_I.(e[2]):=nb_I.(e[2])-1;
+  od;
+  Unbind(O.(x));
+  Unbind(nb_O.(x));
+  return [V,E,I,nb_I,O,nb_O];
+end);
+
+InstallGlobalFunction(NC2dagstruct,
+function(NC)
+local rlist,dagstruct;
+rlist:=TopSort(NC[1]);
+dagstruct:= [ShallowCopy(NC[1][1]),ShallowCopy(NC[1][2])];
+Append(dagstruct,rlist{[2..Size(rlist)]});
+return dagstruct;
+end);
+
+InstallGlobalFunction(IsClawmember,
+function(t,T,ds)
+local tparents,e,p,sib,esib;
+  tparents:=[];
+  for e in ds[3].(t) do
+    Append(tparents,[e[1]]);
+  od;
+  tparents:=AsSet(tparents);
+  if Size(tparents)=1 then
+    # sanity check the single parent of t
+    p:=tparents[1];
+    for e in ds[5].(p) do
+      if not e[2] in T then
+        return false;
+      else
+        sib:=e[2];
+        for esib in ds[3].(sib) do
+          if not esib[1]=p then
+            return false;
+          fi;
+        od;
+      fi;
+    od;
+    return true;
+  else
+    return false;
+  fi;
+end);
+
+InstallGlobalFunction(NCinstance2dag2,
+function(NCinstance,rvec)
+local cons,nsrc,nvars,S,T,V,g,Edges,msg2node,i,curnode,usedcons,ip,goodcon,c,io,o,opmsg,msg,dnode,se,usedT,
+NCr1,ds,newV,newE,newS,newT,newg,Ecolors,src2nodes,node2src,e,ex,v,vp,t,gt,rvp,gvp,vpe,sv,x,gvpe,elist;
+  cons:=NCinstance[1];
+  nsrc:=NCinstance[2];
+  nvars:=NCinstance[3];
+  elist:=[];
+  S:=[1..nsrc]; # sources
+  T:=[]; # sinks
+  V:=[1..nsrc]; # nodes
+  g:=[]; # demands
+  curnode:=nsrc+1;
+  Edges:=[];
+  msg2node:=rec();
+  for  i in [1..nsrc] do
+    msg2node.(i):=i;
+  od;
+  curnode:=nsrc+1;
+  usedcons:=[];
+  while Size(RecNamesInt(msg2node))<nvars do
+    # find a constraint whose input msgs have nodes defined
+    for c in cons do
+    if not c in usedcons then
+      ip:=ShallowCopy(c[1]);
+      goodcon:=true;
+      for i in ip do
+        if not IsBound(msg2node.(i)) then
+          goodcon:=false;
+          break;
+        fi;
+      od;
+      if goodcon=true then
+        Append(usedcons,[c]);
+        #Display(c);
+        #Display([V,Edges]);
+       # add nodes where op msgs are created
+       io:=SortedList(ShallowCopy(c[2]));
+       #Display(["io",io]);
+       SubtractSet(io,c[1]);
+       o:=io;
+       #Display(["o",o]);
+       if not IsSubset([1..nsrc],o) then
+          #Display(["o",o]);
+         for opmsg in o do
+          #Display(["define for msg",opmsg]);
+          Append(V,[curnode]);
+          for msg in c[1] do
+            Append(Edges,[[msg2node.(msg),curnode]]);
+          od;
+          #Display(["curnode b4",curnode]);
+          curnode:=curnode+1;
+          Append(V,[curnode]);
+          Append(Edges,[[curnode-1,curnode]]);
+          Append(elist,[[curnode-1,curnode]]);
+          msg2node.(opmsg):=curnode;
+          curnode:=curnode+1;
+          #Display(["curnode after",curnode]);
+         od;
+        else # decoder constraint
+          #Display(["deccon",c]);
+          Append(V,[curnode]); # decoder
+          for msg in c[1] do
+            Append(Edges,[[msg2node.(msg),curnode]]);
+          od;
+          dnode:=curnode;
+          curnode:=curnode+1;
+          if Size(o)>1 then
+            for opmsg in o do
+              Append(V,[curnode]);
+              Append(Edges,[[dnode,curnode]]);
+              Append(T,[curnode]);
+              Append(g,[[opmsg]]);
+              curnode:=curnode+1;
+            od;
+          else
+            Append(T,[dnode]);
+            Append(g,[[o[1]]]);
+          fi;
+        fi;
+      fi;
+    fi;
+    od;
+  od;
+  NCr1:=[[V,Edges],S,T,g];
+  ds:=NC2dagstruct(NCr1);
+  newV:=ShallowCopy(V);
+  curnode:=Maximum(V)+1;
+  newE:=DeepCopy_lol(Edges); # a multiset
+  newS:=ShallowCopy(S);
+  newg:=[];
+  Ecolors:=[]; # gives integer color of an edge
+  src2nodes:=rec();
+  for msg in [1..nsrc] do
+    src2nodes.(msg):=[];
+  od;
+  node2src:=rec();
+  # fix r>1 sources
+  for msg in RecNamesInt(msg2node) do
+    v:=msg2node.(msg);
+    if msg in [1..nsrc] then
+      if rvec[msg]>1 then
+      # must be fixed
+      #Display(["must fix source",msg]);
+      Remove(newS,Position(newS,msg));
+        for i in [1..rvec[msg]] do
+          Append(newV,[curnode]);
+          Append(newE,[[curnode,v]]);
+          Append(src2nodes.(msg),[curnode]);
+          Append(newS,[curnode]);
+          curnode:=curnode+1;
+        od;
+        for i in [2..rvec[msg]] do #for each additional symbol
+          for se in ds[5].(msg) do # add an edge in parallel to each o/p edge
+            Append(newE,[se]);
+          od;
+        od;
+      else
+      # no need to fix
+      #Display(["no need to fix source",msg]);
+      src2nodes.(msg):=[v];
+      fi;
+    fi;
+  od;
+  # fix r>1 edges: add parallel edges
+  for msg in RecNamesInt(msg2node) do
+    v:=msg2node.(msg);
+    if not msg in [1..nsrc] then
+      if rvec[msg]>1 then
+      #Display(["Fix for msg",msg]);
+      # must be fixed
+      e:=ds[3].(v)[1]; # the only input edge
+      for i in [2..rvec[msg]] do
+        Append(newE,[ShallowCopy(e)]);
+        Append(elist,[e]);
+        #Display(["new edge",e,i]);
+      od;
+
+      for e in ds[5].(v) do
+        for i in [2..rvec[msg]] do
+          #Display(["new edge",e,i]);
+          Append(newE,[ShallowCopy(e)]);
+        od;
+      od;
+      fi;
+    fi;
+  od;
+  # new decoders
+  newT:=[];
+  usedT:=[];
+  for i in [1..Size(T)] do
+    t:=T[i];
+    gt:=g[i];
+    #if Size(src2nodes.(gt[1])) >1 then #
+      if t in newV and not t in usedT then # has this been removed already?
+        #Display(["fix for dec",t]);
+        rvp:=IsClawmember(t,T,ds);
+        if rvp=true then # revamp vp
+          vp:=ds[3].(t)[1][1];
+          # Remove output edges and nodes of vp
+          #Display(["fix parent",vp]);
+          gvp:=[];
+          for vpe in ds[5].(vp) do
+            gvpe:=g[Position(T,vpe[2])];
+            if rvec[gvpe[1]]>1 then
+            Append(gvp,gvpe);
+            Remove(newV,Position(newV,vpe[2]));
+            Remove(newE,Position(newE,vpe));
+            #Display(["Remove",vpe,vpe[2]]);
+            Append(usedT,[vpe[2]]);
+            else
+              Append(newT,[vpe[2]]);
+              Append(newg,[g[Position(T,vpe[2])]]);
+              #Display(["Spare (rate 1)",vpe,vpe[2]]);
+              Append(usedT,[vpe[2]]);
+            fi;
+          od;
+          # Add new decoders
+          for sv in gvp do
+            for x in src2nodes.(sv) do
+              Append(newV,[curnode]);
+              Append(newE,[[vp,curnode]]);
+              Append(newT,[curnode]);
+              Append(newg,[[x]]);
+              #Display(["Newdec",curnode,x]);
+              curnode:=curnode+1;
+            od;
+          od;
+        else
+          #Display(["fix t itself",t]);
+          # it is a single demand dec
+          Append(usedT,[t]);
+          if rvec[g[i][1]]>1 then # must add new nodes
+            for x in src2nodes.(g[i][1]) do
+              Append(newV,[curnode]);
+              Append(newE,[[t,curnode]]);
+              Append(newT,[curnode]);
+              Append(newg,[[x]]);
+              #Display(["Newdec",curnode,x]);
+              curnode:=curnode+1;
+            od;
+          else
+            #Display(["only rate 1 demand, no fixing for",t]);
+            Append(newT,[t]);
+            Append(newg,[[g[i][1]]]);
+          fi;
+        fi;
+      fi;
+    #fi;
+  od;
+  return [[[newV,newE],newS,newT,newg],elist];
+end);
+
+InstallGlobalFunction(ForestTransform2,
+function(NC)
+# for colored edges
+# NC is a dag_NCinstance NC[1]=dag,NC[2]=S,NC[3]=T,NC[4]=g (list)
+# ds[1]=V, ds[2]=E,ds[3]=I,ds[4]=nb_I,ds[5]=O,ds[6]=nb_O
+  local torder,rlist,ds,ds1,copymap,newv,v,e,Ix,ex,t,ci,co;
+  rlist:=TopSort(NC[1]);
+  torder:=rlist[1];
+  ds:=NC2dagstruct(NC);
+  copymap:=rec(); # record saying whose copy is which node in the new graph
+  newv:=Maximum(ds[1])+1;
+  for v in torder do
+    if ds[6].(v)>1 then
+      #Display(Concatenation("Replicate ",String(v)));
+      ds1:=ds;
+      for e in ds[5].(v) do
+        #Display(Concatenation("Copy for ",String(e)));
+        Ix:=[];
+        ci:=[];
+        for ex in ds1[3].(v) do
+          Append(Ix,[ex[1]]); # each input edge gets color of ex
+          Append(ci,[ex[3]]);
+        od;
+        ds1:=Addnode2(ds1,Ix,ci,[e[2]],[e[3]]); # o/p edge gets color of e
+        #Display(ds1[4]);
+        copymap.(newv):=v;
+        newv:=newv+1;
+      od;
+      #Display(Concatenation("I/O Before = ", String(ds1[3].(v))," ", String(ds1[5].(v))));
+      ds1:=Delnode(ds1,v);
+      ds:=ds1;
+      #Display(Concatenation("I/O After = ", String(ds1[3].(v))," ", String(ds1[5].(v))));
+    fi;
+  od;
+  for t in NC[3] do
+    copymap.(t):=t;
+  od;
+  return [ds,copymap];
+end);
+
+InstallGlobalFunction(NC2colors,function(NC)
+local E,Ecolors,Eset,pos,i,e;
+E:=NC[1][2];
+Ecolors:=EmptyPlist(Size(E));
+Eset:=AsSet(E);
+for e in Eset do
+  pos:=Positions(E,e);
+  for i in [1..Size(pos)] do
+    Ecolors[pos[i]]:=i;
+  od;
+od;
+return Ecolors;
+end);
+
+InstallGlobalFunction(ColorEdges,
+function(Edges)
+local Ecolors,Eset,pos,i,e,ce;
+Ecolors:=EmptyPlist(Size(Edges));
+Eset:=AsSet(Edges);
+for e in Eset do
+  pos:=Positions(Edges,e);
+  for i in [1..Size(pos)] do
+    Ecolors[pos[i]]:=i;
+  od;
+od;
+ce:=DeepCopy_lol(Edges);
+for i in [1..Size(Edges)] do
+  Append(ce[i],[Ecolors[i]]);
+od;
+return ce;
+end);
+
+InstallGlobalFunction(NC2coloredNC,
+function(NC)
+local Ecolors,i,CNC;
+Ecolors:=NC2colors(NC);
+CNC:=EmptyPlist(4);
+CNC[1]:=EmptyPlist(2);
+CNC[1][1]:=ShallowCopy(NC[1][1]);
+CNC[1][2]:=DeepCopy_lol(NC[1][2]);
+CNC[2]:=ShallowCopy(NC[2]);
+CNC[3]:=ShallowCopy(NC[3]);
+CNC[4]:=ShallowCopy(NC[4]);
+for i in [1..Size(NC[1][2])] do
+  Append(CNC[1][2][i],[Ecolors[i]]);
+od;
+return CNC;
+end);
+
+
+
+InstallGlobalFunction(IsReachable,
+function(ds,c,v)
+  # Is c --> v?
+  local curnode;
+  curnode:=c;
+  while not curnode=v and not ds[6].(curnode)=0  do# while we reach either a sink or v
+    curnode:=ds[5].(curnode)[1][2];
+  od;
+  if curnode=v then
+  return true;
+  else
+  return false;
+  fi;
+end);
+
+InstallGlobalFunction(sinkid,
+function(NC,ds,v)
+local s;
+  for s in NC[3] do
+    if IsReachable(ds,v,s) then
+      return s;
+    fi;
+  od;
+  return 0;
+end);
+
+InstallGlobalFunction(EdgeComp2,
+function(e,NC,ds,a,scopy2var,copymap,vl)
+  # requires colored edges
+  # e is in original graph find its copies
+  local ecopies,ec_sinkid,ec,coeffs,ecoeffs,nsrc,s,t,ecpairs,srcpairs,ecpair,srcpair,epolylist,p,i,j,elist;
+  nsrc:=Size(NC[2]);
+  ecopies:=[];
+  ec_sinkid:=[]; # sink of each copy
+  for ec in ds[2] do
+    if copymap.(ec[1])=e[1] and copymap.(ec[2])=e[2] and ec[3]=e[3] then
+      Append(ecopies,[ec]);
+    fi;
+  od;
+  if not Size(ecopies)>0 then
+    return [];
+  fi;
+  coeffs:=[]; # list of records of each edge's coefficients
+  for i in [1..Size(ecopies)] do
+    ecoeffs:=rec();
+    for j in NC[2] do
+      ecoeffs.(j):=0;
+    od;
+    Append(coeffs,[ecoeffs]);
+  od;
+  # find coeffs of each source in each tree
+  for ec in ecopies do
+    t:=sinkid(NC,ds,ec[1]); # tree in which ec lives
+    for s in RecNamesInt(scopy2var) do
+      #Display(["Test source ",s,copymap.(s), "in tree", t]);
+      if IsReachable(ds,s,ec[1]) then # include s's coeff in coeffs
+      #Display(["e carries ", copymap.(s), "in tree", t  ]);
+        ecoeffs:=coeffs[Position(ecopies,ec)];
+        ecoeffs.(copymap.(s)):=ecoeffs.(copymap.(s))+a[scopy2var.(s)];
+        coeffs[Position(ecopies,ec)]:=ecoeffs;
+      fi;
+    od;
+  od;
+ecpairs:=Combinations(ecopies,2);
+srcpairs:=Combinations(NC[2],2);
+#srcpairs:=Combinations([1..nsrc],2);
+epolylist:=[];
+for ecpair in ecpairs do
+  #if not sinkid(NC,ds,ecpair[1][1])=sinkid(NC,ds,ecpair[2][1]) then
+    for srcpair in srcpairs do
+      if not coeffs[Position(ecopies,ecpair[1])].(srcpair[1])=0 and not coeffs[Position(ecopies,ecpair[2])].(srcpair[1])=0 then
+        if not coeffs[Position(ecopies,ecpair[1])].(srcpair[2])=0 and not coeffs[Position(ecopies,ecpair[2])].(srcpair[2])=0 then
+          p:=coeffs[Position(ecopies,ecpair[1])].(srcpair[1])*coeffs[Position(ecopies,ecpair[2])].(srcpair[2])-coeffs[Position(ecopies,ecpair[2])].(srcpair[1])*coeffs[Position(ecopies,ecpair[1])].(srcpair[2]);
+          Append(epolylist,[p]);
+        fi;
+      fi;
+    od;
+  #fi;
+od;
+if vl>0 then
+  Display(["Edge compatiblity conditions for ", e," = ", Size(epolylist)]);
+  Display(epolylist);
+fi;
+return epolylist;
+end);
+
+InstallGlobalFunction(IsSolvableNC2,
+function(NC,ds,copymap,F,elist,vl)
+# requires NC, ds and elist to have colored edges
+local varlist,scopy2var,varid,v,PR,a,polylist,s,p,c,v1,v2,s1,s2,plhs,prhs,plhs1,plhs2,prhs1,prhs2,hf1,hf2,hf3,hf4,h,t,vp,pairs,goodlist,spairs,sp,I,e,nb_noi,nb_ec;
+varlist:=[];
+scopy2var:=rec(); # map leafs to variables
+varid:=1;
+for v in ds[1] do
+  if ds[4].(v)=0 then # leafs
+    Append(varlist,[Concatenation("a",String(v))]);
+    scopy2var.(v):=varid;
+    varid:=varid+1;
+  fi;
+od;
+PR:=PolynomialRing(F,varlist);
+a:=IndeterminatesOfPolynomialRing( PR );;
+if vl>0 then
+  Display(Concatenation("There are ",String(Size(a))," path gain variables."));
+fi;
+polylist:=[];
+for v in ds[1] do # for each vtx
+  if ds[6].(v)=0 then # if it is a sink copy
+    for s in NC[2] do # for each source
+      p:=0;
+      for c in ds[1] do # for each copy
+        if IsBound(copymap.(c)) and copymap.(c)=s and IsReachable(ds,c,v) then# id it is a copy of s and reaches v
+          # add c's variable to p
+          p:=p+a[scopy2var.(c)];
+        fi;
+      od;
+      # add 0 or 1 based on whether s is needed
+
+      if not p=0 then
+        if s in NC[4][Position(NC[3],copymap.(v))] then
+         p:=p-1;
+        fi;
+        Append(polylist,[p]);
+      fi;
+    od;
+  fi;
+od;
+nb_noi:=Size(polylist);
+#Display(["Nointerference =",Size(polylist)]);
+for e in elist do
+  Append(polylist,EdgeComp2(e,NC,ds,a,scopy2var,copymap,vl-1));
+od;
+nb_ec:=Size(polylist)-nb_noi;
+if vl>0 then
+  Display(Concatenation("No-Interference (",String(nb_noi),") + Edge-Compatibility (",String(nb_ec), ") = ",String(Size(polylist)), " polynomials." ));
+fi;
+#Display(["EdgeComp =",Size(polylist)]);
+#Display(goodlist);
+# Append field related conditions to polylist
+for v in a do
+  Append(polylist,[v^Size(F)-v]);
+od;
+I:=Ideal(PR,polylist);
+#Display(HasTrivialGroebnerBasis(I));
+if vl>1 then
+  Display(["Groebner Basis:",GroebnerBasis(I)]);
+fi;
+return [not HasTrivialGroebnerBasis(I),GroebnerBasis(I)];
+end);
+
+InstallGlobalFunction(proverate_groebner,
+function(ncinstance,rvec,F,optargs)
+  local NC,CNC,ds,copymap,elist,rlist,vl;
+  if Size(optargs)>0 then
+    vl:=optargs[1];
+  else
+    vl:=0;
+  fi;
+  if vl>0 then
+    Display("Constructig DAG...");
+  fi;
+  rlist:=NCinstance2dag2(ncinstance,rvec);
+  NC:=rlist[1];
+  elist:=rlist[1][1][2];
+  elist:=ColorEdges(elist);
+  CNC:=NC2coloredNC(NC);
+  if vl>0 then
+    Display(Concatenation("DAG has ",String(Size(CNC[1][1]))," vertices and ",String(Size(CNC[1][2])), " edges."));
+    Display("Constructig forest...");
+  fi;
+  rlist:=ForestTransform2(CNC);
+  ds:=rlist[1];
+  copymap:=rlist[2];
+  if vl>0 then
+    Display(Concatenation("The forest has ",String(Size(ds[1]))," vertices and ",String(Size(ds[2])), " edges."));
+  fi;
+  #Display(["field",F]);
+  return IsSolvableNC2(CNC,ds,copymap,F,elist,vl);
+end);
+
+
+# rate region computation using lrs
+InstallGlobalFunction(skipline,
+function(str,i)
+local j;
+if i>Size(str) or i<0 then
+  return -1;
+fi;
+for j in [i..Size(str)] do
+  if str[j]='\n' then
+    if j=Size(str) then
+      return -1;
+    else
+      return j+1;
+    fi;
+  fi;
+od;
+return -1;
+end);
+
+InstallGlobalFunction(nextnum,
+function(str,i)
+local foundnum, j,k,isneg;
+if i>Size(str) or i<0 then
+  return -1;
+fi;
+foundnum:=false;
+isneg:=false;
+for j in [i..Size(str)] do
+  if not str[j]=' ' then
+    if IsDigitChar(str[j]) then
+      if j-1>=1 and str[j-1]='-' then
+        isneg:=true;
+      fi;
+      foundnum:=true;
+      break;
+    fi;
+  fi;
+od;
+if foundnum=false then
+ return [false,-1,-1]; # [found?, number, next_i]
+fi;
+for k in [j+1..Size(str)] do
+  if not IsDigitChar(str[k]) then
+    break;
+  fi;
+od;
+if isneg=true then
+  return [true,Int(str{[j-1..k-1]}),k];
+else
+  return [true,Int(str{[j..k-1]}),k];
+fi;
+end);
+
+
+InstallGlobalFunction(Readextfile,
+function(fname)
+local input,str,k,mtx,vec,j,vecstr,pos,rlist;
+input := InputTextFile(fname);;
+str:=ReadAll(input);
+CloseStream(input);
+k:=1;
+while not k=-1 do
+  if not k+4>Size(str) then
+    if not str{[k..k+4]}="begin" then
+      k:=skipline(str,k);
+    else
+      break;
+    fi;
+  else
+    return []; # no matrix in the file
+  fi;
+od;
+mtx:=[];
+k:=skipline(str,k);
+k:=skipline(str,k);
+if k=-1 then
+  return mtx;
+fi;
+while not str{[k..k+2]}="end" do
+  vec:=[];
+  j:=skipline(str,k);
+  vecstr:=str{[k..j-1]};
+  pos:=1;
+  while not pos=-1 do
+    rlist:=nextnum(vecstr,pos);
+    if rlist[1]=false then
+      break;
+    fi;
+    Append(vec,[rlist[2]]);
+    pos:=rlist[3];
+  od;
+  Append(mtx,[vec]);
+  k:=j;
+  if k=-1 then
+    return mtx;
+  fi;
+od;
+return mtx;
+end);
+
+InstallGlobalFunction(writeinefile,
+function(fname,lin,mtx)
+local ostr,row,i,r;
+ostr:="";
+if Size(lin)=0 then
+  ostr:=Concatenation(ostr,"H-representation\nbegin\n",String(Size(mtx))," ",String(Size(mtx[1])), " rational\n");
+else
+  ostr:= Concatenation(ostr,"H-representation\n","linearity ");
+  for r in lin do
+      ostr:=Concatenation(ostr,String(r)," ");
+  od;
+  ostr:=Concatenation(ostr,"\nbegin\n",String(Size(mtx))," ",String(Size(mtx[1])), " rational\n");
+fi;
+for i in [1..Size(mtx)] do
+    row:=mtx[i];
+    #ostr:=Concatenation(ostr,"0 ");
+    for r in row do
+        ostr:=Concatenation(ostr,String(r)," ");
+    od;
+    ostr:=Concatenation(ostr,"\n");
+od;
+ostr:=Concatenation(ostr,"end");
+PrintTo(fname,ostr);
+end);
+
+InstallGlobalFunction(Readinefile,
+function(fname)
+local input,str,k,mtx,vec,j,vecstr,pos,rlist,lin,haslin;
+input := InputTextFile(fname);;
+str:=ReadAll(input);
+CloseStream(input);
+k:=1;
+lin:=[];
+haslin:=false;
+while not k=-1 do
+  #Display(["linloop ",k]);
+  if not k+8>Size(str) then
+    if not str{[k..k+8]}="linearity" then
+      k:=skipline(str,k);
+    else
+      haslin:=true;
+      break;
+    fi;
+  else
+    break;
+  fi;
+od;
+if haslin=true then
+  lin:=[];
+  j:=skipline(str,k);
+  vecstr:=str{[k+9..j-1]};
+  pos:=1;
+  while not pos=-1 do
+    rlist:=nextnum(vecstr,pos);
+    if rlist[1]=false then
+      break;
+    fi;
+    Append(lin,[rlist[2]]);
+    pos:=rlist[3];
+  od;
+fi;
+k:=1;
+while not k=-1 do
+  #Display(["begloop ",k]);
+  if not k+4>Size(str) then
+    if not str{[k..k+4]}="begin" then
+      k:=skipline(str,k);
+    else
+      break;
+    fi;
+  else
+    return [[],[]]; # no matrix in the file
+  fi;
+od;
+mtx:=[];
+k:=skipline(str,k);
+k:=skipline(str,k);
+if k=-1 then
+  return mtx;
+fi;
+while not str{[k..k+2]}="end" do
+#Display(["endloop ",k]);
+  vec:=[];
+  j:=skipline(str,k);
+  vecstr:=str{[k..j-1]};
+  pos:=1;
+  while not pos=-1 do
+    rlist:=nextnum(vecstr,pos);
+    if rlist[1]=false then
+      break;
+    fi;
+    Append(vec,[rlist[2]]);
+    pos:=rlist[3];
+  od;
+  Append(mtx,[vec]);
+  k:=j;
+  if k=-1 then
+    return [lin,mtx];
+  fi;
+od;
+return [lin,mtx];
+end);
+
+
+
+InstallGlobalFunction(rrcompute_lrs,
+function(rays,nsrc,nvars,lrs_exec)
+local ray,f1name,f2name,f3name,f4name,rlist,lin,mtx,new_mtx,row,i,rays2,projrays,temp_dir,f2rname;
+#lrs_exec:="/home/aspitrg3-users/jayant/lrslib-061/lrs";
+temp_dir:=DirectoryTemporary();
+f1name:=Filename( temp_dir, "file1.ext" );
+f2name:=Filename( temp_dir, "file2.ine" );
+f2rname:=Filename( temp_dir, "file2r.ine" );
+f3name:=Filename( temp_dir, "file3.ext" );
+f4name:=Filename( temp_dir, "rr.ext" );
+rays2extfile(f1name,rays);
+Exec(Concatenation(lrs_exec," ",f1name," ",f2name));;
+rlist:=Readinefile(f2name);
+lin:=rlist[1];
+mtx:=rlist[2];
+new_mtx:=[];
+for row in mtx do
+  Append(new_mtx,[Concatenation(ZeroMutable([1..nvars-nsrc]),row)]);
+od;
+for i in [1..nvars-nsrc] do
+  Append(new_mtx,[Concatenation([0],ZeroMutable([1..i-1]),[1],ZeroMutable([1..nvars-nsrc-i]),ZeroMutable([1..nsrc]),ZeroMutable([1..i-1]),[-1],ZeroMutable([1..nvars-nsrc-i]))]);
+od;
+for i in [1..nvars-nsrc] do
+  Append(new_mtx,[Concatenation([0],ZeroMutable([1..i-1]),[1],ZeroMutable([1..nvars-nsrc-i]),ZeroMutable([1..nvars]))]);
+od;
+writeinefile(f2rname,lin,new_mtx);
+Exec(Concatenation(lrs_exec," ",f2rname," ",f3name));;
+rays2:=Readextfile(f3name);
+projrays:=[];
+for ray in rays2 do
+Append(projrays,[Concatenation(ray{[nvars-nsrc+1..nvars]},ray{[1..nvars-nsrc]})]);
+od;
+rays2extfile(f4name,projrays);
+Exec(Concatenation(lrs_exec," ",f4name));
+end);
+
+InstallGlobalFunction(rays2extfile,
+function(fname,rays)
+local ostr,ray,i,r;
+ostr:=Concatenation("V-representation\nbegin\n",String(Size(rays))," ",String(Size(rays[1])+1), " rational\n");
+for i in [1..Size(rays)] do
+    ray:=rays[i];
+    ostr:=Concatenation(ostr,"0 ");
+    for r in ray do
+        ostr:=Concatenation(ostr,String(r)," ");
+    od;
+    ostr:=Concatenation(ostr,"\n");
+od;
+ostr:=Concatenation(ostr,"end");
+PrintTo(fname,ostr);
+#return ostr;
+end);
+
+InstallGlobalFunction(conichull_lrs,
+function(rays,lrs_exec)
+local fname;
+#lrs_exec:="/home/aspitrg3-users/jayant/lrslib-061/lrs";
+fname:=Filename( DirectoryTemporary(), "file.ext" );
+rays2extfile(fname,rays);
+Exec(Concatenation(lrs_exec," ",fname));
+return;
+end);
+
+
+InstallGlobalFunction(LeiterspielWCons_vec_lazy,
+function(G,D,A,AonSets,max_simple,netcons,nsrc,nvars,loopy)
+   local O, OrbitTrans, StabMap, transMap, k, j, i, subsSize, transR, phiR, stabR, tempOrbs,rpcodes,trlist,
+   l, curLoc, R, lj, x, Rux, H, rl, ri, Rmrux, r, t, S, tr, lS, ltr, h, y, ly, psi,PcodeList,tempJointPcodeList,
+   rep,tempPcodeList,rlist,apc,nrep,search_success,JointPcodeList,AllCodes,pcodelist1,pcodelist,surviving_simple;
+   O:=OrbitsDomainSorted(G,D,A);
+   # List of Lists storing transversals
+   OrbitTrans:=EmptyPlist(Size(D));
+   OrbitTrans[1]:=[];
+   StabMap:=EmptyPlist(Size(D));
+   StabMap[1]:=[];
+   transMap:=EmptyPlist(Size(D));
+   # list of maps with map at index i serving as validity certificate of OrbitTrans[subsSize][i]
+   PcodeList:=[];
+   for i in [1..Size(O)] do
+      OrbitTrans[1][i]:=[O[i][1]];
+      StabMap[1][i]:=Stabilizer(G,OrbitTrans[1][i][1],A);
+      #for j in [1..Size(O[i])] do
+      #  k:=Position(D,O[i][j]);
+      #  transMap[k]:=RepresentativeAction(G,O[i][j],O[i][1],A);
+      #od;
+   od;
+   # initialize PcodeList with lexicographically smallest pcode rec(1:=1) for each transversal element
+   for rep in OrbitTrans[1] do
+    Append(PcodeList,[rec(1:=1)]);
+   od;
+   # compute applicable constraints for each subset of {1,...nvars}
+   apc:=AppCns(netcons,nvars);
+   psi:=[];
+   phiR:=[];
+   tempPcodeList:=[];
+   search_success:=true;
+   # enumerate incrementally in subsSize
+   for subsSize in [1..max_simple-1] do
+    #Display(["n=",subsSize]);
+    #Display(["sets",Size(OrbitTrans[subsSize])]);
+    #Display(["All set exts",OrbitTrans[subsSize]]);
+    #Display(["pcodes",Size(tempPcodeList)]);
+
+    #Display(["i",i,tempPcodeList]);
+    for nrep in [1..Size(OrbitTrans[subsSize])] do
+      #Display(OrbitTrans[subsSize][nrep]);
+      #Display(PcodeList[nrep]);
+    od;
+    tempPcodeList:=[];
+    StabMap[subsSize+1]:=[];
+    OrbitTrans[subsSize+1]:=[];
+    if Size(OrbitTrans[subsSize])=0 then
+     break;
+    fi;
+    transR:=[];
+    phiR[subsSize]:=[];
+    stabR:=[];
+    for i in [1..Size(OrbitTrans[subsSize])] do
+    # calculate the transversal and transporter
+     transR[i]:=[];
+     phiR[subsSize][i]:=[];
+     stabR[i]:=[];
+     tempOrbs:=OrbitsDomainSorted(StabMap[subsSize][i],Difference(D,OrbitTrans[subsSize][i]),A);
+     for j in [1..Size(tempOrbs)] do
+      transR[i][j] := tempOrbs[j][1];
+      stabR[i][j] := Stabilizer(StabMap[subsSize][i],transR[i][j],A);
+      for k in [1..Size(tempOrbs[j])] do
+       l:=Position(D,tempOrbs[j][k]);
+       phiR[subsSize][i][l]:=RepresentativeAction(StabMap[subsSize][i],tempOrbs[j][k],tempOrbs[j][1],A);
+      od;
+     od;
+    od;
+    psi[subsSize]:=EmptyPlist(Size(OrbitTrans[subsSize]));
+    for i in [1..Size(OrbitTrans[subsSize])] do
+     psi[subsSize][i]:=EmptyPlist(Size(D));
+     for j in [1..Size(D)] do
+      psi[subsSize][i][j]:=[];
+     od;
+    od;
+    curLoc:=1;
+    #for each set R in the transversal
+
+    for i in [1..Size(OrbitTrans[subsSize])] do
+     R:=OrbitTrans[subsSize][i];
+     #Display("Try Extending");
+     #Display(R);
+     # for each x to augment it with
+     for j in [1..Size(transR[i])] do
+      lj:=Position(D,transR[i][j]);
+      #Display(["Test x="]);
+      if Size(psi[subsSize][i][lj])=0 then
+      # this was undefined, so go here
+        x:=transR[i][j];
+        Rux:=ShallowCopy(R);
+        Append(Rux,[x]);
+        #Sort(Rux);
+        #Display(x);
+        rlist:=certsearch_vec(Rux,ShallowCopy(PcodeList[i]),netcons,apc,0,nsrc,nvars);
+        if rlist[1]=true then
+          H:=stabR[i][j];
+          #caculate initial orbit under H in R
+          if Size(R)>1 then
+            rl:=OrbitsDomainSorted(H,R,A);
+          else
+            rl:=[R];
+          fi;
+          for ri in [1..Size(rl)] do
+            r:=rl[ri][1];
+            Rmrux:=Concatenation(Difference(R,[r]),[x]);
+            Sort(Rmrux);
+            # find the transporter for Rmrux
+            trlist:=transportMapLazy(Rmrux, D, A, AonSets, phiR, psi, transMap, OrbitTrans,G);
+            t:=trlist[1];
+            transMap:=trlist[2];
+            S:=AonSets(Rmrux,t);
+            # S is now canonical representative
+            tr:=A(r,t);
+            lS:=SortedPosition(OrbitTrans[subsSize],S,4);
+            if not lS=fail then
+              ltr:=SortedPosition(D,tr,2);
+              h:=phiR[subsSize][lS][ltr];
+              y:=A(tr,h);
+              ly:=SortedPosition(D,y,2);
+              if S=R and x=y then
+                # we found a new group element of H
+                H:=ClosureGroup(H,t*h);
+                #gap uses a right group action
+              else
+                psi[subsSize][lS][ly]:=[Inverse(t*h)];
+              fi;
+            fi;
+          od;
+          #Display(["i'",i,tempPcodeList]);
+          Append(tempPcodeList,[rlist[2]]);
+          Append(OrbitTrans[subsSize+1],[Rux]);
+          StabMap[subsSize+1][curLoc]:=H;
+          curLoc:=curLoc+1;
+          #Display(["i''",i,tempPcodeList]);
+        fi;
+      fi;
+     od;
+    od;
+   if Size(OrbitTrans[subsSize+1])=0 then
+    search_success:=false;
+    break;
+   fi;
+   PcodeList:=ShallowCopy(tempPcodeList);
+   od;
+   if search_success=true then
+    JointPcodeList:=[];
+    for i in [1..Size(OrbitTrans[max_simple])] do
+      Append(JointPcodeList,[[[OrbitTrans[max_simple][i],PcodeList[i]]]]); # each member of JointPcodeList is a list of non-simple extensions of same simple poly
+    od;
+
+    for i in [max_simple+1..nvars] do
+      tempJointPcodeList:=[];
+      #Display(["itrn",i,"npcodes",Size(JointPcodeList)]);
+      surviving_simple:=0;
+      for j in [1..Size(JointPcodeList)] do
+        if Size(JointPcodeList[j])>0 then
+          pcodelist:=JointPcodeList[j];
+          pcodelist1:=extend_pcodes_vec(pcodelist,netcons,apc,nsrc,nvars,loopy);
+          if Size(pcodelist1)>0 then
+            surviving_simple:=surviving_simple+1;
+            Append(tempJointPcodeList,[pcodelist1]);
+          fi;
+          #JointPcodeList[j]:=pcodelist1;
+        fi;
+      od;
+      JointPcodeList:=ShallowCopy(tempJointPcodeList);
+      #if i=3 then
+      #  return JointPcodeList;
+      #fi;
+      #Display(JointPcodeList);
+      if surviving_simple=0 then
+        search_success:=false;
+        break;
+      fi;
+    od;
+    rpcodes:=[];
+    if search_success=true then
+      for i in [1..Size(JointPcodeList)] do
+        Append(rpcodes,JointPcodeList[i]);
+      od;
+      return rpcodes;#JointPcodeList;
+    else
+      return [];
+    fi;
+   else
+    return [];
+   fi;
+end);
+
+
+InstallGlobalFunction(veccodegen,
+function(ncinstance,F,d,k,s,optargs)
+  local loopy,konly,A,AonSets,D,gl;
+  # ncinstance: [cons,nsrc,nvars]
+  #   cons: constraints as a list of list of lists
+  #   nsrc: no. of sources
+  #   nvars: no. of variables
+  # F: a finite field over which codes are to be generated
+  # d: maximum rank of underlying matroid
+  # k: maximum singleton rank
+  # s: maximum size of underlying simple matroid
+  # optargs: [loopy,konly]
+  # loopy: If true, then loopy codes will be generated
+  # konly: If true, then only codes with singleton rank=k (or 0 based on 'loopy')
+  #        will be generated
+  gl:=GL(d,Size(F));
+  A:= OnSubspacesByCanonicalBasis;
+  AonSets:= OnSetOfSubspacesByCanonicalBasis;
+  # Add cases here as per requirement
+  if Size(optargs)>=2 then
+    loopy:=optargs[1];
+    konly:=optargs[2];
+  elif Size(optargs)>=1 then
+    loopy:=optargs[1];
+    konly:=false;
+  fi;
+  if konly=true then
+    D:=baseskd_k(Size(F),d,k);
+  else
+    D:=baseskd(Size(F),d,k);
+  fi;
+  return LeiterspielWCons_vec_lazy(gl,D,A,AonSets,s,ncinstance[1],ncinstance[2],ncinstance[3],loopy);
+end);
+
+InstallGlobalFunction(trivialrates,
+function(nsrc,nvars)
+local trates,r,i;
+trates:=[];
+for i in [nsrc+1..nvars] do
+    r:=ZeroMutable([1..nvars]);
+    r[i]:=1;
+    Append(trates,[r]);
+od;
+return trates;
+end);
+
+
+InstallGlobalFunction(proveregion,
+function(ncinstance,k,F,optargs)
+  # optargs: []
+  #    force_nsimple: boolean that forces the prover to use only the simple codes of specified length,default false
+  #    lazy: a boolean indicating whether transporter maps will be evaluated lazily,default true
+  local opt_dmax,dlist,d,cons,nsrc,nvars,rlist,i,min_simple,max_simple,nsimple,lazy,allcodes,allrates,apc,code;
+  cons:=ncinstance[1];
+  nsrc:=ncinstance[2];
+  nvars:=ncinstance[3];
+  # determine dlist
+  if Size(optargs)> 0 then
+  	opt_dmax:=optargs[1];
+  else
+	opt_dmax:=k*nsrc;
+  fi;
+  dlist:=[1..Minimum(k*nsrc,opt_dmax)];
+  lazy:=true;
+  allrates:=trivialrates(ncinstance[2],ncinstance[3]); # A list of lists [rvec,parent,map] where parent is index of the code in allcodes
+  allcodes:=[];
+  apc:=AppCns(cons,nvars);
+  for d in dlist do
+
+        min_simple:=d;
+        max_simple:=nvars;
+        for nsimple in [min_simple..max_simple] do
+            #Display(Concatenation("search for","d=",String(d),"nsimple=",String(nsimple)));
+            rlist:=veccodegen(ncinstance,F,d,Minimum([d,k]),nsimple,[true]); # rlist is a list containing lists [code,map]
+            for code in rlist do
+                Append(allrates,certsearch_allrates(code[1],rec(),cons,apc,0,nsrc,nvars));
+                allrates:= DuplicateFreeList( allrates );
+                Append(allcodes,[code[1]]);
+            od;
+        od;
+  od;
+  return [allrates,allcodes];
+end);
+
+InstallGlobalFunction(HyperedgeNet1,
+function()
+return [[[[1,2,3],[1,2,3,4]],[[1,3,4],[1,3,4,5]],[[3,4,5],[3,4,5,6]],[[4,5],[1,3,4,5]],[[4,6],[2,3,4,6]],[[5,6],[2,3,5,6]]],3,6];
+end);
+
+InstallGlobalFunction(HyperedgeNet2,
+function()
+return [[[[1,2,3,5],[1,2,3,4,5]],[[1,3],[1,3,5]],[[3,4,5],[3,4,5,6]],[[4,5],[1,3,4,5]],[[4,6],[2,3,4,6]],[[5,6],[2,3,5,6]]],3,6];
 end);

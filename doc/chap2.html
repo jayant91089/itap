@@ -26,24 +26,27 @@
 
 <h3>2 <span class="Heading">Installation</span></h3>
 
-<p>To get the latest version of this GAP 4 package download one of the archive files itap-x.x.zip, itap-x.x.tar.gz, itap-x.x.zoo, itap-x.x.tar.bz2 from <span class="URL"><a href="https://github.com/jayant91089/itap">https://github.com/jayant91089/itap</a></span> or <span class="URL"><a href="http://www.ece.drexel.edu/walsh/aspitrg/software.html">http://www.ece.drexel.edu/walsh/aspitrg/software.html</a></span> and unpack it using</p>
+<p>ITAP requires GAP interface to singular <a href="chapBib.html#biBsingulargap">[CG12]</a> which is another GAP package. Nowadays, it comes bundled with GAP 4.7+. If your gap installation doesn't have this package you can follow the instructions in <a href="chapBib.html#biBsingulargap">[CG12]</a> to install it. To get the newest version of ITAP, download the .zip archive from <span class="URL"><a href="https://github.com/jayant91089/itap">https://github.com/jayant91089/itap</a></span> and unpack it using</p>
 
-<p class="pcenter">\texttt{gunzip itap-x.x.zip}</p>
+<p class="pcenter">\texttt{unzip itap-x.zip}</p>
 
-<p>or</p>
+<p>Do this preferably inside the <span class="Math">pkg</span> subdirectory of your GAP 4 installation. It creates a subdirectory called <span class="Math">itap</span>. This completes the installation of the package. If you do not know the whereabouts of the <span class="Math">pkg</span> subdirectory, invoke the following in GAP:</p>
 
-<p class="pcenter">\texttt{gunzip itap-x.x.tar.gz}</p>
 
-<p>respectively and so on. Do this preferably (but not necessarily) inside the <span class="Math">\texttt{pkg}</span> subdirectory of your GAP 4 installation. It creates a subdirectory called <span class="Math">\texttt{itap}</span>. This completes the installation of the package. One can then start using <span class="Math">\texttt{itap}</span> by invoking</p>
+<div class="example"><pre>
+GAPInfo.("RootPaths");
+</pre></div>
 
-<p class="pcenter">\texttt{gap&gt;}</p>
+<p>Look for pkg directory inside any of the paths returned. One can then start using ITAP by invoking</p>
+
+<p class="pcenter">gap&gt;</p>
 
 
 <div class="example"><pre>
 LoadPackage( "itap");
 </pre></div>
 
-<p>from within GAP. <span class="Math">\textbf{Optional Dependencies}</span>: <span class="Math">\texttt{itap}</span> can optionally use gap package <span class="Math">\texttt{FinInG}</span>. <span class="Math">\texttt{FinInG}</span> provides allows internal functions to use projective semilinear group <span class="Math">P\Gamma L(k,q)</span>, which is the group of all collineations of the vector space <span class="Math">GF(q)^k</span>. See <span class="URL"><a href="http://cage.ugent.be/fining/">http://cage.ugent.be/fining/</a></span> for information on how to obtain and install this package. <span class="Math">\texttt{LoadPackage( "itap")}</span> automatically checks if <span class="Math">\texttt{FinInG}</span> is available and loads it in case it is available. If <span class="Math">\texttt{FinInG}</span> is absent, a light version of <span class="Math">\texttt{itap}</span> is loaded, where the internal functions default to using projective general linear group <span class="Math">PGL(k,q)\leq P\Gamma L(k,q)</span>. Note that this distinction is irrelevent if <span class="Math">q</span> is a prime number as <span class="Math">PGL(k,q)\cong P\Gamma L(k,q)</span>.</p>
+<p>from within GAP. This would automatically load the GAP interface to singular, so you don't have to load it seperately.</p>
 
 
 <div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3.html">[Next Chapter]</a>&nbsp;  </div>

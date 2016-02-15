@@ -4,41 +4,48 @@
 
   \indexspace
 
-  \item \texttt  {BenaloahLeichter}, \hyperpage{10}
-  \item \texttt  {ButterflyNet}, \hyperpage{9}
+  \item \texttt  {BenaloahLeichter}, \hyperpage{11}
+  \item \texttt  {ButterflyNet}, \hyperpage{11}
 
   \indexspace
 
-  \item \texttt  {DisplayCode}, \hyperpage{7}
+  \item \texttt  {DisplayCode}, \hyperpage{8}
 
   \indexspace
 
-  \item \texttt  {FanoNet}, \hyperpage{8}
+  \item \texttt  {FanoNet}, \hyperpage{9}
 
   \indexspace
 
-  \item \texttt  {NonFanoNet}, \hyperpage{9}
+  \item \texttt  {HyperedgeNet1}, \hyperpage{13}
+  \item \texttt  {HyperedgeNet2}, \hyperpage{14}
+
+  \indexspace
+
+  \item \texttt  {NonFanoNet}, \hyperpage{10}
 
   \indexspace
 
   \item \texttt  {proverate}, \hyperpage{5}
+  \item \texttt  {proverate{\textunderscore }groebner}, \hyperpage{7}
+  \item \texttt  {proveregion}, \hyperpage{6}
   \item \texttt  {proverep}, \hyperpage{5}
-  \item \texttt  {provess}, \hyperpage{6}
+  \item \texttt  {provess}, \hyperpage{7}
 
   \indexspace
 
-  \item \texttt  {Subspace5}, \hyperpage{10}
+  \item \texttt  {Subspace5}, \hyperpage{11}
 
   \indexspace
 
-  \item \texttt  {Threshold}, \hyperpage{11}
+  \item \texttt  {Threshold}, \hyperpage{12}
 
   \indexspace
 
-  \item \texttt  {U2kNet}, \hyperpage{9}
+  \item \texttt  {U2kNet}, \hyperpage{10}
 
   \indexspace
 
-  \item \texttt  {VamosNet}, \hyperpage{9}
+  \item \texttt  {VamosNet}, \hyperpage{10}
 
 \end{theindex}

@@ -1,6 +1,6 @@
-This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
-Scanning input file itap.idx....done (13 entries accepted, 0 rejected).
-Sorting entries....done (47 comparisons).
-Generating output file itap.ind....done (44 lines written, 0 warnings).
+This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
+Scanning input file itap.idx....done (17 entries accepted, 0 rejected).
+Sorting entries....done (74 comparisons).
+Generating output file itap.ind....done (51 lines written, 0 warnings).
 Output written in itap.ind.
 Transcript written in itap.ilg.

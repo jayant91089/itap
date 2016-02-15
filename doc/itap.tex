@@ -160,34 +160,50 @@ questions 'Is there a multi-linear secret sharing scheme over $GF(q)$ for this a
 \item  Representability test for integer polymatroids over a given finite field:
 answer questions like `Is the integer polymatroid associated with this rank
 vector linear over $GF(q)$? 
+\item  Achievable Rate Region Computation: For a network coding instance, what is the
+rate region achievable using linear codes with maximum message size $k$ and maximum code dimension $d$? 
 \end{itemize}
- All three questions above are very similar, in that, we are looking for a
-linear representation of an integer polymatroid satisfying certain properties
-(satisfying network coding constraints, access structure and having a
-specified rank vecor resp.) In the most general form an achievability prover
-should be able to tell if there exists a joint distribution satisfying certain
-constraints on entropy function which remains a fundamental open problem. ITAP
-tries answering this in a more restricted sense, i.e. with vector linear
-codes. The algorithm underlying $\texttt{itap}$ is called Leiterspiel or the algorithm of snakes and ladders. See \cite{betten2006error} for details. }
+ Above questions are very similar to each other, in that, we are looking for
+linear representations of integer polymatroids satisfying certain properties
+(i.e. network coding constraints, access structure or having a specified rank
+vecor respectively). In its most general form an achievability prover is a
+computer program that able to answer if there exists a joint distribution
+satisfying certain constraints on entropy function. It is not known how to
+design such a computer program, as it is closely related to the
+characterization of the entropy function. ITAP tries answering this
+existential question in a much restricted sense, i.e. with respect to the
+joint distributions arising from vector linear codes aka integer linear
+polymatroids. The main algorithm underlying ITAP is called Leiterspiel or the
+algorithm of snakes and ladders. See \cite{betten2006error} for details. For answering the first question in the above list, one can also
+use the algebraic formulation of Koetter and Medard \cite{koetteralgebraic03} or its refinements such as the path gain formulation of Subramanian and
+Thangaraj \cite{subrapathgain10}. These formulations lead to a system of polynomial equations over a finite
+field and allows one to use Groebner basis computation algorithms to answer
+question 1. ITAP currently supports such computation using Singular \cite{DGPS} via the GAP interface to Singular\cite{singulargap}. }
 
    
 \chapter{\textcolor{Chapter }{Installation}}\label{Chapter_Installation}
 \logpage{[ 2, 0, 0 ]}
 \hyperdef{L}{X8360C04082558A12}{}
 {
-  To get the latest version of this GAP 4 package download one of the archive
-files itap-x.x.zip, itap-x.x.tar.gz, itap-x.x.zoo, itap-x.x.tar.bz2 from \href{https://github.com/jayant91089/itap} {\texttt{https://github.com/jayant91089/itap}} or \href{http://www.ece.drexel.edu/walsh/aspitrg/software.html} {\texttt{http://www.ece.drexel.edu/walsh/aspitrg/software.html}} and unpack it using 
-\[\texttt{gunzip itap-x.x.zip}\]
- or 
-\[\texttt{gunzip itap-x.x.tar.gz}\]
- respectively and so on. Do this preferably (but not necessarily) inside the $\texttt{pkg}$ subdirectory of your GAP 4 installation. It creates a subdirectory called $\texttt{itap}$. This completes the installation of the package. One can then start using $\texttt{itap}$ by invoking 
-\[\texttt{gap>}\]
+  ITAP requires GAP interface to singular \cite{singulargap} which is another GAP package. Nowadays, it comes bundled with GAP 4.7+. If
+your gap installation doesn't have this package you can follow the
+instructions in \cite{singulargap} to install it. To get the newest version of ITAP, download the .zip archive
+from \href{https://github.com/jayant91089/itap} {\texttt{https://github.com/jayant91089/itap}} and unpack it using 
+\[\texttt{unzip itap-x.zip}\]
+ Do this preferably inside the $pkg$ subdirectory of your GAP 4 installation. It creates a subdirectory called $itap$. This completes the installation of the package. If you do not know the
+whereabouts of the $pkg$ subdirectory, invoke the following in GAP: 
+\begin{Verbatim}[fontsize=\small,frame=single,label=Code]
+  GAPInfo.("RootPaths");
+\end{Verbatim}
+ Look for pkg directory inside any of the paths returned. One can then start
+using ITAP by invoking 
+\[gap>\]
  
 \begin{Verbatim}[fontsize=\small,frame=single,label=Code]
   LoadPackage( "itap");
 \end{Verbatim}
- from within GAP. $\textbf{Optional Dependencies}$: $\texttt{itap}$ can optionally use gap package $\texttt{FinInG}$. $\texttt{FinInG}$ provides allows internal functions to use projective semilinear group $P\Gamma L(k,q)$, which is the group of all collineations of the vector space $GF(q)^k$. See \href{http://cage.ugent.be/fining/} {\texttt{http://cage.ugent.be/fining/}} for information on how to obtain and install this package. $\texttt{LoadPackage( "itap")}$ automatically checks if $\texttt{FinInG}$ is available and loads it in case it is available. If $\texttt{FinInG}$ is absent, a light version of $\texttt{itap}$ is loaded, where the internal functions default to using projective general
-linear group $PGL(k,q)\leq P\Gamma L(k,q)$. Note that this distinction is irrelevent if $q$ is a prime number as $PGL(k,q)\cong P\Gamma L(k,q)$. }
+ from within GAP. This would automatically load the GAP interface to singular,
+so you don't have to load it seperately. }
 
    
 \chapter{\textcolor{Chapter }{Usage}}\label{Chapter_Usage}
@@ -199,7 +215,7 @@ linear group $PGL(k,q)\leq P\Gamma L(k,q)$. Note that this distinction is irrele
 \logpage{[ 3, 1, 0 ]}
 \hyperdef{L}{X835D65A88292737E}{}
 {
-  In this section we shall look at the functions provided by $\texttt{itap}$. 
+  In this section we shall look at the functions provided by ITAP. 
 
 \subsection{\textcolor{Chapter }{proverep}}
 \logpage{[ 3, 1, 1 ]}\nobreak
@@ -215,9 +231,9 @@ A list
  This function checks if there is a linear representation of an integer
 polymatroid rank vector. It accepts following arguments: 
 \begin{itemize}
-\item  $\texttt{rankvec}$ - A list of integers specifying a polymatroid rank vector 
-\item  $\texttt{nvars}$ - Number of ground set elements 
-\item  $\texttt{F}$ - The finite field over which we wish to find a linear representation. It can
+\item  $rankvec$ - A list of integers specifying a polymatroid rank vector 
+\item  $nvars$ - Number of ground set elements 
+\item  $F$ - The finite field over which we wish to find a linear representation. It can
 be defined by invoking the following in GAP: 
 \end{itemize}
  
@@ -227,13 +243,13 @@ be defined by invoking the following in GAP:
 \end{Verbatim}
  
 \begin{itemize}
-\item  $\texttt{optargs}$ is a list of optional arguments $\texttt{[lazy,..]}$ where 
+\item  $optargs$ is a list of optional arguments $[lazy,..]$ where 
 \begin{itemize}
-\item  $\texttt{lazy}$ disables lazy evaluation of transporter maps if set to $\texttt{false}$, which is enabled by default in GAP. 
+\item  $lazy$ disables lazy evaluation of transporter maps if set to $false$, which is enabled by default in GAP. 
 \end{itemize}
  
 \end{itemize}
- Returns a list $\texttt{[true,code]}$ if there exists such a representation and $\texttt{code}$ is the vector linear code over $GF(q)$ Returns a list $\texttt{[false]}$ otherwise, indicating that no such representation exists }
+ Returns a list $[true,code]$ if there exists such a representation and $code$ is the vector linear code over $GF(q)$ Returns a list $[false]$ otherwise, indicating that no such representation exists }
 
  
 
@@ -249,17 +265,18 @@ A list
 
 
  This function checks if there is a vector linear code achieving the rate
-vector $\texttt{rvec}$ for the network coding instance $\texttt{ncinstance}$. It accepts following arguments: 
+vector $rvec$ for the network coding instance $ncinstance$. Uses enumerative generation methods to syetematically search for the code
+with desired properties. It accepts following arguments: 
 \begin{itemize}
-\item  $\texttt{ncinstance}$ is a list $\texttt{[cons,nsrc,nvars]}$ containing 3 elements: 
+\item  $ncinstance$ is a list $[cons,nsrc,nvars]$ containing 3 elements: 
 \begin{itemize}
-\item  $\texttt{cons}$ is a list of network coding constraints. 
-\item  $\texttt{nsrc}$ is the number of sources. 
-\item  $\texttt{nvars}$ is the number of random variables associated with the network. 
+\item  $cons$ is a list of network coding constraints. 
+\item  $nsrc$ is the number of sources. 
+\item  $nvars$ is the number of random variables associated with the network. 
 \end{itemize}
  
-\item  $\texttt{rvec}$ - A list of $\texttt{nvars}$ integers specifying a rate vector 
-\item  $ \texttt{F}$ is the finite field over which we wish to find the vector linear code. It can
+\item  $rvec$ - A list of $nvars$ integers specifying a rate vector 
+\item  $ F$ is the finite field over which we wish to find the vector linear code. It can
 be defined by invoking the following in GAP: 
 \end{itemize}
  
@@ -269,16 +286,96 @@ be defined by invoking the following in GAP:
 \end{Verbatim}
  
 \begin{itemize}
-\item  $\texttt{optargs}$ is a list of optional arguments $\texttt{[lazy,..]}$ where $\texttt{lazy}$ disables lazy evaluation of transporter maps if set to $\texttt{false}$, which is enabled by default. 
+\item  $optargs$ is a list of optional arguments $[lazy,..]$ where $lazy$ disables lazy evaluation of transporter maps if set to $false$, which is enabled by default. 
 \end{itemize}
- Returns a list $\texttt{[true,code]}$ if there exists such a representation and $\texttt{code}$ is the vector linear code over $GF(q)$ Returns a list $\texttt{[false]}$ otherwise, indicating that no such code exists }
+ Returns a list $[true,code]$ if there exists such a representation and $code$ is the vector linear code over $GF(q)$ Returns a list $[false]$ otherwise, indicating that no such code exists }
+
+ 
+
+\subsection{\textcolor{Chapter }{proveregion}}
+\logpage{[ 3, 1, 3 ]}\nobreak
+\hyperdef{L}{X83FFD00983B6DB00}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{proveregion({\mdseries\slshape ncinstance, k, F, optargs})\index{proveregion@\texttt{proveregion}}
+\label{proveregion}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+A list 
+
+
+
+ This function computes the all rate vectors achievable via vector linear
+CodeString over the specified fiite field for the network coding instance $ncinstance$. Uses enumerative generation methods to syetematically search for codes with
+desired properties. It accepts following arguments: 
+\begin{itemize}
+\item  $ncinstance$ is a list $[cons,nsrc,nvars]$ containing 3 elements: 
+\begin{itemize}
+\item  $cons$ is a list of network coding constraints. 
+\item  $nsrc$ is the number of sources. 
+\item  $nvars$ is the number of random variables associated with the network. 
+\end{itemize}
+ 
+\item  $k$ - Maximum number of symbols per message 
+\item  $ F$ is the finite field over which we wish to find the vector linear codes. It can
+be defined by invoking the following in GAP: 
+\end{itemize}
+ 
+\begin{Verbatim}[fontsize=\small,frame=single,label=Code]
+  q:=4;;
+  F:= GF(q);; # here q must be a prime power
+\end{Verbatim}
+ 
+\begin{itemize}
+\item  $optargs$ is a list of optional arguments $[opt_dmax,..]$ where $opt_dmax$ specifies an upper bound on the dimension of linear codes (alternatively, the
+rank of underlying polymatroid) to search. By default this is equal to $nsrc*k$, which may sometimes be unnecessary, and a lower value might suffice. 
+\end{itemize}
+ Returns a list $[rays,codes]$ where $rays$ is a list of all achievable rate vectors and codes is a list of linear codes. }
+
+ 
+
+\subsection{\textcolor{Chapter }{proverate{\textunderscore}groebner}}
+\logpage{[ 3, 1, 4 ]}\nobreak
+\hyperdef{L}{X7D98B6B27DEE3636}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{proverate{\textunderscore}groebner({\mdseries\slshape ncinstance, rvec, F, optargs})\index{proverategroebner@\texttt{proverate{\textunderscore}groebner}}
+\label{proverategroebner}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+A list 
+
+
+
+ This function checks if there is a vector linear code achieving the rate
+vector $rvec$ for the network coding instance $ncinstance$. Uses GAP interface to $Singular$ to find Groebner basis of the system of polynomial equations given by the path
+gain algebraic construction of Subramanian and Thangraj \cite{subrapathgain10} . It accepts following arguments: 
+\begin{itemize}
+\item  $ncinstance$ is a list $[cons,nsrc,nvars]$ containing 3 elements: 
+\begin{itemize}
+\item  $cons$ is a list of network coding constraints. 
+\item  $nsrc$ is the number of sources. 
+\item  $nvars$ is the number of random variables associated with the network. 
+\end{itemize}
+ 
+\item  $rvec$ - A list of $nvars$ integers specifying a rate vector 
+\item  $ F$ is the finite field over which we wish to find the vector linear code. It can
+be defined by invoking the following in GAP: 
+\end{itemize}
+ 
+\begin{Verbatim}[fontsize=\small,frame=single,label=Code]
+  q:=4;;
+  F:= GF(q);; # here q must be a prime power
+\end{Verbatim}
+ 
+\begin{itemize}
+\item  $optargs$ is a list of optional arguments $[lazy,..]$ where $lazy$ disables lazy evaluation of transporter maps if set to $false$, which is enabled by default. 
+\end{itemize}
+ Returns a list $[true,code]$ if there exists such a representation where $code$ is the vector linear code over $GF(q)$. Returns a list $[false]$ otherwise, indicating that no such code exists }
 
  $\textbf{NOTE:}$ Certain naming convensions are followed while defining network coding
-instances. The source messages are labeled with $\texttt{[1...nsrc]}$ while rest of the messages are labeled $\texttt{[nsrc...nvars]}$. Furthermore, the list $\texttt{cons}$ includes all network constraints except source independence. This constraint
-is implied with the labeling i.e. $\texttt{itap}$ enforces it by default for the messages labeled $\texttt{[1...nsrc]}$. See next section for usage examples. 
+instances. The source messages are labeled with $[1...nsrc]$ while rest of the messages are labeled $[nsrc...nvars]$. Furthermore, the list $cons$ includes all network constraints except source independence. This constraint
+is implied with the labeling i.e. ITAP enforces it by default for the messages
+labeled $[1...nsrc]$. See next section for usage examples. 
 
 \subsection{\textcolor{Chapter }{provess}}
-\logpage{[ 3, 1, 3 ]}\nobreak
+\logpage{[ 3, 1, 5 ]}\nobreak
 \hyperdef{L}{X7D75794B7EAD6A00}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{provess({\mdseries\slshape Asets, nvars, svec, F, optargs})\index{provess@\texttt{provess}}
 \label{provess}
@@ -289,12 +386,12 @@ A list
 
 
  This function checks if there is a multi-linear secret sharing scheme with
-secret and share sizes given by $\texttt{svec}$ and the access structure $\texttt{Asets}$ with one dealer and $\texttt{nvars-1}$ parties. It accepts following arguments: 
+secret and share sizes given by $svec$ and the access structure $Asets$ with one dealer and $nvars-1$ parties. It accepts following arguments: 
 \begin{itemize}
-\item  $\texttt{Asets}$ - A list of authorized sets each specified as a subset of $[\texttt{nvars}-1]$ 
-\item  $\texttt{nvars}$ - Number of participants (including one dealer) 
-\item  $\texttt{svec}$ - vector of integer share sizes understood as number of $\mathbb{F}_q$ symbols, with index 1 giving secret size and index $i,i\in \{2,...,\texttt{nvars}\}$ specifying share sizes of different parties 
-\item  $\texttt{F}$ - The finite field over which we wish to find a multi-linear scheme. It can be
+\item  $Asets$ - A list of authorized sets each specified as a subset of $[nvars-1]$ 
+\item  $nvars$ - Number of participants (including one dealer) 
+\item  $svec$ - vector of integer share sizes understood as number of $\mathbb{F}_q$ symbols, with index 1 giving secret size and index $i,i\in \{2,...,nvars\}$ specifying share sizes of different parties 
+\item  $F$ - The finite field over which we wish to find a multi-linear scheme. It can be
 defined by invoking the following in GAP: 
 \end{itemize}
  
@@ -304,18 +401,18 @@ defined by invoking the following in GAP:
 \end{Verbatim}
  
 \begin{itemize}
-\item  $\texttt{optargs}$ is a list of optional arguments $\texttt{[lazy,..]}$ where 
+\item  $optargs$ is a list of optional arguments $[lazy,..]$ where 
 \begin{itemize}
-\item  $\texttt{lazy}$ disables lazy evaluation of transporter maps if set to $\texttt{false}$, which is enabled by default in GAP. 
+\item  $lazy$ disables lazy evaluation of transporter maps if set to $false$, which is enabled by default in GAP. 
 \end{itemize}
  
 \end{itemize}
- Returns a list $\texttt{[true,code]}$ if there exists such a scheme and $\texttt{code}$ is the vector linear code over $GF(q)$ Returns a list $\texttt{[false]}$ otherwise, indicating that no such scheme exists }
+ Returns a list $[true,code]$ if there exists such a scheme where $code$ is the vector linear code over $GF(q)$. Returns a list $[false]$ otherwise, indicating that no such scheme exists. }
 
- $\textbf{NOTE:}$ No input checking is performed to verify if input $\texttt{Asets}$ follows labeling convensions. The map returned with a linear scheme is a map $f:[\texttt{nvars}]\rightarrow [\texttt{nvars}]$ with dealer associated with label 1 and parties associated with labels $\{2,...,\texttt{nvars}\}$. See next section for usage examples. 
+ $\textbf{NOTE:}$ No input checking is performed to verify if input $Asets$ follows labeling convensions. The map returned with a linear scheme is a map $f:[nvars]\rightarrow [nvars]$ with dealer associated with label 1 and parties associated with labels $\{2,...,nvars\}$. See next section for usage examples. 
 
 \subsection{\textcolor{Chapter }{DisplayCode}}
-\logpage{[ 3, 1, 4 ]}\nobreak
+\logpage{[ 3, 1, 6 ]}\nobreak
 \hyperdef{L}{X83804D1E7BC6B451}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{DisplayCode({\mdseries\slshape code})\index{DisplayCode@\texttt{DisplayCode}}
 \label{DisplayCode}
@@ -327,10 +424,10 @@ nothing
 
  Displays a network code (or an integer polymatroid). It accepts 1 argument: 
 \begin{itemize}
-\item  $\texttt{code}$ - A list $\texttt{[s,map]}$ containing 2 elements: 
+\item  $code$ - A list $[s,map]$ containing 2 elements: 
 \begin{itemize}
-\item  $\texttt{s}$ - A list of subspaces where is subspace is itself a list of basis vectors 
-\item  $\texttt{map}$ - A GAP record mapping subspaces in $\texttt{s}$ to network messages or to polymatroid ground set elements 
+\item  $s$ - A list of subspaces where is subspace is itself a list of basis vectors 
+\item  $map$ - A GAP record mapping subspaces in $s$ to network messages or to polymatroid ground set elements 
 \end{itemize}
  
 \end{itemize}
@@ -373,9 +470,10 @@ nothing
 \logpage{[ 3, 2, 0 ]}
 \hyperdef{L}{X838C78867A52DDA3}{}
 {
-  $\texttt{itap}$ comes equipped with a catalog of examples, which contains well-known network
+  $itap$ comes equipped with a catalog of examples, which contains well-known network
 coding instances and integer polymatroids. This catalog is intended to be of
-help to the user for getting started with using $\texttt{itap}$. Most of the network coding instances in this catalog can be found in \cite{YeungBook} and \cite{DFZMatroidNetworks}. Some of the integer polymatroids in the catalog are taken from \href{http://code.ucsd.edu/zeger/linrank/} {\texttt{http://code.ucsd.edu/zeger/linrank/}}. These polymatroids correspond to the extreme rays of the cone of linear rank
+help to the user for getting started with using ITAP. Most of the network
+coding instances in this catalog can be found in \cite{YeungBook} and \cite{DFZMatroidNetworks}. Some of the integer polymatroids in the catalog are taken from \href{http://code.ucsd.edu/zeger/linrank/} {\texttt{http://code.ucsd.edu/zeger/linrank/}}. These polymatroids correspond to the extreme rays of the cone of linear rank
 inequalities in 5 variables, found by Dougherty, Freiling and Zeger. See \cite{DFZ2009Ineqfor5var} for details. 
 
 \subsection{\textcolor{Chapter }{FanoNet}}
@@ -492,18 +590,14 @@ A list
 
 
 
- Returns the instance associated with uniform matroid $U^2_k$. It accepts one argument $\texttt{k}$ specifying the size of uniform matroid. Returns a list. }
+ Returns the instance associated with uniform matroid $U^2_k$. It accepts one argument $k$ specifying the size of uniform matroid. Returns a list. }
 
  
 \begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
   !gapprompt@gap>| !gapinput@U2kNet(4);|
-  [ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 2 ], [ 1, 2, 4 ] ],
-        [ [ 1, 3 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],
-        [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 1, 4 ], [ 1, 3, 4 ] ],
-        [ [ 2, 3 ], [ 1, 2, 3 ] ], [ [ 2, 3 ], [ 2, 3, 4 ] ],
-        [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 2, 4 ], [ 2, 3, 4 ] ],
-        [ [ 3, 4 ], [ 1, 3, 4 ] ], [ [ 3, 4 ], [ 2, 3, 4 ] ]
-       ], 2, 4 ]
+   [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 3, 4 ] ],
+       [ [ 1, 4 ], [ 1, 2, 4 ] ], [ [ 2, 3 ], [ 1, 2, 3 ] ],
+       [ [ 2, 4 ], [ 1, 2, 4 ] ], [ [ 3, 4 ], [ 1, 3, 4 ] ] ], 2, 4 ]
 \end{Verbatim}
  
 
@@ -520,14 +614,6 @@ A list
 
  Returns the Butterfly instance. It accepts no arguments. Returns a list. }
 
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@ButterflyNet();|
-  [ [ [ [ 1, 2 ], [ 1, 2, 3 ] ], [ [ 1, 3 ], [ 1, 2, 3 ] ],
-       [ [ 2, 3 ], [ 1, 2, 3 ] ] ], 2, 3 ]
-  !gapprompt@gap>| !gapinput@U2kNet(3)=ButterflyNet();|
-  true
-\end{Verbatim}
  
 
 \subsection{\textcolor{Chapter }{Subspace5}}
@@ -628,14 +714,14 @@ size. See \cite{Benaloh90} for details. It accepts no arguments. Returns a list.
 \label{Threshold}
 }\hfill{\scriptsize (function)}}\\
 \textbf{\indent Returns:\ }
-A list of lists specifing authorized subsets of $[n]]$ 
+A list of lists specifing authorized subsets of $[n]$ 
 
 
 
  Returns the access structure associated with Shamir's $(k,n)$ threshold scheme. See \cite{Shamirhowto79} for details. It accepts following arguments: 
 \begin{itemize}
-\item  $\texttt{n}$ - number of shares 
-\item  $\texttt{k}$ - threshold 
+\item  $n$ - number of shares 
+\item  $k$ - threshold 
 \end{itemize}
  }
 
@@ -650,7 +736,7 @@ A list of lists specifing authorized subsets of $[n]]$
   !gapprompt@gap>| !gapinput@rlist:=provess(T,5,[1,1,1,1,1],GF(5),[]);;|
   !gapprompt@gap>| !gapinput@rlist[1];|
   true
-  !gapprompt@gap>| !gapinput@DisplayCode(rlist[2]);|
+  !gapprompt@gap>| !gapinput@gap> DisplayCode(rlist[2]);|
   1->1
    . 1
   =============================
@@ -666,6 +752,100 @@ A list of lists specifing authorized subsets of $[n]]$
   5->5
   1 4
   =============================
+\end{Verbatim}
+ 
+
+\subsection{\textcolor{Chapter }{HyperedgeNet1}}
+\logpage{[ 3, 2, 9 ]}\nobreak
+\hyperdef{L}{X85E4AC94816C2D59}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{HyperedgeNet1({\mdseries\slshape })\index{HyperedgeNet1@\texttt{HyperedgeNet1}}
+\label{HyperedgeNet1}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+A list 
+
+
+
+ Returns a general hyperedge network obtained via enumeration of network coding
+instances. See \cite{lihyper15} for details. It accepts no arguments. }
+
+ 
+\begin{Verbatim}[commandchars=!|B,fontsize=\small,frame=single,label=Example]
+  !gapprompt|gap>B !gapinput|N:=HyperedgeNet1();B
+  [ [ [ [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ], [ [ 1, 3, 4 ], [ 1, 3, 4, 5 ] ],
+        [ [ 3, 4, 5 ], [ 3, 4, 5, 6 ] ], [ [ 4, 5 ], [ 1, 3, 4, 5 ] ],
+        [ [ 4, 6 ], [ 2, 3, 4, 6 ] ], [ [ 5, 6 ], [ 2, 3, 5, 6 ] ] ], 3, 6 ]
+  !gapprompt|gap>B !gapinput|rlist:=proveregion(N,2,GF(2),[4]);; # k=2,opt_dmax=4=max. code dimensionB
+  !gapprompt|gap>B !gapinput|Size(rlist[1]); # number of distinct achievable rate vectors foundB
+  122
+  !gapprompt|gap>B !gapinput|rlist[1][78]; # an achievable rate vectorB
+  [ 2, 0, 1, 2, 1, 1 ]
+  !gapprompt|gap>B !gapinput|lrs_exec:="/home/aspitrg3-users/jayant/lrslib-061/lrs";; # lrs executableB
+  !gapprompt|gap>B !gapinput|rrcompute_lrs(rlist[1],N[2],N[3],lrs_exec); # compute achievable rate regionB
+  
+  *lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
+  *Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
+  *Input taken from file /tmp/tmYSKPeG/file1.ext
+  *Output sent to file /tmp/tmYSKPeG/file2.ine
+  
+  *Totals: facets=10 bases=2137
+  *Dictionary Cache: max size= 35 misses= 0/2136   Tree Depth= 34
+  *0.176u 0.004s 2232Kb 0 flts 0 swaps 0 blks-in 8 blks-out
+  
+  
+  *lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
+  *Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
+  *Input taken from file /tmp/tmYSKPeG/file2r.ine
+  *Output sent to file /tmp/tmYSKPeG/file3.ext
+  
+  *Totals: vertices=1 rays=16 bases=94 integer_vertices=1  vertices+rays=17
+  *Dictionary Cache: max size= 6 misses= 0/93   Tree Depth= 5
+  *0.000u 0.000s 652Kb 0 flts 0 swaps 0 blks-in 8 blks-out
+  
+  
+  *lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
+  *Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
+  *Input taken from file /tmp/tmYSKPeG/rr.ext
+  H-representation
+  begin
+  ***** 7 rational
+   0  0  1  0  0  0  0
+   0  0  0  1  0  0  0
+   0  0  0  0  1  0  0
+   0  2 -1 -2  0  1  1
+   0  1  0 -1  0  0  1
+   0  0  0  0  0  0  1
+   0  0 -1 -1  0  1  1
+   0  0  0 -1  0  1  0
+   0  1  0  0  0  0  0
+  end
+  *Totals: facets=9 bases=17
+  *Dictionary Cache: max size= 7 misses= 0/16   Tree Depth= 6
+  *lrs:lrslib v.6.1 2015.11.20(32bit,lrsgmp.h)
+  *0.000u 0.000s 648Kb 0 flts 0 swaps 0 blks-in 0 blks-out
+\end{Verbatim}
+ 
+
+\subsection{\textcolor{Chapter }{HyperedgeNet2}}
+\logpage{[ 3, 2, 10 ]}\nobreak
+\hyperdef{L}{X7C74398F7AB08B95}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{HyperedgeNet2({\mdseries\slshape })\index{HyperedgeNet2@\texttt{HyperedgeNet2}}
+\label{HyperedgeNet2}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+A list 
+
+
+
+ Returns a general hyperedge network obtained via enumeration of network coding
+instances. See \cite{lihyper15} for details. It accepts no arguments. }
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@N:=HyperedgeNet2();|
+  [ [ [ [ 1, 2, 3, 5 ], [ 1, 2, 3, 4, 5 ] ], [ [ 1, 3 ], [ 1, 3, 5 ] ],
+       [ [ 3, 4, 5 ], [ 3, 4, 5, 6 ] ], [ [ 4, 5 ], [ 1, 3, 4, 5 ] ],
+       [ [ 4, 6 ], [ 2, 3, 4, 6 ] ], [ [ 5, 6 ], [ 2, 3, 5, 6 ] ] ], 3, 6 ]
 \end{Verbatim}
  }
 
