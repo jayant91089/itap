@@ -42,7 +42,7 @@
   Version := "1.0",
   ##  Release date of the current version in dd/mm/yyyy format.
   ##
-  Date := "25/08/2015",
+  Date := "02/15/2016",
   ##  Optional: if the package manual uses GAPDoc, you may duplicate the
   ##  version and the release date as shown below to read them while building
   ##  the manual using GAPDoc facilities to distibute documents across files.
