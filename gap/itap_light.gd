@@ -44,7 +44,7 @@
 #! These formulations lead to a system of polynomial equations over a finite field and allows one to use Groebner
 #! basis computation algorithms to answer question 1. ITAP currently supports such computation using Singular
 #! <Cite Key="DGPS"/> via the GAP interface to Singular<Cite Key="singulargap"/>.
-#! @Chapter Installation
+#! #! @Chapter Installation
 #! ITAP requires GAP interface to singular <Cite Key="singulargap"/> which is another GAP package.
 #! Nowadays, it comes bundled with GAP 4.7+. If your gap installation doesn't have this package
 #! you can follow the instructions in <Cite Key="singulargap"/> to install it.
@@ -54,6 +54,18 @@
 #! Do this preferably inside the $pkg$ subdirectory
 #! of your GAP 4 installation. It creates a subdirectory called $itap$.
 #! This completes the installation of the package. If you do not know the whereabouts of the $pkg$ subdirectory, invoke the following in GAP:
+#! @BeginCode pkg
+GAPInfo.("RootPaths");
+ #! @EndCode
+#! @InsertCode pkg
+#! Look for pkg directory inside any of the paths returned.
+#! One can then start using ITAP by invoking
+#! @BeginCode Read
+ LoadPackage( "itap");
+ #! @EndCode
+#! $$gap>$$
+#! @InsertCode Read
+#! from within GAP. This would automatically load the GAP interface to singular, so you don't have to load it seperately.
 #! @BeginCode pkg
 GAPInfo.("RootPaths");
  #! @EndCode
