@@ -15,7 +15,7 @@
 \contentsline {subsection}{\numberline {3.2.4}\leavevmode {\color {Chapter }U2kNet}}{10}{subsection.3.2.4}
 \contentsline {subsection}{\numberline {3.2.5}\leavevmode {\color {Chapter }ButterflyNet}}{11}{subsection.3.2.5}
 \contentsline {subsection}{\numberline {3.2.6}\leavevmode {\color {Chapter }Subspace5}}{11}{subsection.3.2.6}
-\contentsline {subsection}{\numberline {3.2.7}\leavevmode {\color {Chapter }BenaloahLeichter}}{11}{subsection.3.2.7}
+\contentsline {subsection}{\numberline {3.2.7}\leavevmode {\color {Chapter }BenalohLeichter}}{11}{subsection.3.2.7}
 \contentsline {subsection}{\numberline {3.2.8}\leavevmode {\color {Chapter }Threshold}}{12}{subsection.3.2.8}
 \contentsline {subsection}{\numberline {3.2.9}\leavevmode {\color {Chapter }HyperedgeNet1}}{13}{subsection.3.2.9}
 \contentsline {subsection}{\numberline {3.2.10}\leavevmode {\color {Chapter }HyperedgeNet2}}{14}{subsection.3.2.10}

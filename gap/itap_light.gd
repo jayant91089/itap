@@ -262,7 +262,7 @@ DeclareGlobalFunction("Subspace5");
 #! Returns a list.
 #! @Returns A list of lists specifing authorized subsets of $\{1,2,3,4\}$
 #! @Arguments
-DeclareGlobalFunction("BenaloahLeichter");
+DeclareGlobalFunction("BenalohLeichter");
 
 #! @Description
 #!  Returns the access structure associated with Shamir's $(k,n)$ threshold scheme.

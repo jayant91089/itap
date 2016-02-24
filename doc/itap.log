@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.4.4)  24 FEB 2016 16:42
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.4.4)  24 FEB 2016 17:06
 entering extended mode
  %&-line parsing enabled.
 **itap
@@ -794,8 +794,8 @@ File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 (./itap.aux) ) 
 Here is how much of TeX's memory you used:
  6276 strings out of 495061
- 89013 string characters out of 1182622
- 153906 words of memory out of 3000000
+ 89012 string characters out of 1182622
+ 153905 words of memory out of 3000000
  9219 multiletter control sequences out of 15000+50000
  66578 words of font info for 87 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
@@ -812,7 +812,7 @@ s/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-texlive/fonts/type
 a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/te
 xmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on itap.pdf (16 pages, 193670 bytes).
+Output written on itap.pdf (16 pages, 193669 bytes).
 PDF statistics:
  420 PDF objects out of 1000 (max. 8388607)
  75 named destinations out of 1000 (max. 500000)

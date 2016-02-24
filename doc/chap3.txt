@@ -390,18 +390,18 @@
     [4X[28X=============================[128X[104X
   [4X[32X[104X
   
-  [1X3.2-7 BenaloahLeichter[101X
+  [1X3.2-7 BenalohLeichter[101X
   
-  [29X[2XBenaloahLeichter[102X(  ) [32X function
+  [29X[2XBenalohLeichter[102X(  ) [32X function
   [6XReturns:[106X  [33X[0;10YA list of lists specifing authorized subsets of [23X\{1,2,3,4\}[123X[133X
   
   [33X[0;0YReturns  the  access  structure  associated  with  secret  sharing scheme of
-  Benaloah  and  Leichter that was used to show that share sizes can be larger
+  Benaloh  and  Leichter  that was used to show that share sizes can be larger
   than secret size. See [BL90] for details. It accepts no arguments. Returns a
   list.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XB:=BenaloahLeichter();[127X[104X
+    [4X[25Xgap>[125X [27XB:=BenalohLeichter();[127X[104X
     [4X[28X[ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ][128X[104X
     [4X[25Xgap>[125X [27Xrlist:=provess(B,5,[2,2,3,3,2],GF(2),[]);;[127X[104X
     [4X[25Xgap>[125X [27Xrlist[1];[127X[104X

@@ -41,7 +41,7 @@
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8514B6657A3CC6FF">3.2-4 U2kNet</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8329D29E7FAC98B3">3.2-5 ButterflyNet</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X808E1A5081F14455">3.2-6 Subspace5</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7AEEE54F7E0FD055">3.2-7 BenaloahLeichter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7AD0AECF7D1E0864">3.2-7 BenalohLeichter</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C7738767CA2118A">3.2-8 Threshold</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X85E4AC94816C2D59">3.2-9 HyperedgeNet1</a></span>
 <span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C74398F7AB08B95">3.2-10 HyperedgeNet2</a></span>
@@ -500,18 +500,18 @@ true
 =============================
 </pre></div>
 
-<p><a id="X7AEEE54F7E0FD055" name="X7AEEE54F7E0FD055"></a></p>
+<p><a id="X7AD0AECF7D1E0864" name="X7AD0AECF7D1E0864"></a></p>
 
-<h5>3.2-7 BenaloahLeichter</h5>
+<h5>3.2-7 BenalohLeichter</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BenaloahLeichter</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BenalohLeichter</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: A list of lists specifing authorized subsets of <span class="Math">\{1,2,3,4\}</span></p>
 
-<p>Returns the access structure associated with secret sharing scheme of Benaloah and Leichter that was used to show that share sizes can be larger than secret size. See <a href="chapBib.html#biBBenaloh90">[BL90]</a> for details. It accepts no arguments. Returns a list.</p>
+<p>Returns the access structure associated with secret sharing scheme of Benaloh and Leichter that was used to show that share sizes can be larger than secret size. See <a href="chapBib.html#biBBenaloh90">[BL90]</a> for details. It accepts no arguments. Returns a list.</p>
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B:=BenaloahLeichter();</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B:=BenalohLeichter();</span>
 [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist:=provess(B,5,[2,2,3,3,2],GF(2),[]);;</span>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1];</span>

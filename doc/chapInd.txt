@@ -2,7 +2,7 @@
   
   [1XIndex[101X
   
-  [2XBenaloahLeichter[102X  3.2-7
+  [2XBenalohLeichter[102X  3.2-7
   [2XButterflyNet[102X  3.2-5
   [2XDisplayCode[102X  3.1-6
   [2XFanoNet[102X  3.2-1

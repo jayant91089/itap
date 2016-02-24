@@ -137,9 +137,9 @@ gap> DisplayCode(rlist[2]);
 #! @EndExample
 
 
-#!##BenaloahLeichter
+#!##BenalohLeichter
 #! @BeginExample
-B:=BenaloahLeichter();
+B:=BenalohLeichter();
 #! [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
 rlist:=provess(B,5,[2,2,3,3,2],GF(2),[]);;
 rlist[1];

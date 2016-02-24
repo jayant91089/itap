@@ -121,7 +121,7 @@ InstallGlobalFunction(ButterflyNet,
     return U2kNet(3);
   end);
 
-InstallGlobalFunction(BenaloahLeichter,
+InstallGlobalFunction(BenalohLeichter,
   function()
   return [[1,2],[2,3],[3,4]];
   end);

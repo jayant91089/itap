@@ -659,24 +659,24 @@ variables. It accepts no arguments. Returns a list. }
 \end{Verbatim}
  
 
-\subsection{\textcolor{Chapter }{BenaloahLeichter}}
+\subsection{\textcolor{Chapter }{BenalohLeichter}}
 \logpage{[ 3, 2, 7 ]}\nobreak
-\hyperdef{L}{X7AEEE54F7E0FD055}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{BenaloahLeichter({\mdseries\slshape })\index{BenaloahLeichter@\texttt{BenaloahLeichter}}
-\label{BenaloahLeichter}
+\hyperdef{L}{X7AD0AECF7D1E0864}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\ \ \texttt{BenalohLeichter({\mdseries\slshape })\index{BenalohLeichter@\texttt{BenalohLeichter}}
+\label{BenalohLeichter}
 }\hfill{\scriptsize (function)}}\\
 \textbf{\indent Returns:\ }
 A list of lists specifing authorized subsets of $\{1,2,3,4\}$ 
 
 
 
- Returns the access structure associated with secret sharing scheme of Benaloah
+ Returns the access structure associated with secret sharing scheme of Benaloh
 and Leichter that was used to show that share sizes can be larger than secret
 size. See \cite{Benaloh90} for details. It accepts no arguments. Returns a list. }
 
  
 \begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@B:=BenaloahLeichter();|
+  !gapprompt@gap>| !gapinput@B:=BenalohLeichter();|
   [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
   !gapprompt@gap>| !gapinput@rlist:=provess(B,5,[2,2,3,3,2],GF(2),[]);;|
   !gapprompt@gap>| !gapinput@rlist[1];|

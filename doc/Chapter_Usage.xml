@@ -482,11 +482,11 @@ gap> gap> DisplayCode(rlist[2]);
 
 
 <ManSection>
-  <Func Arg="" Name="BenaloahLeichter" />
+  <Func Arg="" Name="BenalohLeichter" />
  <Returns>A list of lists specifing authorized subsets of <Math>\{1,2,3,4\}</Math>
 </Returns>
  <Description>
-Returns the access structure associated with secret sharing scheme of Benaloah and Leichter that
+Returns the access structure associated with secret sharing scheme of Benaloh and Leichter that
 was used to show that share sizes can be larger than secret size. See <Cite Key="Benaloh90"/> for details.
 It accepts no arguments.
 Returns a list.
@@ -495,7 +495,7 @@ Returns a list.
 
 
 <Example><![CDATA[
-gap> B:=BenaloahLeichter();
+gap> B:=BenalohLeichter();
 [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]
 gap> rlist:=provess(B,5,[2,2,3,3,2],GF(2),[]);;
 gap> rlist[1];
