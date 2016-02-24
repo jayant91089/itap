@@ -393,6 +393,7 @@ DeclareGlobalFunction("Readextfile");
 DeclareGlobalFunction("writeinefile");
 DeclareGlobalFunction("Readinefile");
 DeclareGlobalFunction("rrcompute_lrs");
+DeclareGlobalFunction("rrcompute");
 DeclareGlobalFunction("conichull_lrs");
 DeclareGlobalFunction("LeiterspielWCons_vec_lazy");
 DeclareGlobalFunction("veccodegen");

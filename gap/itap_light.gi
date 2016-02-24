@@ -4325,7 +4325,26 @@ od;
 return [lin,mtx];
 end);
 
-
+InstallGlobalFunction(rrcompute,
+function(rays,nsrc,nvars,lrs_path)
+local ray,f1name,f2name,f3name,f4name,rlist,lin,mtx,new_mtx,row,i,rays2,projrays,temp_dir,f2rname;
+#lrs_path:="/home/aspitrg3-users/jayant/lrslib-061/";
+temp_dir:=DirectoryTemporary();
+f1name:=Filename( temp_dir, "file1.ext" );
+f2name:=Filename( temp_dir, "file1red.ext" );
+f2rname:=Filename( temp_dir, "file2.ine" );
+for i in [nsrc+1..nvars] do
+  Append(rays,[Concatenation(ZeroMutable([1..nsrc]),ZeroMutable([nsrc+1..i]),[1],ZeroMutable([i+1..nvars]))]);
+od;
+rays2:=[];
+for ray in rays do
+Append(rays2,[Concatenation(ray{[nsrc+1..nvars]},ray{[1..nsrc]})]);
+od;
+rays2extfile(f1name,rays2);
+Exec(Concatenation(lrs_path,"redund"," ",f1name," ",f2name));;
+#rays2:=Readextfile(f2name);
+Exec(Concatenation(lrs_path,"lrs"," ",f2name));
+end);
 
 InstallGlobalFunction(rrcompute_lrs,
 function(rays,nsrc,nvars,lrs_exec)

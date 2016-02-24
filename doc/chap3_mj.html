@@ -611,47 +611,36 @@ true
 122
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rlist[1][78]; # an achievable rate vector</span>
 [ 2, 0, 1, 2, 1, 1 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">lrs_exec:="/home/aspitrg3-users/jayant/lrslib-061/lrs";; # lrs executable</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rrcompute_lrs(rlist[1],N[2],N[3],lrs_exec); # compute achievable rate region</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">lrs_path:="/home/aspitrg3-users/jayant/lrslib-061/";; # path to lrslib</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rrcompute(rlist[1],N[2],N[3],lrs_path); # compute achievable rate region</span>
 
-*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
+*redund:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
 *Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
-*Input taken from file /tmp/tmYSKPeG/file1.ext
-*Output sent to file /tmp/tmYSKPeG/file2.ine
+*Input taken from file /tmp/tmxYdXYT/file1.ext
+*Output sent to file /tmp/tmxYdXYT/file1red.ext
 
-*Totals: facets=10 bases=2137
-*Dictionary Cache: max size= 35 misses= 0/2136   Tree Depth= 34
-*0.176u 0.004s 2232Kb 0 flts 0 swaps 0 blks-in 8 blks-out
-
-
-*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
-*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
-*Input taken from file /tmp/tmYSKPeG/file2r.ine
-*Output sent to file /tmp/tmYSKPeG/file3.ext
-
-*Totals: vertices=1 rays=16 bases=94 integer_vertices=1  vertices+rays=17
-*Dictionary Cache: max size= 6 misses= 0/93   Tree Depth= 5
-*0.000u 0.000s 652Kb 0 flts 0 swaps 0 blks-in 8 blks-out
+*0.056u 0.004s 648Kb 0 flts 0 swaps 0 blks-in 8 blks-out
 
 
 *lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)
 *Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca
-*Input taken from file /tmp/tmYSKPeG/rr.ext
+*Input taken from file /tmp/tmxYdXYT/file1red.ext
 H-representation
 begin
 ***** 7 rational
- 0  0  1  0  0  0  0
- 0  0  0  1  0  0  0
  0  0  0  0  1  0  0
- 0  2 -1 -2  0  1  1
- 0  1  0 -1  0  0  1
+ 0  1  0  0  0 -1  0
+ 0  0  0  0  0  1  0
  0  0  0  0  0  0  1
- 0  0 -1 -1  0  1  1
- 0  0  0 -1  0  1  0
- 0  1  0  0  0  0  0
+ 0  0  0  1  0  0  0
+ 0  1  1  0 -1 -1 -1
+ 0  0  1  1  0 -1 -1
+ 0  0  1  0  0  0  0
+ 0  1  1  2 -1 -2 -2
+ 0  1  0  1  0 -1 -1
 end
-*Totals: facets=9 bases=17
-*Dictionary Cache: max size= 7 misses= 0/16   Tree Depth= 6
+*Totals: facets=10 bases=22
+*Dictionary Cache: max size= 6 misses= 0/21   Tree Depth= 5
 *lrs:lrslib v.6.1 2015.11.20(32bit,lrsgmp.h)
 *0.000u 0.000s 648Kb 0 flts 0 swaps 0 blks-in 0 blks-out
 </pre></div>

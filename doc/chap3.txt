@@ -489,47 +489,36 @@
     [4X[28X122[128X[104X
     [4X[25Xgap>[125X [27Xrlist[1][78]; # an achievable rate vector[127X[104X
     [4X[28X[ 2, 0, 1, 2, 1, 1 ][128X[104X
-    [4X[25Xgap>[125X [27Xlrs_exec:="/home/aspitrg3-users/jayant/lrslib-061/lrs";; # lrs executable[127X[104X
-    [4X[25Xgap>[125X [27Xrrcompute_lrs(rlist[1],N[2],N[3],lrs_exec); # compute achievable rate region[127X[104X
+    [4X[25Xgap>[125X [27Xlrs_path:="/home/aspitrg3-users/jayant/lrslib-061/";; # path to lrslib[127X[104X
+    [4X[25Xgap>[125X [27Xrrcompute(rlist[1],N[2],N[3],lrs_path); # compute achievable rate region[127X[104X
     [4X[28X[128X[104X
-    [4X[28X*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)[128X[104X
+    [4X[28X*redund:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)[128X[104X
     [4X[28X*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca[128X[104X
-    [4X[28X*Input taken from file /tmp/tmYSKPeG/file1.ext[128X[104X
-    [4X[28X*Output sent to file /tmp/tmYSKPeG/file2.ine[128X[104X
+    [4X[28X*Input taken from file /tmp/tmxYdXYT/file1.ext[128X[104X
+    [4X[28X*Output sent to file /tmp/tmxYdXYT/file1red.ext[128X[104X
     [4X[28X[128X[104X
-    [4X[28X*Totals: facets=10 bases=2137[128X[104X
-    [4X[28X*Dictionary Cache: max size= 35 misses= 0/2136   Tree Depth= 34[128X[104X
-    [4X[28X*0.176u 0.004s 2232Kb 0 flts 0 swaps 0 blks-in 8 blks-out[128X[104X
-    [4X[28X[128X[104X
-    [4X[28X[128X[104X
-    [4X[28X*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)[128X[104X
-    [4X[28X*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca[128X[104X
-    [4X[28X*Input taken from file /tmp/tmYSKPeG/file2r.ine[128X[104X
-    [4X[28X*Output sent to file /tmp/tmYSKPeG/file3.ext[128X[104X
-    [4X[28X[128X[104X
-    [4X[28X*Totals: vertices=1 rays=16 bases=94 integer_vertices=1  vertices+rays=17[128X[104X
-    [4X[28X*Dictionary Cache: max size= 6 misses= 0/93   Tree Depth= 5[128X[104X
-    [4X[28X*0.000u 0.000s 652Kb 0 flts 0 swaps 0 blks-in 8 blks-out[128X[104X
+    [4X[28X*0.056u 0.004s 648Kb 0 flts 0 swaps 0 blks-in 8 blks-out[128X[104X
     [4X[28X[128X[104X
     [4X[28X[128X[104X
     [4X[28X*lrs:lrslib v.6.1 2015.11.20(lrsgmp.h gmp v.5.0)[128X[104X
     [4X[28X*Copyright (C) 1995,2015, David Avis   avis@cs.mcgill.ca[128X[104X
-    [4X[28X*Input taken from file /tmp/tmYSKPeG/rr.ext[128X[104X
+    [4X[28X*Input taken from file /tmp/tmxYdXYT/file1red.ext[128X[104X
     [4X[28XH-representation[128X[104X
     [4X[28Xbegin[128X[104X
     [4X[28X***** 7 rational[128X[104X
-    [4X[28X 0  0  1  0  0  0  0[128X[104X
-    [4X[28X 0  0  0  1  0  0  0[128X[104X
     [4X[28X 0  0  0  0  1  0  0[128X[104X
-    [4X[28X 0  2 -1 -2  0  1  1[128X[104X
-    [4X[28X 0  1  0 -1  0  0  1[128X[104X
+    [4X[28X 0  1  0  0  0 -1  0[128X[104X
+    [4X[28X 0  0  0  0  0  1  0[128X[104X
     [4X[28X 0  0  0  0  0  0  1[128X[104X
-    [4X[28X 0  0 -1 -1  0  1  1[128X[104X
-    [4X[28X 0  0  0 -1  0  1  0[128X[104X
-    [4X[28X 0  1  0  0  0  0  0[128X[104X
+    [4X[28X 0  0  0  1  0  0  0[128X[104X
+    [4X[28X 0  1  1  0 -1 -1 -1[128X[104X
+    [4X[28X 0  0  1  1  0 -1 -1[128X[104X
+    [4X[28X 0  0  1  0  0  0  0[128X[104X
+    [4X[28X 0  1  1  2 -1 -2 -2[128X[104X
+    [4X[28X 0  1  0  1  0 -1 -1[128X[104X
     [4X[28Xend[128X[104X
-    [4X[28X*Totals: facets=9 bases=17[128X[104X
-    [4X[28X*Dictionary Cache: max size= 7 misses= 0/16   Tree Depth= 6[128X[104X
+    [4X[28X*Totals: facets=10 bases=22[128X[104X
+    [4X[28X*Dictionary Cache: max size= 6 misses= 0/21   Tree Depth= 5[128X[104X
     [4X[28X*lrs:lrslib v.6.1 2015.11.20(32bit,lrsgmp.h)[128X[104X
     [4X[28X*0.000u 0.000s 648Kb 0 flts 0 swaps 0 blks-in 0 blks-out[128X[104X
   [4X[32X[104X
