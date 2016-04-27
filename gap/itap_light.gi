@@ -4327,12 +4327,18 @@ end);
 
 InstallGlobalFunction(rrcompute,
 function(rays,nsrc,nvars,lrs_path)
-local ray,f1name,f2name,f3name,f4name,rlist,lin,mtx,new_mtx,row,i,rays2,projrays,temp_dir,f2rname;
+local ray,f1name,f2name,f3name,f4name,rlist,lin,mtx,new_mtx,row,i,rays2,projrays,temp_dir,conineq,f5name,f6name,j;
 #lrs_path:="/home/aspitrg3-users/jayant/lrslib-061/";
 temp_dir:=DirectoryTemporary();
 f1name:=Filename( temp_dir, "file1.ext" );
 f2name:=Filename( temp_dir, "file1red.ext" );
-f2rname:=Filename( temp_dir, "file2.ine" );
+f3name:=Filename( temp_dir, "file2.ine" );
+f4name:=Filename( temp_dir, "file3.ine" );
+f5name:=Filename( temp_dir, "file4.ine" );
+f6name:=Filename( temp_dir, "file5.ine" );
+
+#f4rname:=Filename( temp_dir, "file3.ine" );
+
 for i in [nsrc+1..nvars] do
   Append(rays,[Concatenation(ZeroMutable([1..nsrc]),ZeroMutable([nsrc+1..i]),[1],ZeroMutable([i+1..nvars]))]);
 od;
@@ -4343,7 +4349,37 @@ od;
 rays2extfile(f1name,rays2);
 Exec(Concatenation(lrs_path,"redund"," ",f1name," ",f2name));;
 #rays2:=Readextfile(f2name);
-Exec(Concatenation(lrs_path,"lrs"," ",f2name));
+Exec(Concatenation(lrs_path,"lrs"," ",f2name," ",f3name));
+rlist:=Readinefile(f3name);
+lin:=rlist[1]{[2..Size(rlist[1])]};
+mtx:=rlist[2];
+new_mtx:=[];
+for row in mtx do
+  Append(new_mtx,[Concatenation(ZeroMutable([1..Size(row)]),row{[2..Size(row)]})]);
+od;
+for j in [1..nvars-nsrc] do # edge rate ineq + non-negativity
+  conineq:=ZeroMutable([1..2*nvars+1]);
+  conineq[1+j]:=1;
+  conineq[1+nvars+j]:=-1;
+  Append(new_mtx,[conineq]);
+  conineq:=ZeroMutable([1..2*nvars+1]);
+  conineq[1+j]:=1;
+  Append(new_mtx,[conineq]);
+od;
+for j in [nvars-nsrc+1..nvars] do # src rate ineq
+  conineq:=ZeroMutable([1..2*nvars+1]);
+  conineq[1+j]:=-1;
+  conineq[1+nvars+j]:=1;
+  Append(new_mtx,[conineq]);
+  conineq:=ZeroMutable([1..2*nvars+1]);
+  conineq[1+j]:=1;
+  Append(new_mtx,[conineq]);
+od;
+writeinefile(f4name,lin,new_mtx);
+Exec(Concatenation(lrs_path,"lrs"," ",f4name," ",f5name));
+mtx:=Readextfile(f5name);
+rays2extfile(f6name,mtx{[1..Size(mtx)]}{[2..nvars+1]});
+Exec(Concatenation(lrs_path,"lrs"," ",f6name));
 end);
 
 InstallGlobalFunction(rrcompute_lrs,
