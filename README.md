@@ -128,7 +128,6 @@ cd ../
 ## Step 10: Copy headers needed by qsopt_ex to ittp/include directory (ITCP specific)
 ```{r, engine='bash', count_lines}
 cp gmp_install/include/* include/
-cp qsopt_install/include/qsopt_ex/* include/
 cp zlib_install/include/* include/
 cp bzip2_install/include/* include/
 ```
