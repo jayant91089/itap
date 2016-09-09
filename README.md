@@ -196,6 +196,7 @@ git clone https://github.com/jayant91089/symchm.git
 wget https://github.com/jayant91089/symchm/archive/master.zip
 unzip symchm-master.zip
 mv -r symchm-master symchm
+```
 
 ## Step 15:  Get ITCP (ITCP specific)
 #### Navigate to ```...ittp/gap4r8/pkg``` directory again and do the following.
