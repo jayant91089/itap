@@ -79,8 +79,7 @@ mv -r itap-master itap
 cd ../
 ```
 ## Step 5: End of ITAP installation (ITAP specific)
-  #### At this point you are ready to use ITAP. To start using ITAP, open a new
-  # terminal and navigate to the 'ittp' directory created in Step 0. Then type:
+#### At this point you are ready to use ITAP. To start using ITAP, open a new terminal and navigate to the 'ittp' directory created in Step 0. Then type:
 ```{r, engine='bash', count_lines}
 sh ./gap4r8/bin/gap.sh
 ```
