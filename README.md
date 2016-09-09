@@ -1,13 +1,12 @@
 This is a howto file describing the installation of ITAP and ITCP from scratch on Linux systems without
-using root priviledges. ITAP and ITCP together make the Information
-Theoretic Theorem Prover (ittp) suit. We assume that you have a working internet
+using root priviledges. ITAP and ITCP together make the Computer Assisted Theorem Provers for Information Theory (catpit) suit. We assume that you have a working internet
 connection for the 'wget' commands below that fetch the required tarballs from the
 web. If you wish to install only one of ITAP or ITCP you can jump over the steps that
 are indicated to be specific to one of them.
-## Step 1. Create the ittp folder (common)
+## Step 1. Create the catpit folder (common)
 ```{r, engine='bash', count_lines}
-mkdir ittp
-cd ittp
+mkdir catpit
+cd catpit
 mkdir lib include
 ```
 ## Step 2. Install GMP (common)
@@ -79,7 +78,7 @@ mv -r itap-master itap
 cd ../
 ```
 ## Step 5: End of ITAP installation (ITAP specific)
-#### At this point you are ready to use ITAP. To start using ITAP, open a new terminal and navigate to the 'ittp' directory created in Step 0. Then type:
+#### At this point you are ready to use ITAP. To start using ITAP, open a new terminal and navigate to the 'catpit' directory created in Step 0. Then type:
 ```{r, engine='bash', count_lines}
 sh ./gap4r8/bin/gap.sh
 ```
@@ -125,7 +124,7 @@ cp libbz2.so.1.0.6 $PWD/../bzip2_install/lib/
 cp *.h $PWD/../bzip2_install/include/
 cd ../
 ```
-## Step 10: Copy headers needed by qsopt_ex to ittp/include directory (ITCP specific)
+## Step 10: Copy headers needed by qsopt_ex to catpit/include directory (ITCP specific)
 ```{r, engine='bash', count_lines}
 cp gmp_install/include/* include/
 cp zlib_install/include/* include/
@@ -133,7 +132,7 @@ cp bzip2_install/include/* include/
 ```
 #### Now ensure qsopt_ex knows where to look. Substitute the absolute path to the include directory below:
 ```{r, engine='bash', count_lines}
-export C_INCLUDE_PATH=absolute-path-to-ittp/include-directory
+export C_INCLUDE_PATH=absolute-path-to-catpit/include-directory
 ```
 
 ## Step 11: qsopt_ex installation (ITCP specific)
@@ -177,11 +176,11 @@ cd ../../
 ## Step 13: Set-up qsopt_ex-interface (ITCP specific)
 #### Open the ```gap/qsinterface.gi``` file inside qsopt_ex-interface directory and define a variable ```qs_exec``` to store the absolute path to the ```qsi``` executable created in the previous step. e.g.
 ```{r, engine='bash', count_lines}
-qs_exec:="/home/jayant/ittp/gap4r8/pkg/qsopt_ex-interface/qsi";
+qs_exec:="/home/jayant/catpit/gap4r8/pkg/qsopt_ex-interface/qsi";
 ```
 
 ## Step 14: Get symchm
-#### Navigate to ```...ittp/gap4r8/pkg``` directory again and do the following.
+#### Navigate to ```...catpit/gap4r8/pkg``` directory again and do the following.
 #### If you have git installed:
 ```{r, engine='bash', count_lines}
 git clone https://github.com/jayant91089/symchm.git
@@ -194,7 +193,7 @@ mv -r symchm-master symchm
 ```
 
 ## Step 15:  Get ITCP (ITCP specific)
-#### Navigate to ```...ittp/gap4r8/pkg``` directory again and do the following.
+#### Navigate to ```...catpit/gap4r8/pkg``` directory again and do the following.
 #### If you have git installed:
 ```{r, engine='bash', count_lines}
 git clone https://github.com/jayant91089/itcp.git
@@ -208,7 +207,7 @@ mv -r itcp-master itcp
 
 ## Step 16: Test ITCP
 
-#### open a new terminal and navigate to the 'ittp' directory created in Step 0. Then type:
+#### open a new terminal and navigate to the 'catpit' directory created in Step 0. Then type:
 ```{r, engine='bash', count_lines}
 sh ./gap4r8/bin/gap.sh
 ```
