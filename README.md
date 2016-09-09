@@ -175,11 +175,7 @@ cd ../../
 #### This creates an executable named ```qsi``` which acts as the interface between GAP and qsopt_ex
 
 ## Step 13: Set-up qsopt_ex-interface (ITCP specific)
-#### Open the ```gap/qsinterface.gi``` file inside qsopt_ex-interface directory and find the following line:
-```{r, engine='bash', count_lines}
-qs_exec:="";
-```
-and substitute the absolute path to ```qsi``` executable created in the last step e.g.
+#### Open the ```gap/qsinterface.gi``` file inside qsopt_ex-interface directory and define a variable ```qs_exec``` to store the absolute path to the ```qsi``` executable created in the previous step. e.g.
 ```{r, engine='bash', count_lines}
 qs_exec:="/home/jayant/ittp/gap4r8/pkg/qsopt_ex-interface/qsi";
 ```
