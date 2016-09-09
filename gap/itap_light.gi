@@ -9,15 +9,16 @@
 #############################################################################
 
 ##
-InstallGlobalFunction( set2int,
-function(s)
+if not IsBound(set2int) then
+set2int:=function(s)
   local i,j;
   i:=0;
   for j in s do
     i:=i+2^(Int(j)-1);
   od;
   return i;
-end);
+end;
+fi;
 
 InstallGlobalFunction( Group2eqlist,
 function(G,n)
@@ -223,8 +224,8 @@ function(veclist)
   return mlist;
 end);
 
-InstallGlobalFunction(RecNamesInt,
-function(r)
+if not IsBound(RecNamesInt) then
+RecNamesInt:=function(r)
   # Returns all values in a record
   local i,intnames;
   intnames:=[];
@@ -232,7 +233,8 @@ function(r)
    Append(intnames,[Int(i)]);
   od;
   return intnames;
-end);
+end;
+fi;
 
 InstallGlobalFunction(codedegrees,
 function(veclist)
@@ -2243,8 +2245,8 @@ function(G,D,A,AonSets,max_simple,netcons,nsrc,nvars,rvec,coderank)
    fi;
 end);
 
-InstallGlobalFunction(DeepSort,
-function(list,nlevels,l)
+if not IsBound(DeepSort) then
+DeepSort:=function(list,nlevels,l)
   local soretdlist,i;
   # l is current level
   # level:=1: only ``list`` is sorted at top level
@@ -2262,7 +2264,8 @@ function(list,nlevels,l)
       od;
     return soretdlist;
   fi;
-end);
+end;
+fi;
 
 
 InstallGlobalFunction(SortedPosition,
@@ -3511,16 +3514,16 @@ od;
 return [torder,I,nb_I,O,nb_O];
 end);
 
-
-InstallGlobalFunction(DeepCopy_lol,
-function(lol)
+if not IsBound(DeepCopy_lol) then
+DeepCopy_lol:=function(lol)
   local olol,l;
   olol:=[];
   for l in lol do
   Append(olol,[ShallowCopy(l)]);
   od;
   return olol;
-end);
+end;
+fi;
 
 InstallGlobalFunction(DeepCopy_rec,
 function(r)
@@ -4123,8 +4126,8 @@ end);
 
 
 # rate region computation using lrs
-InstallGlobalFunction(skipline,
-function(str,i)
+if not IsBound(skipline) then
+skipline:=function(str,i)
 local j;
 if i>Size(str) or i<0 then
   return -1;
@@ -4139,10 +4142,11 @@ for j in [i..Size(str)] do
   fi;
 od;
 return -1;
-end);
+end;
+fi;
 
-InstallGlobalFunction(nextnum,
-function(str,i)
+if not IsBound(nextnum) then
+nextnum:=function(str,i)
 local foundnum, j,k,isneg;
 if i>Size(str) or i<0 then
   return -1;
@@ -4173,7 +4177,8 @@ if isneg=true then
 else
   return [true,Int(str{[j..k-1]}),k];
 fi;
-end);
+end;
+fi;
 
 
 InstallGlobalFunction(Readextfile,
@@ -4222,8 +4227,8 @@ od;
 return mtx;
 end);
 
-InstallGlobalFunction(writeinefile,
-function(fname,lin,mtx)
+if not IsBound(writeinefile) then
+writeinefile:=function(fname,lin,mtx)
 local ostr,row,i,r;
 ostr:="";
 if Size(lin)=0 then
@@ -4245,7 +4250,8 @@ for i in [1..Size(mtx)] do
 od;
 ostr:=Concatenation(ostr,"end");
 PrintTo(fname,ostr);
-end);
+end;
+fi;
 
 InstallGlobalFunction(Readinefile,
 function(fname)
@@ -4729,3 +4735,49 @@ InstallGlobalFunction(HyperedgeNet2,
 function()
 return [[[[1,2,3,5],[1,2,3,4,5]],[[1,3],[1,3,5]],[[3,4,5],[3,4,5,6]],[[4,5],[1,3,4,5]],[[4,6],[2,3,4,6]],[[5,6],[2,3,5,6]]],3,6];
 end);
+
+################### Symmetric p-map tree traversal
+PermMatGroup:=function(G,n,F)
+  local gens,mgens,g,PMG,pmat, pmatF,r,c,rF;
+  gens:=GeneratorsOfGroup(G);
+  mgens:=[];
+  for g in gens do
+    pmat:=PermutationMat(g,n);
+    pmatF:=[];
+    for r in pmat do
+      rF:=[];
+      for c in r do
+        if c=0 then
+          Append(rF,[0*Z(Size(F))]);
+        else
+          Append(rF,[Z(Size(F))^0]);
+        fi;
+      od;
+      Append(pmatF,[rF]);
+    od;
+    Append(mgens,[pmatF]);
+  od;
+  PMG:=GroupByGenerators(mgens);
+  return PMG;
+end;
+
+MatPermutation:=function(pmat)
+  local r,rF,c,pmatF;
+  pmatF:=[];
+  for r in pmat do
+    rF:=[];
+    for c in r do
+      if c=0 then
+        Append(rF,[0*Z(Size(F))]);
+      else
+        Append(rF,[Z(Size(F))^0]);
+      fi;
+    od;
+    Append(pmatF,[rF]);
+  od;
+end;
+
+
+PermSub:=function(MG,F)
+
+end;
