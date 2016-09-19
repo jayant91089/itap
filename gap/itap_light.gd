@@ -301,7 +301,7 @@ DeclareGlobalFunction("findsss");
 #DeclareGlobalFunction("set2int");
 DeclareGlobalFunction("AppCns");
 DeclareGlobalFunction("inv_pcode");
-DeclareGlobalFunction("RecSetwise");
+#DeclareGlobalFunction("RecSetwise");
 DeclareGlobalFunction("SubRankMat");
 DeclareGlobalFunction("SubRankMat_vec");
 DeclareGlobalFunction("merge_veclist");

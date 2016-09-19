@@ -188,16 +188,17 @@ function(pcode)
   return inv;
 end);
 
-InstallGlobalFunction(RecSetwise,
-function(r,s)
+if not IsBound(RecSetwise) then
+RecSetwise:=function(r,s)
   # access a record setwise
-  local k,l;
+  local k,l; 
   l:=[];
   for k in s do
     Append(l,[r.(k)]);
   od;
   return l;
-end);
+end;
+fi;
 
 InstallGlobalFunction(SubRankMat,
 function(veclist,pos)
@@ -4737,7 +4738,7 @@ return [[[[1,2,3,5],[1,2,3,4,5]],[[1,3],[1,3,5]],[[3,4,5],[3,4,5,6]],[[4,5],[1,3
 end);
 
 ################### Symmetric p-map tree traversal
-PermMatGroup:=function(G,n,F)
+PermMatGroupF:=function(G,n,F)
   local gens,mgens,g,PMG,pmat, pmatF,r,c,rF;
   gens:=GeneratorsOfGroup(G);
   mgens:=[];
@@ -4751,6 +4752,30 @@ PermMatGroup:=function(G,n,F)
           Append(rF,[0*Z(Size(F))]);
         else
           Append(rF,[Z(Size(F))^0]);
+        fi;
+      od;
+      Append(pmatF,[rF]);
+    od;
+    Append(mgens,[pmatF]);
+  od;
+  PMG:=GroupByGenerators(mgens);
+  return PMG;
+end;
+
+PermMatGroupR:=function(G,n)
+  local gens,mgens,g,PMG,pmat, pmatF,r,c,rF;
+  gens:=GeneratorsOfGroup(G);
+  mgens:=[];
+  for g in gens do
+    pmat:=PermutationMat(g,n);
+    pmatF:=[];
+    for r in pmat do
+      rF:=[];
+      for c in r do
+        if c=0 then
+          Append(rF,[0]);
+        else
+          Append(rF,[1]);
         fi;
       od;
       Append(pmatF,[rF]);
