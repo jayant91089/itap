@@ -191,7 +191,7 @@ end);
 if not IsBound(RecSetwise) then
 RecSetwise:=function(r,s)
   # access a record setwise
-  local k,l; 
+  local k,l;
   l:=[];
   for k in s do
     Append(l,[r.(k)]);
@@ -3048,7 +3048,7 @@ function(ncinstance,rvec,F,optargs)
   # optargs: [force_nsimple,lazy,..]
   #    force_nsimple: boolean that forces the prover to use only the simple codes of specified length,default false
   #    lazy: a boolean indicating whether transporter maps will be evaluated lazily,default true
-  local d,cons,nsrc,nvars,rlist,i,min_simple,max_simple,nsimple,lazy,k;
+  local d,cons,nsrc,nvars,rlist,i,min_simple,max_simple,nsimple,lazy,k, min_simple_default;
   k:=Maximum(rvec);
   cons:=ncinstance[1];
   nsrc:=ncinstance[2];
@@ -3062,16 +3062,21 @@ function(ncinstance,rvec,F,optargs)
     return [true,"trivial"];
   fi;
   lazy:=true;
+  min_simple_default:=0;
+  for i in [1..nsrc] do
+    if rvec[i]>0 then
+      min_simple_default:=min_simple_default+1;
+    fi;
+  od;
   if Size(optargs)=0 then
-    min_simple:=d;
+    min_simple:=min_simple_default;
     max_simple:=nvars;
-
   else
     if IsBound(optargs[1]) then
       min_simple:=optargs[1];
       max_simple:=optargs[1];
     else
-      min_simple:=d;
+      min_simple:=min_simple_default;
       max_simple:=nvars;
     fi;
 
